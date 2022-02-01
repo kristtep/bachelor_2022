@@ -17,7 +17,14 @@ const ContextProvider = ({ children }) => {
     const connectionRef = useRef();
 
     useEffect(() => {
-        console.log(navigator.mediaDevices.enumerateDevices());
+        navigator.mediaDevices.enumerateDevices()
+            .then(function(devices) {
+                devices.forEach(function(device) {
+                    if(device.kind === "videoinput"){
+                        console.log(device.label + "id = " + device.deviceId);
+                    }
+                });
+            })
 
         navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: "2e00a0440e4a3fcc24b460fe22c6282c8747599f836fd18bd724921b031a538a" }, width: { exact: 1920 }, height: { exact: 1080 } }, audio: false })
             .then((currentStream) => {
