@@ -1,7 +1,9 @@
+import React from 'react';
 import logo from './63cv4n.jpg';
 import './App.css';
+import VideoStream from "./components/VideoStream";
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <header className="App-header">
@@ -11,6 +13,7 @@ function App() {
             NTNU cracks u up
           </p>
         </div>
+        <VideoStream />
       </header>
     </div>
   );
