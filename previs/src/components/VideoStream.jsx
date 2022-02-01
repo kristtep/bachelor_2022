@@ -17,7 +17,7 @@ const VideoStream = () => {
         <div id="stream">
             {stream && (
                 <div id="firstrow">
-                    <video onClick={largeVideo} width = {grid ? "600" : "1000"} height = {grid ? "400" : "800"} playsInline muted ref={localVideo1} autoPlay />
+                    <video onClick={largeVideo} width = {grid ? "600" : "1920"} height = {grid ? "400" : "1080"} playsInline muted ref={localVideo1} autoPlay />
                 </div>
             )}
             {stream && (

@@ -6,6 +6,7 @@ const Context = createContext();
 const socket = io("ws://localhost:5000");
 
 const ContextProvider = ({ children }) => {
+    const cameras = [];
     const [stream, setStream] = useState();
     const [me, setMe] = useState("");
     const [call, setCall] = useState({});
@@ -15,17 +16,21 @@ const ContextProvider = ({ children }) => {
     const localVideo1 = useRef();
     const localVideo2 = useRef();
     const connectionRef = useRef();
-
+            
+    
     useEffect(() => {
+        
         navigator.mediaDevices.enumerateDevices()
-            .then(function(devices) {
-                devices.forEach(function(device) {
-                    if(device.kind === "videoinput"){
-                        console.log(device.label + "id = " + device.deviceId);
-                    }
-                });
-            })
+        .then((devices) => {
+            devices.forEach((device) => {
+                if(device.kind === "videoinput"){
+                    console.log(device.deviceId);
+                };
+            });
+        });
 
+        console.log(cameras);
+         
         navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: "2e00a0440e4a3fcc24b460fe22c6282c8747599f836fd18bd724921b031a538a" }, width: { exact: 1920 }, height: { exact: 1080 } }, audio: false })
             .then((currentStream) => {
                 setStream(currentStream);
