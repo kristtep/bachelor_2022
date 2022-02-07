@@ -18,32 +18,37 @@ const ContextProvider = ({ children }) => {
     const connectionRef = useRef();
             
     
-    useEffect(() => {
+
+    useEffect(async () => {
         
-        navigator.mediaDevices.enumerateDevices()
+        await navigator.mediaDevices.enumerateDevices()
         .then((devices) => {
             devices.forEach((device) => {
                 if(device.kind === "videoinput"){
-                    console.log(device.deviceId);
+                    console.log(device.label);
+                    cameras.push(device.deviceId);
                 };
             });
         });
 
+        
         console.log(cameras);
-         
-        navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: "2e00a0440e4a3fcc24b460fe22c6282c8747599f836fd18bd724921b031a538a" }, width: { exact: 1920 }, height: { exact: 1080 } }, audio: false })
+        navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[0] }, width: { exact: 1920 }, height: { exact: 1080 } }, audio: false })
+            .then((currentStream) => {
+                setStream(currentStream);
+                
+                localVideo1.current.srcObject = currentStream;
+            });
+        
+        if(cameras.length > 1){
+            navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[1] }, width: { exact: 1920 }, height: { exact: 1080 } }, audio: false })
             .then((currentStream) => {
                 setStream(currentStream);
 
-                localVideo1.current.srcObject = currentStream;
+                localVideo2.current.srcObject = currentStream;
             });
-
-        navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: "dd21ac532aa38f08283f9735c6df79970c6ccc1df9fa7764dd2d459f7c9f0b94" }, width: { exact: 1920 }, height: { exact: 1080 } }, audio: false })
-        .then((currentStream) => {
-            setStream(currentStream);
-
-            localVideo2.current.srcObject = currentStream;
-        });
+        }
+        
 
 
         socket.on("id", (id) => setMe(id));
