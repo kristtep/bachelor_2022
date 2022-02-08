@@ -2,6 +2,7 @@ import React from 'react';
 import logo from './63cv4n.jpg';
 import './App.css';
 import VideoStream from "./components/VideoStream";
+import Controls from "./components/Controls";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
             NTNU cracks u up
           </p>
         </div>
+        <Controls />
         <VideoStream />
       </header>
     </div>
