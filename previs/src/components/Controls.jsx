@@ -6,41 +6,38 @@ import { Context } from "../socket";
 
 const Controls = ( { children } ) => {
     
-    const { startWatch, setStartWatch, started, setStarted, me, call, answer, callAccepted, end, callHospital } = useContext(Context);
+    const { startWatch, started, me, call, answer, callAccepted, end, callHospital, start } = useContext(Context);
     const [idToCall, setIdToCall] = useState('');
-
-    const start = () => {
-        console.log("start");
-        setStarted(true);
-        console.log(me);
-    }
-
-    const watch = () => {
-        console.log("watch");
-        setStartWatch(true);
-        callHospital(idToCall)
-    }
-
-    if(call.incomingCall && !callAccepted){
-        answer();
-    }
 
     return (
         <>
-        {started && (
-            <p>your id: {me}</p>
+        {call.incomingCall && !callAccepted && (
+            <button onClick = {answer}>Allow viewer</button>
         )}
-        <button onClick = {start}>start stream</button>
-        <form noValidate autoComplete = "off">
-            {!startWatch ? (
+
+        {!started ? (
             <>
-                <input type = "text" name = "number" placeholder = "Enter id to watch" value = {idToCall} onChange={(e) => setIdToCall(e.target.value)}/>
-                <input type = "button" value = "join stream" onClick = {watch} />
+            <button onClick = {start}>start stream</button>
+            
+            <form noValidate autoComplete = "off">
+                {!startWatch ? (
+                <>
+                    <input type = "text" placeholder = "Enter id to watch" value = {idToCall} onChange={(e) => setIdToCall(e.target.value)}/>
+                    <input type = "button" value = "join stream" onClick = {() => callHospital(idToCall)} />
+                </>
+                ) : (
+                    <input type = "button" value = "end stream" onClick = {end} />
+                )}
+            </form>
             </>
-            ) : (
-                <input type = "button" value = "leave stream" onClick = {end} />
-            )}
-        </form>
+        ) : (
+            <div>
+                <p>your id: {me}</p>
+                <button onClick = {end}>stop stream</button>
+            </div>
+        )}
+        
+        
         {children}
         </>
     )     

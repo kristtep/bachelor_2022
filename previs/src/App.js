@@ -14,8 +14,8 @@ const App = () => {
             NTNU cracks u up
           </p>
         </div>
-        <Controls />
         <VideoStream />
+        <Controls />
       </header>
     </div>
   );

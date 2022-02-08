@@ -59,7 +59,7 @@ const ContextProvider = ({ children }) => {
             }
         }
         
-        socket.on("id", (id) => setMe(id), console.log(me));
+        socket.on("id", (id) => setMe(id));
 
         socket.on("callHospital", ({ from, signal }) => {
             setCall({ incomingCall: true, from, signal });
@@ -76,10 +76,11 @@ const ContextProvider = ({ children }) => {
         peer.on('stream', (currentStream) => {
             incomingVideo1.current.srcObject = currentStream;
             incomingVideo2.current.srcObject = currentStream;
-        })
+        });
 
-        peer.on("callAccepted", (signal) => {
+        socket.on("callAccepted", (signal) => {
             setCallAccpeted(true);
+            setStartWatch(true);
 
             peer.signal(signal);
         });
@@ -88,6 +89,7 @@ const ContextProvider = ({ children }) => {
     }
 
     const answer = () => {
+        console.log("inside answer function");
         setCallAccpeted(true);
 
         const peer = new Peer({ initiator: false, trickle: false, stream });
@@ -114,13 +116,15 @@ const ContextProvider = ({ children }) => {
         window.location.reload();
     }
 
+    const start = () => {
+        setStarted(true);
+    }
 
     return (
         <Context.Provider value={{
             startWatch,
             setStartWatch,
             started,
-            setStarted,
             call,
             callAccpeted,
             callEnded,
@@ -133,6 +137,7 @@ const ContextProvider = ({ children }) => {
             callHospital,
             answer,
             end,
+            start,
         }}>
             { children }
         </Context.Provider>
