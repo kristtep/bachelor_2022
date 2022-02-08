@@ -6,12 +6,19 @@ import { Context } from "../socket";
 
 const Controls = ( { children } ) => {
     
-    const { started, setStarted, me, call, answer, callAccepted, callEnded, end, callHospital } = useContext(Context);
+    const { startWatch, setStartWatch, started, setStarted, me, call, answer, callAccepted, end, callHospital } = useContext(Context);
     const [idToCall, setIdToCall] = useState('');
 
     const start = () => {
         console.log("start");
         setStarted(true);
+        console.log(me);
+    }
+
+    const watch = () => {
+        console.log("watch");
+        setStartWatch(true);
+        callHospital(idToCall)
     }
 
     if(call.incomingCall && !callAccepted){
@@ -25,10 +32,10 @@ const Controls = ( { children } ) => {
         )}
         <button onClick = {start}>start stream</button>
         <form noValidate autoComplete = "off">
-            {!callAccepted && !callEnded ? (
+            {!startWatch ? (
             <>
                 <input type = "text" name = "number" placeholder = "Enter id to watch" value = {idToCall} onChange={(e) => setIdToCall(e.target.value)}/>
-                <input type = "button" value = "join stream" onClick = {() => callHospital(idToCall)} />
+                <input type = "button" value = "join stream" onClick = {watch} />
             </>
             ) : (
                 <input type = "button" value = "leave stream" onClick = {end} />

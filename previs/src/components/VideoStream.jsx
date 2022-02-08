@@ -7,7 +7,7 @@ import { Context } from "../socket";
 const VideoStream = () => {
     
     const [grid, setGrid] = useState(true);
-    const { started, localVideo1, localVideo2, stream } = useContext(Context);
+    const { startWatch, started, localVideo1, localVideo2, incomingVideo1, incomingVideo2, stream, callAccepted, callEnded } = useContext(Context);
     
     const largeVideo = () => {
         setGrid(!grid);
@@ -27,6 +27,16 @@ const VideoStream = () => {
                         <video width = "600" height = "400" playsInline muted ref={localVideo2} autoPlay />
                     </div>
                 )}
+            </div>
+        )}
+        {startWatch && callAccepted && !callEnded && (
+            <div id="stream">
+                <div id="firstrow">
+                    <video onClick={largeVideo} width = {grid ? "600" : "1600"} height = {grid ? "400" : "900"} playsInline muted ref={incomingVideo1} autoPlay />
+                </div>
+                <div id="secondrow">
+                    <video width = "600" height = "400" playsInline muted ref={incomingVideo2} autoPlay />
+                </div>
             </div>
         )}
         </>

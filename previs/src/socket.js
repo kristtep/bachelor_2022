@@ -3,12 +3,13 @@ import { io } from "socket.io-client";
 import Peer from "simple-peer";
 
 const Context = createContext();
-const socket = io("ws://localhost:5000");
+const socket = io("http://localhost:5000");
 
 
 
 const ContextProvider = ({ children }) => {
     
+    const [startWatch, setStartWatch] = useState(false);
     const [started, setStarted] = useState(false);
     const [stream, setStream] = useState();
     const [me, setMe] = useState("");
@@ -19,6 +20,8 @@ const ContextProvider = ({ children }) => {
     const cameras = [];
     const localVideo1 = useRef();
     const localVideo2 = useRef();
+    const incomingVideo1 = useRef();
+    const incomingVideo2 = useRef();
     const connectionRef = useRef();
             
     
@@ -56,11 +59,9 @@ const ContextProvider = ({ children }) => {
             }
         }
         
-        socket.on("id", (id) => setMe(id));
+        socket.on("id", (id) => setMe(id), console.log(me));
 
-        console.log(me);
-
-        socket.on("call", ({ from, signal }) => {
+        socket.on("callHospital", ({ from, signal }) => {
             setCall({ incomingCall: true, from, signal });
         });
     }, [started]);
@@ -71,6 +72,11 @@ const ContextProvider = ({ children }) => {
         peer.on("signal", (data) => {
             socket.emit("callHospital", { hospitalId: id, signalData: data, from: me });
         });
+
+        peer.on('stream', (currentStream) => {
+            incomingVideo1.current.srcObject = currentStream;
+            incomingVideo2.current.srcObject = currentStream;
+        })
 
         peer.on("callAccepted", (signal) => {
             setCallAccpeted(true);
@@ -90,6 +96,11 @@ const ContextProvider = ({ children }) => {
             socket.emit("answer", { signal: data, to: call.from });
         });
 
+        peer.on('stream', (currentStream) => {
+            incomingVideo1.current.srcObject = currentStream;
+            incomingVideo2.current.srcObject = currentStream;
+        })
+
         peer.signal(call.signal);
 
         connectionRef.current = peer;
@@ -106,6 +117,8 @@ const ContextProvider = ({ children }) => {
 
     return (
         <Context.Provider value={{
+            startWatch,
+            setStartWatch,
             started,
             setStarted,
             call,
@@ -113,6 +126,8 @@ const ContextProvider = ({ children }) => {
             callEnded,
             localVideo1,
             localVideo2,
+            incomingVideo1,
+            incomingVideo2,
             me,
             stream,
             callHospital,

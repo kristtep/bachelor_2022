@@ -17,8 +17,9 @@ app.get("/", (req, res) => {
     res.send("Server is running");
 });
 
-io.on("connection", socket => {
+io.on("connection", (socket) => {
     socket.emit("id", socket.id);
+    
     console.log(socket.id);
 
     socket.on("disconnect", () => {
