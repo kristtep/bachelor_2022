@@ -25,7 +25,7 @@ const Controls = ( { children } ) => {
         )}
         <button onClick = {start}>start stream</button>
         <form noValidate autoComplete = "off">
-            {callAccepted && !callEnded ? (
+            {!callAccepted && !callEnded ? (
             <>
                 <input type = "text" name = "number" placeholder = "Enter id to watch" value = {idToCall} onChange={(e) => setIdToCall(e.target.value)}/>
                 <input type = "button" value = "join stream" onClick = {() => callHospital(idToCall)} />

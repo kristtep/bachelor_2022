@@ -58,7 +58,7 @@ const ContextProvider = ({ children }) => {
         
         socket.on("id", (id) => setMe(id));
 
-//        console.log(me);
+        console.log(me);
 
         socket.on("call", ({ from, signal }) => {
             setCall({ incomingCall: true, from, signal });
