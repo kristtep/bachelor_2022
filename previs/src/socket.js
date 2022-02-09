@@ -18,8 +18,7 @@ const ContextProvider = ({ children }) => {
     const [callEnded, setCallEnded] = useState(false);
 
     const cameras = [];
-    const localVideo1 = useRef();
-    const localVideo2 = useRef();
+    const localVideos = useRef([]);
     const incomingVideo1 = useRef();
     const incomingVideo2 = useRef();
     const connectionRef = useRef();
@@ -45,7 +44,7 @@ const ContextProvider = ({ children }) => {
                 .then((currentStream) => {
                     setStream(currentStream);
                     
-                    localVideo1.current.srcObject = currentStream;
+                    localVideos.current.push(currentStream);
                 });
             
             if(cameras.length > 1){
@@ -53,7 +52,7 @@ const ContextProvider = ({ children }) => {
                 .then((currentStream) => {
                     setStream(currentStream);
 
-                    localVideo2.current.srcObject = currentStream;
+                    localVideos.current.push(currentStream);
                 });
 
             }
@@ -128,8 +127,7 @@ const ContextProvider = ({ children }) => {
             call,
             callAccpeted,
             callEnded,
-            localVideo1,
-            localVideo2,
+            localVideos,
             incomingVideo1,
             incomingVideo2,
             me,
