@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 import Peer from "simple-peer";
 
 const Context = createContext();
-const socket = io("http://localhost:5000/");
+const socket = io("https://bachelor-2022.herokuapp.com/");
 //"https://bachelor-2022.herokuapp.com/"
 
 
@@ -124,8 +124,7 @@ const ContextProvider = ({ children }) => {
         console.log("inside answer function");
         setCallAccepted(true);
         console.log(vie1);
-
-        console.log(incomingVoice);
+        console.log(vie2);
 
         const peer = new Peer({ 
             initiator: false, 
@@ -135,25 +134,26 @@ const ContextProvider = ({ children }) => {
 
         peer.on("signal", (data) => {
             console.log('peer on signal answer');
-            console.log(vie1, vie2);
+            console.log(vie1);
+            console.log(vie2);
 
             socket.emit("answer", { signal: data, to: call.from });
         });
 
         peer.on('stream', (streams) => {
-            let i = false;
             console.log('inside peer on streams answer');
             console.log(streams);
-            console.log(vie1, vie2);
             
-            if(!i){
+            console.log(vie1.current.srcObject);
+            console.log(vie2.current.srcObject);
+
+            if (!vie1.current.srcObject){
                 vie1.current.srcObject = streams;
-                console.log('inside if');
-                i = !i;
+                console.log('if');  
             }else{
                 vie2.current.srcObject = streams;
-                console.log('inside else');
-            }
+                console.log('else');
+            }       
         });
 
         console.log('before peer connection');
