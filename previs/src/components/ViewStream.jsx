@@ -20,10 +20,10 @@ const ViewStream = () => {
             {startWatch && callAccepted && !callEnded && (
                 <div id="stream">   
                     <div id="firstrow">
-                        <video width = "600" height = "400" playsInline muted ref={vie1} autoPlay />
+                        <video width = "600" height = "400" playsInline ref={vie1} autoPlay />
                     </div>
                     <div id="secondrow">
-                        <video width = "600" height = "400" playsInline  ref={vie2} autoPlay />
+                        <video width = "600" height = "400" playsInline muted ref={vie2} autoPlay />
                     </div>            
                 </div>
             )}
