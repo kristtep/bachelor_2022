@@ -23,11 +23,11 @@ const ViewStream = () => {
                         <video onClick={largeVideo} width = {grid ? "600" : "1600"} height = {grid ? "400" : "900"} playsInline muted ref={vie1} autoPlay />
                     </div>
                 )}
-                {stream && (
+                {/* {stream && (
                     <div id="secondrow">
                         <video width = "600" height = "400" playsInline muted ref={vie2} autoPlay />
                     </div>
-                )}
+                )} */}
             </div>
         )}
         </>

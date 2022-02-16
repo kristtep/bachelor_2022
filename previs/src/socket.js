@@ -14,9 +14,10 @@ const ContextProvider = ({ children }) => {
     const [stream, setStream] = useState([]);
     const [me, setMe] = useState("");
     const [call, setCall] = useState({});
-    const [callAccpeted, setCallAccpeted] = useState(false);
+    const [callAccepted, setCallAccepted] = useState(false);
     const [callEnded, setCallEnded] = useState(false);
 
+    const streams = [];
     const cameras = [];
     const vid1 = useRef();
     const vid2 = useRef();
@@ -50,6 +51,8 @@ const ContextProvider = ({ children }) => {
             navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[0] }, width: { exact: 1920 }, height: { exact: 1080 } }, audio: true })
                 .then((currentStream) => {
                     setStream([...stream, currentStream]);
+
+                    streams.push(currentStream);
                     
                     vid1.current.srcObject = currentStream;
                 });
@@ -59,6 +62,8 @@ const ContextProvider = ({ children }) => {
                         .then((currentStream) => {
                             setStream([...stream, currentStream]);
 
+                            streams.push(currentStream);
+
                             vid2.current.srcObject = currentStream;
                         });
                 }
@@ -66,7 +71,7 @@ const ContextProvider = ({ children }) => {
         else if(startWatch){
             navigator.mediaDevices.getUserMedia({ video: false, audio: true })
                 .then((currentStream) => {
-                    setStream(currentStream);
+                    setStream([...stream, currentStream]);
                 });
         }
         
@@ -78,20 +83,24 @@ const ContextProvider = ({ children }) => {
     }, [started, startWatch]);
 
     const callHospital = (id) => {
-        const peer = new Peer({ initiator: true, trickle: false, stream });
+        console.log('inside call function');
+        console.log('stream array call: ' + streams);
+        const peer = new Peer({ initiator: true, trickle: false, streams: streams });
 
         peer.on("signal", (data) => {
+            console.log('peer on signal call');
             socket.emit("callHospital", { hospitalId: id, signalData: data, from: me });
         });
 
-        peer.on('stream', (stream) => {
-            console.log(stream);
-            vie1.current.srcObject = vid1;
-            vie2.current.srcObject = vid2;
+        peer.on('streams', (streams) => {
+            console.log(streams);
+            vie1.current.srcObject = streams;
+            
         });
 
         socket.on("callAccepted", (signal) => {
-            setCallAccpeted(true);
+            
+            setCallAccepted(true);
 
             peer.signal(signal);
         });
@@ -101,18 +110,23 @@ const ContextProvider = ({ children }) => {
 
     const answer = () => {
         console.log("inside answer function");
-        setCallAccpeted(true);
+        setCallAccepted(true);
 
-        const peer = new Peer({ initiator: false, trickle: false, stream });
+        console.log('stream array answer: ' + streams);
+
+        const peer = new Peer({ initiator: false, trickle: false, streams: streams });
 
         peer.on("signal", (data) => {
+            console.log('peer on signal answer');
             socket.emit("answer", { signal: data, to: call.from });
         });
 
-        peer.on('stream', (vid1, vid2) => {
-            vie1.current.srcObject = vid1;
-            vie2.current.srcObject = vid2;
+        peer.on('streams', (streams) => {
+            console.log(streams);
+            vie1.current.srcObject = streams;
         })
+
+        console.log('before peer connection');
 
         peer.signal(call.signal);
 
@@ -141,7 +155,7 @@ const ContextProvider = ({ children }) => {
             setStartWatch,
             started,
             call,
-            callAccpeted,
+            callAccepted,
             callEnded,
             incomingVoice,
             me,
