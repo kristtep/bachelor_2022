@@ -11,19 +11,19 @@ const ContextProvider = ({ children }) => {
     
     const [startWatch, setStartWatch] = useState(false);
     const [started, setStarted] = useState(false);
-    const [stream, setStream] = useState([]);
+    const [stream, setStream] = useState();
     const [me, setMe] = useState("");
     const [call, setCall] = useState({});
     const [callAccepted, setCallAccepted] = useState(false);
     const [callEnded, setCallEnded] = useState(false);
 
-    const streams = [];
+    const streams = useRef([]);
     const cameras = [];
     const vid1 = useRef();
     const vid2 = useRef();
     const vie1 = useRef();
     const vie2 = useRef();
-    const incomingVoice = useRef();
+    const incomingVoice = useRef([]);
     const connectionRef = useRef();
             
     
@@ -33,7 +33,6 @@ const ContextProvider = ({ children }) => {
         .then((devices) => {
             devices.forEach((device) => {
                 if(device.kind === "videoinput"){
-                    console.log(device.label);
                     cameras.push(device.deviceId);
                 };
             });
@@ -48,11 +47,13 @@ const ContextProvider = ({ children }) => {
         console.log(cameras);
 
         if (started) {
+            console.log('initiator');
             navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[0] }, width: { exact: 1920 }, height: { exact: 1080 } }, audio: true })
                 .then((currentStream) => {
-                    setStream([...stream, currentStream]);
+                    setStream(currentStream);
 
-                    streams.push(currentStream);
+                    streams.current.push(currentStream);
+                    console.log(streams);
                     
                     vid1.current.srcObject = currentStream;
                 });
@@ -60,18 +61,23 @@ const ContextProvider = ({ children }) => {
                 if (cameras.length > 1){
                     navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[1] }, width: { exact: 1920 }, height: { exact: 1080 } }, audio: false })
                         .then((currentStream) => {
-                            setStream([...stream, currentStream]);
+                            setStream(currentStream);
 
-                            streams.push(currentStream);
+                            streams.current.push(currentStream);
+                            console.log(streams);
+                            console.log(stream);
 
                             vid2.current.srcObject = currentStream;
                         });
                 }
         }
         else if(startWatch){
+            console.log('reciever');
             navigator.mediaDevices.getUserMedia({ video: false, audio: true })
                 .then((currentStream) => {
-                    setStream([...stream, currentStream]);
+                    setStream(currentStream);
+
+                    incomingVoice.current.push(currentStream);
                 });
         }
         
@@ -84,17 +90,23 @@ const ContextProvider = ({ children }) => {
 
     const callHospital = (id) => {
         console.log('inside call function');
-        console.log('stream array call: ' + streams);
-        const peer = new Peer({ initiator: true, trickle: false, streams: streams });
+        console.log(streams.current);
+        const peer = new Peer({ 
+            initiator: true, 
+            trickle: false, 
+            streams: streams.current
+        });
 
         peer.on("signal", (data) => {
             console.log('peer on signal call');
             socket.emit("callHospital", { hospitalId: id, signalData: data, from: me });
         });
 
-        peer.on('streams', (streams) => {
-            console.log(streams);
-            vie1.current.srcObject = streams;
+        peer.on('stream', (stream) => {
+            console.log('inside peer on streams call');
+            console.log(stream);
+
+            incomingVoice.current.srcObject = stream;
             
         });
 
@@ -111,20 +123,38 @@ const ContextProvider = ({ children }) => {
     const answer = () => {
         console.log("inside answer function");
         setCallAccepted(true);
+        console.log(vie1);
 
-        console.log('stream array answer: ' + streams);
+        console.log(incomingVoice);
 
-        const peer = new Peer({ initiator: false, trickle: false, streams: streams });
+        const peer = new Peer({ 
+            initiator: false, 
+            trickle: false, 
+            streams: incomingVoice.current 
+        });
 
         peer.on("signal", (data) => {
             console.log('peer on signal answer');
+            console.log(vie1, vie2);
+
             socket.emit("answer", { signal: data, to: call.from });
         });
 
-        peer.on('streams', (streams) => {
+        peer.on('stream', (streams) => {
+            let i = false;
+            console.log('inside peer on streams answer');
             console.log(streams);
-            vie1.current.srcObject = streams;
-        })
+            console.log(vie1, vie2);
+            
+            if(!i){
+                vie1.current.srcObject = streams;
+                console.log('inside if');
+                i = !i;
+            }else{
+                vie2.current.srcObject = streams;
+                console.log('inside else');
+            }
+        });
 
         console.log('before peer connection');
 

@@ -12,7 +12,7 @@ const Controls = ( { children } ) => {
     return (
         <>
         {call.incomingCall && !callAccepted && (
-            <button onClick = {answer}>Allow viewer</button>
+            <button onClick = {answer}>answer</button>
         )}
 
         {!startWatch ? (
