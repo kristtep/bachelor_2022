@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 import Peer from "simple-peer";
 
 const Context = createContext();
-const socket = io("https://bachelor-2022.herokuapp.com/");
+const socket = io("http://localhost:5000/");
 //"https://bachelor-2022.herokuapp.com/"
 
 
@@ -38,15 +38,17 @@ const ContextProvider = ({ children }) => {
             });
         });
             
-        /* for( let i = 0; i < cameras.length; i++) {
-                navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[i] }, width: { exact: 1920 }, height: { exact: 1080 } }, audio: true })
-                    .then((currentStream) => {
-                        setStream([...stream, currentStream]);
-                    });
-        } */
+        
         console.log(cameras);
 
         if (started) {
+            
+            /* for( let i = 0; i < cameras.length; i++) {
+                    navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[i] }, width: { exact: 1920 }, height: { exact: 1080 } }, audio: true })
+                        .then((currentStream) => {
+                            setStream([...stream, currentStream]);
+                        });
+            } */
             console.log('initiator');
             navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[0] }, width: { exact: 1920 }, height: { exact: 1080 } }, audio: true })
                 .then((currentStream) => {
@@ -65,6 +67,7 @@ const ContextProvider = ({ children }) => {
 
                             streams.current.push(currentStream);
                             console.log(streams);
+                            console.log(currentStream);
                             console.log(stream);
 
                             vid2.current.srcObject = currentStream;
@@ -189,6 +192,7 @@ const ContextProvider = ({ children }) => {
             callEnded,
             incomingVoice,
             me,
+            cameras,
             stream,
             vid1,
             vid2,

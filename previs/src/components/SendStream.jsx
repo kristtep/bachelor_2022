@@ -5,7 +5,7 @@ import { Context } from "../socket";
 const SendStream = () => {
     
     const [grid, setGrid] = useState(true);
-    const { vid1, vid2, stream, callAccepted, callEnded, incomingVoice } = useContext(Context);
+    const { vid1, vid2, stream, callAccepted, callEnded, incomingVoice, cameras } = useContext(Context);
     const largeVideo = () => {
         setGrid(!grid);
     }
@@ -24,6 +24,7 @@ const SendStream = () => {
                 <div id="secondrow">
                     <video width = "600" height = "400" playsInline muted ref={vid2} autoPlay />
                 </div>
+            
               </>
             )}
         </div>
