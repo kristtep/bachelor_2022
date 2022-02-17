@@ -27,8 +27,8 @@ const App = () => {
             NTNU cracks u up
           </p>
         </div>*/}
-        </div> 
-  );
+    </div>
+  )
 }
 
 export default App;

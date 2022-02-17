@@ -15,17 +15,24 @@ const Controls = ( { children } ) => {
             <button onClick = {answer}>answer</button>
         )}
 
+            
+        {!started && (
+            <>
         {!startWatch ? (
             <div id="hospital">
             <p>Lat som du er på sykehuset</p>
             <button id="watch" onClick = {startW}>Watch</button>
             </div>
         ) : (
-            <>
+            
             <button onClick = {end}>stop stream</button>
-            </>
+            
+        )}
+        </>
         )}
 
+        {!startWatch && (
+            <>
         {!started ? (
             <div id="ambulance">
             <p>Lat som at du er i en ambulanse, og DET ER BLOD OVERALT</p>
@@ -45,8 +52,8 @@ const Controls = ( { children } ) => {
                 <button onClick = {end}>stop stream</button>
             </div>
         )}
-        
-        
+        </>
+        )}
         {children}
         </>
     )     

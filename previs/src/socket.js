@@ -11,7 +11,6 @@ const ContextProvider = ({ children }) => {
     
     const [startWatch, setStartWatch] = useState(false);
     const [started, setStarted] = useState(false);
-    const [stream, setStream] = useState();
     const [me, setMe] = useState("");
     const [call, setCall] = useState({});
     const [callAccepted, setCallAccepted] = useState(false);
@@ -28,7 +27,9 @@ const ContextProvider = ({ children }) => {
             
     
     useEffect( async () => {
-
+        
+        socket.on("id", (id) => setMe(id));
+        
         await navigator.mediaDevices.enumerateDevices()
         .then((devices) => {
             devices.forEach((device) => {
@@ -52,7 +53,6 @@ const ContextProvider = ({ children }) => {
             console.log('initiator');
             navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[0] }, width: { exact: 1920 }, height: { exact: 1080 } }, audio: true })
                 .then((currentStream) => {
-                    setStream(currentStream);
 
                     streams.current.push(currentStream);
                     console.log(streams);
@@ -63,12 +63,10 @@ const ContextProvider = ({ children }) => {
                 if (cameras.length > 1){
                     navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[1] }, width: { exact: 1920 }, height: { exact: 1080 } }, audio: false })
                         .then((currentStream) => {
-                            setStream(currentStream);
 
                             streams.current.push(currentStream);
                             console.log(streams);
                             console.log(currentStream);
-                            console.log(stream);
 
                             vid2.current.srcObject = currentStream;
                         });
@@ -78,13 +76,10 @@ const ContextProvider = ({ children }) => {
             console.log('reciever');
             navigator.mediaDevices.getUserMedia({ video: false, audio: true })
                 .then((currentStream) => {
-                    setStream(currentStream);
 
                     incomingVoice.current.push(currentStream);
                 });
         }
-        
-        socket.on("id", (id) => setMe(id));
 
         socket.on("callHospital", ({ from, signal }) => {
             setCall({ incomingCall: true, from, signal });
@@ -193,7 +188,7 @@ const ContextProvider = ({ children }) => {
             incomingVoice,
             me,
             cameras,
-            stream,
+            streams,
             vid1,
             vid2,
             vie1,

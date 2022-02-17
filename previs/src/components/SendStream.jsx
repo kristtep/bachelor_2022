@@ -5,17 +5,17 @@ import { Context } from "../socket";
 const SendStream = () => {
     
     const [grid, setGrid] = useState(true);
-    const { vid1, vid2, stream, callAccepted, callEnded, incomingVoice, cameras } = useContext(Context);
+    const { vid1, vid2, streams, callAccepted, callEnded, incomingVoice, cameras } = useContext(Context);
     const largeVideo = () => {
         setGrid(!grid);
     }
-    console.log(stream);
+    console.log(streams);
     console.log(incomingVoice);
 
     return (
         <>
         <div id="stream">
-            {stream && (
+            {streams && (
               <>
                 <div id="firstrow">
                     <video onClick={largeVideo} width = {grid ? "600" : "1600"} height = {grid ? "400" : "900"} playsInline muted ref={vid1} autoPlay />
