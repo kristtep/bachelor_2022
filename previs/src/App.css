@@ -1,14 +1,15 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Roboto', sans-serif;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
-}
-
-p {
-  padding-top: 100px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -39,4 +40,26 @@ p {
   to {
     transform: rotate(360deg);
   }
+}
+
+#watch {
+  width: 70px;
+  margin: 3% 0;
+  border-radius: 10;
+}
+
+#startstream {
+  width: 451px;
+  height: 158px;
+  margin: 3% 0;
+  border-radius: 10px;
+  font-size: 50px;
+  font-weight: bold;
+  background-color: #A1D58F;
+}
+
+#ambulance, #hospital {
+  border: 2px solid black;
+  width: 100%;
+  min-height: 400px;
 }
