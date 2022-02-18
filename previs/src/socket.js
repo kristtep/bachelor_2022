@@ -20,8 +20,8 @@ const ContextProvider = ({ children }) => {
     const cameras = [];
     const vid1 = useRef();
     const vid2 = useRef();
-    const vie1 = useRef();
-    const vie2 = useRef();
+    const vid3 = useRef();
+    const vid4 = useRef();
     const incomingVoice = useRef([]);
     const connectionRef = useRef();
             
@@ -34,6 +34,7 @@ const ContextProvider = ({ children }) => {
         .then((devices) => {
             devices.forEach((device) => {
                 if(device.kind === "videoinput"){
+                    console.log(device);
                     cameras.push(device.deviceId);
                 };
             });
@@ -71,6 +72,32 @@ const ContextProvider = ({ children }) => {
                             vid2.current.srcObject = currentStream;
                         });
                 }
+                if (cameras.length > 2){
+                        navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[2] }, width: { exact: 1920 }, height: { exact: 1080 } }, audio: false })
+                            .then((currentStream) => {
+
+                                streams.current.push(currentStream);
+                                console.log(streams);
+                                console.log(currentStream);
+
+                                vid3.current.srcObject = currentStream;
+                            });
+                }
+                
+                if (cameras.length > 3) {
+                            console.log('last if');
+                            navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[3] }, width: { exact: 1920 }, height: { exact: 1080 } }, audio: false })
+                                .then((currentStream) => {
+
+                                streams.current.push(currentStream);
+                                console.log(streams);
+                                console.log(currentStream);
+
+                                vid4.current.srcObject = currentStream;
+                            });
+                }
+                    
+                
         }
         else if(startWatch){
             console.log('reciever');
@@ -121,8 +148,8 @@ const ContextProvider = ({ children }) => {
     const answer = () => {
         console.log("inside answer function");
         setCallAccepted(true);
-        console.log(vie1);
-        console.log(vie2);
+        console.log(vid1);
+        console.log(vid2);
 
         const peer = new Peer({ 
             initiator: false, 
@@ -132,8 +159,8 @@ const ContextProvider = ({ children }) => {
 
         peer.on("signal", (data) => {
             console.log('peer on signal answer');
-            console.log(vie1);
-            console.log(vie2);
+            console.log(vid1);
+            console.log(vid2);
 
             socket.emit("answer", { signal: data, to: call.from });
         });
@@ -142,16 +169,23 @@ const ContextProvider = ({ children }) => {
             console.log('inside peer on streams answer');
             console.log(streams);
             
-            console.log(vie1.current.srcObject);
-            console.log(vie2.current.srcObject);
+            console.log(vid1.current.srcObject);
+            console.log(vid2.current);
 
-            if (!vie1.current.srcObject){
-                vie1.current.srcObject = streams;
-                console.log('if');  
-            }else{
-                vie2.current.srcObject = streams;
-                console.log('else');
-            }       
+            if (!vid1.current.srcObject){
+                console.log('if');
+                vid1.current.srcObject = streams;
+                  
+            }else if (!vid2.current.srcObject){
+                vid2.current.srcObject = streams;
+                console.log('elseif1');
+            }else if (!vid3.current.srcObject){
+                vid3.current.srcObject = streams;
+                console.log('elseif2');
+            }else if (!vid4.current.srcObject){
+                vid4.current.srcObject = streams;
+                console.log('elseif3');
+            }           
         });
 
         console.log('before peer connection');
@@ -191,8 +225,8 @@ const ContextProvider = ({ children }) => {
             streams,
             vid1,
             vid2,
-            vie1,
-            vie2,
+            vid3,
+            vid4,
             callHospital,
             answer,
             end,
