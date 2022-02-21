@@ -52,49 +52,43 @@ const ContextProvider = ({ children }) => {
                         });
             } */
             console.log('initiator');
-            navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[0] }, width: { exact: 1920 }, height: { exact: 1080 } }, audio: true })
+            navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[0] }, width: { ideal: 4096 }, height: { ideal: 2160 } }, audio: true })
                 .then((currentStream) => {
 
                     streams.current.push(currentStream);
-                    console.log(streams);
                     
                     vid1.current.srcObject = currentStream;
                 });
             
                 if (cameras.length > 1){
-                    navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[1] }, width: { exact: 1920 }, height: { exact: 1080 } }, audio: false })
+                    navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[1] }, width: { ideal: 4096 }, height: { ideal: 2160 } }, audio: false })
                         .then((currentStream) => {
 
                             streams.current.push(currentStream);
-                            console.log(streams);
-                            console.log(currentStream);
 
                             vid2.current.srcObject = currentStream;
                         });
                 }
                 if (cameras.length > 2){
-                        navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[2] }, width: { exact: 1920 }, height: { exact: 1080 } }, audio: false })
-                            .then((currentStream) => {
+                    navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[2] }, width: { ideal: 4096 }, height: { ideal: 2160 } }, audio: false })
+                        .then((currentStream) => {
 
-                                streams.current.push(currentStream);
-                                console.log(streams);
-                                console.log(currentStream);
+                            streams.current.push(currentStream);
 
-                                vid3.current.srcObject = currentStream;
-                            });
+                            vid3.current.srcObject = currentStream;
+                        });
                 }
                 
                 if (cameras.length > 3) {
-                            console.log('last if');
-                            navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[3] }, width: { exact: 1920 }, height: { exact: 1080 } }, audio: false })
-                                .then((currentStream) => {
+                    console.log('last if');
+                    console.log(cameras[3]);
+                    await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[3] }, width: { ideal: 4096 }, height: { ideal: 2160 } }, audio: false })
+                        .then((currentStream) => {
 
-                                streams.current.push(currentStream);
-                                console.log(streams);
-                                console.log(currentStream);
+                        streams.current.push(currentStream);
 
-                                vid4.current.srcObject = currentStream;
-                            });
+                        vid4.current.srcObject = currentStream;
+                    });
                 }
                     
                 
@@ -169,20 +163,20 @@ const ContextProvider = ({ children }) => {
             console.log('inside peer on streams answer');
             console.log(streams);
             
-            console.log(vid1.current.srcObject);
+            console.log(vid1.current);
             console.log(vid2.current);
 
-            if (!vid1.current.srcObject){
+            if (!vid1.current){
                 console.log('if');
                 vid1.current.srcObject = streams;
                   
-            }else if (!vid2.current.srcObject){
+            }else if (!vid2.current){
                 vid2.current.srcObject = streams;
                 console.log('elseif1');
-            }else if (!vid3.current.srcObject){
+            }else if (!vid3.current){
                 vid3.current.srcObject = streams;
                 console.log('elseif2');
-            }else if (!vid4.current.srcObject){
+            }else if (!vid4.current){
                 vid4.current.srcObject = streams;
                 console.log('elseif3');
             }           

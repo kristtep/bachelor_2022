@@ -9,8 +9,8 @@ const ViewStream = () => {
     /* const largeVideo = () => {
         setGrid(!grid);
     } */
-    console.log(vid1, vid2, vid3, vid4);
 
+    console.log(vid1, vid2, vid3, vid4);
 
     return (
         <>

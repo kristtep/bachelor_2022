@@ -9,7 +9,6 @@ const SendStream = () => {
     const largeVideo = () => {
         setGrid(!grid);
     }
-    console.log(streams);
 
     const getStream = (stream) => {
       console.log(stream);
@@ -17,11 +16,6 @@ const SendStream = () => {
       return ref;
     }
     
-    console.log(vid1);
-    console.log(streams);
-    console.log(vid4);
-    console.log(incomingVoice);
-
     return (
         <>
         <div id="stream">
