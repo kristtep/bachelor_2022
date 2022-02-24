@@ -3,9 +3,9 @@ import { io } from "socket.io-client";
 import Peer from "simple-peer";
 
 const Context = createContext();
-const socket = io("http://localhost:5000/");
+const socket = io("https://bachelor-2022.herokuapp.com/");
 //"https://bachelor-2022.herokuapp.com/"
-
+//http://localhost:5000/
 
 const ContextProvider = ({ children }) => {
     
