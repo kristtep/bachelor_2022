@@ -4,19 +4,13 @@ import { Context } from "../socket";
 
 const ViewStream = () => {
     
-    //const [grid, setGrid] = useState(true);
-    const { startWatch, me, vid1, vid2, vid3, vid4, stream, callEnded, callAccepted } = useContext(Context);
-    /* const largeVideo = () => {
-        setGrid(!grid);
-    } */
-
-    console.log(vid1, vid2, vid3, vid4);
+    const { startWatch, me, vid1, vid2, vid3, callEnded, callAccepted } = useContext(Context);
 
     return (
         <>
         <p>your id: {me}</p>
-        {stream && (
-            <>
+        
+            
             {startWatch && callAccepted && !callEnded && (
                 <div id="stream">   
                     <div id="firstrow">
@@ -25,12 +19,12 @@ const ViewStream = () => {
                     </div>
                     <div id="secondrow">
                         <video width = "600" height = "400" playsInline ref={vid3} autoPlay />
-                        <video width = "600" height = "400" playsInline ref={vid4} autoPlay />
+                        {/* <video width = "600" height = "400" playsInline ref={out1} autoPlay /> */}
                     </div>            
                 </div>
             )}
-            </>
-        )}
+            
+
         </>
     )     
 
