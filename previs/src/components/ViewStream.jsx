@@ -4,7 +4,20 @@ import { Context } from "../socket";
 
 const ViewStream = () => {
     
-    const { startWatch, me, vid1, vid2, vid3, callEnded, callAccepted } = useContext(Context);
+    const { startWatch, me, vid1, callEnded, callAccepted } = useContext(Context);
+
+
+    const track = (num) => {
+
+        setTimeout(() => {
+          let src = new MediaStream();
+          src.addTrack(vid1.current.getTracks()[num]);
+          let video = document.getElementById(`v${num}`);
+          video.srcObject = src;
+        
+        }, 3000);
+  
+      }
 
     return (
         <>
@@ -14,12 +27,12 @@ const ViewStream = () => {
             {startWatch && callAccepted && !callEnded && (
                 <div id="stream">   
                     <div id="firstrow">
-                        <video width = "600" height = "400" playsInline ref={vid1} autoPlay />
-                        <video width = "600" height = "400" playsInline ref={vid2} autoPlay />
+                        <video id="v1" width = "600" height = "400" playsInline src={track(1)} autoPlay />
+                        <video id="v2" width = "600" height = "400" playsInline src={track(2)} autoPlay />
                     </div>
                     <div id="secondrow">
-                        <video width = "600" height = "400" playsInline ref={vid3} autoPlay />
-                        {/* <video width = "600" height = "400" playsInline ref={out1} autoPlay /> */}
+                        <video id="v3" width = "600" height = "400" playsInline src={track(3)} autoPlay />
+                        <video id="v4" width = "600" height = "400" playsInline src={track(4)} autoPlay />
                     </div>            
                 </div>
             )}

@@ -5,24 +5,39 @@ import { Context } from "../socket";
 const SendStream = () => {
     
     const [grid, setGrid] = useState(true);
-    const { vid1, vid2, vid3, vid4, streams, callAccepted, callEnded, incomingVoice } = useContext(Context);
+    const { vid1, callAccepted, callEnded, incomingVoice } = useContext(Context);
     const largeVideo = () => {
         setGrid(!grid);
     }
+
+
+    const track = (num) => {
+
+      setTimeout(() => {
+        let src = new MediaStream();
+        src.addTrack(vid1.current.getTracks()[num]);
+        let video = document.getElementById(`${num}`);
+        video.srcObject = src;
+        
+      
+      }, 10000);
+
+    }
+
     
     return (
         <>
         <div id="stream">
-            {streams && (
+            {vid1 && (
               <>
                 <div id="firstrow">
-                    <video onClick={largeVideo} width = {grid ? "600" : "1600"} height = {grid ? "400" : "900"} playsInline muted ref={vid1} autoPlay />
-                    <video onClick={largeVideo} width = {grid ? "600" : "1600"} height = {grid ? "400" : "900"} playsInline muted ref={vid2} autoPlay />
+                    <video id="1" onClick={largeVideo} width = {grid ? "600" : "1600"} height = {grid ? "400" : "900"} playsInline muted src={track(1)} autoPlay />
+                    <video id="2" onClick={largeVideo} width = {grid ? "600" : "1600"} height = {grid ? "400" : "900"} playsInline muted src={track(2)} autoPlay />
                 </div>
             
                 <div id="secondrow">
-                    <video width = "600" height = "400" playsInline muted ref={vid3} autoPlay />
-                    {/* <video width = "600" height = "400" playsInline muted ref={vid4} autoPlay /> */}
+                    <video id="3" width = "600" height = "400" playsInline muted src={track(3)} autoPlay />
+                    <video id="4" width = "600" height = "400" playsInline muted src={track(4)} autoPlay />
                 </div>
             
               </>

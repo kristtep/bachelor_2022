@@ -20,9 +20,6 @@ const ContextProvider = ({ children }) => {
     
     const cameras = [];
     const vid1 = useRef();
-    const vid2 = useRef();
-    const vid3 = useRef();
-//    const vid4 = useRef();
     const incomingVoice = useRef([]);
     const connectionRef = useRef();
             
@@ -48,7 +45,7 @@ const ContextProvider = ({ children }) => {
 
                     streams.current.push(currentStream);
                     
-                    vid1.current.srcObject = currentStream;
+                    vid1.current = currentStream;
                 });
             
                 if (cameras.length > 1){
@@ -57,7 +54,11 @@ const ContextProvider = ({ children }) => {
 
                             streams.current.push(currentStream);
 
-                            vid2.current.srcObject = currentStream;
+                            console.log(vid1);
+
+                            vid1.current.addTrack(currentStream.getVideoTracks()[0]);
+
+                            //vid2.current.srcObject = currentStream;
                         });
                 }
                 if (cameras.length > 2){
@@ -65,22 +66,28 @@ const ContextProvider = ({ children }) => {
                         .then((currentStream) => {
 
                             streams.current.push(currentStream);
+                            
+                            vid1.current.addTrack(currentStream.getVideoTracks()[0]);
 
-                            vid3.current.srcObject = currentStream;
+                            console.log(vid1.current.getTracks());
+
+                            //track(1);
+                            //vid3.current.srcObject = currentStream;
+                            
                         });
                 }
                 
-                /* if (cameras.length > 3) {
+                if (cameras.length > 2) {
                     console.log('last if');
-                    console.log(cameras[3]);
-                    navigator.mediaDevices.getDisplayMedia({ video: true , audio: false })
+                    navigator.mediaDevices.getDisplayMedia({ video: true, audio: false })
                         .then((currentStream) => {
 
                         streams.current.push(currentStream);
+                        console.log(currentStream.getVideoTracks());
 
-                        vid4.current.srcObject = currentStream;
+                        vid1.current.addTrack(currentStream.getVideoTracks()[0]);
                     });
-                } */
+                }
                     
                 
         }
@@ -97,11 +104,16 @@ const ContextProvider = ({ children }) => {
         });
     }, [started, startWatch]);
 
+
+
     const callHospital = (id) => {
+
+        console.log(vid1.current);
+
         const peer = new Peer({ 
             initiator: true, 
             trickle: false, 
-            streams: streams.current
+            stream: vid1.current
         });
 
         peer.on("signal", (data) => {
@@ -111,6 +123,8 @@ const ContextProvider = ({ children }) => {
         peer.on('stream', (stream) => {
 
             incomingVoice.current.srcObject = stream;
+
+            console.log(incomingVoice);
             
         });
 
@@ -126,7 +140,6 @@ const ContextProvider = ({ children }) => {
 
     const answer = () => {
         setCallAccepted(true);
-
         const peer = new Peer({ 
             initiator: false, 
             trickle: false, 
@@ -140,20 +153,8 @@ const ContextProvider = ({ children }) => {
 
         peer.on('stream', (streams) => {
             
-            if (!vid1.current.srcObject) {
-                vid1.current.srcObject = streams;
+            vid1.current = streams;
                 
-            }else if(!vid2.current.srcObject){
-                vid2.current.srcObject = streams;
-
-            }else if(!vid3.current.srcObject){
-                vid3.current.srcObject = streams;
-                
-            }
-            /* else if (!out4.current){
-                vid4.current.srcObject = streams;
-                console.log('elseif3');
-            }  */        
         });
         
         peer.signal(call.signal);
@@ -189,9 +190,6 @@ const ContextProvider = ({ children }) => {
             cameras,
             streams,
             vid1,
-            vid2,
-            vid3,
-//            vid4,
             callHospital,
             answer,
             end,
