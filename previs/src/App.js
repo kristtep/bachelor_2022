@@ -12,6 +12,8 @@ const App = () => {
 
   return (
     <div className="App">
+        <Controls />
+        
         {started && (
           <SendStream />
         )}
@@ -19,7 +21,7 @@ const App = () => {
           <ViewStream />
         )}
         
-        <Controls />
+        
       
       {/*<img src={logo} className="App-logo" alt="logo" />
         <div>

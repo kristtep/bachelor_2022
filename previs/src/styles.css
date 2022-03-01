@@ -1,3 +1,39 @@
 video::-webkit-media-controls {
     display: none !important;
 }
+
+.stream {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.videos {
+    display: block;
+    width: 100%;
+    align-content: center;
+}
+
+#topbar-ambulance {
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+#topbar-ambulance p, button, form {
+    margin: 10px;
+}
+
+.control-button {
+    background-color: aqua;
+    height: 40px;
+    width: 90px;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+#stop {
+    background-color: red;
+}

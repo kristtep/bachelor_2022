@@ -25,7 +25,7 @@ const Controls = ( { children } ) => {
             </div>
         ) : (
             
-            <button onClick = {end}>stop stream</button>
+            <button className="control-button" onClick = {end}>stop stream</button>
             
         )}
         </>
@@ -39,17 +39,12 @@ const Controls = ( { children } ) => {
             <button id="startstream"onClick = {start}>start stream</button> 
             </div>
         ) : (
-            <div>
-                <form noValidate autoComplete = "off">
-                    <>
-                    <input type = "text" placeholder = "Enter id to call" value = {idToCall} onChange={(e) => setIdToCall(e.target.value)}/>
-                    <input type = "button" value = "call" onClick = {() => callHospital(idToCall)} />
-                    <input type = "button" value = "end stream" onClick = {end} />
-                    </>
-                </form>
-                
-                <p>your id: {me}</p>
-                <button onClick = {end}>stop stream</button>
+            <div id="topbar-ambulance">
+                    <form noValidate autoComplete = "off">
+                        <input type = "text" placeholder = "Enter id to call" value = {idToCall} onChange={(e) => setIdToCall(e.target.value)}/>
+                        <input type = "button" className="control-button" value = "Ring" onClick = {() => callHospital(idToCall)} />
+                    </form>
+                <button className="control-button" id="stop" onClick = {end}>Avslutt</button>
             </div>
         )}
         </>

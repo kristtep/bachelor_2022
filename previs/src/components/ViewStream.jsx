@@ -43,14 +43,12 @@ const ViewStream = () => {
         
             
             {startWatch && callAccepted && !callEnded && (
-                <div id="stream">   
-                    <div id="firstrow">
-                        <video id="v1" onClick={() => {toggleFullscreen(1)}} width = "600" height = "400" playsInline src={track(1)} autoPlay />
-                        <video id="v2" onClick={() => {toggleFullscreen(2)}} width = "600" height = "400" playsInline src={track(2)} autoPlay />
-                    </div>
-                    <div id="secondrow">
-                        <video id="v3" onClick={() => {toggleFullscreen(3)}} width = "600" height = "400" playsInline src={track(3)} autoPlay />
-                        <video id="v4" onClick={() => {toggleFullscreen(4)}} width = "600" height = "400" playsInline src={track(4)} autoPlay />
+                <div className="stream">   
+                    <div className="videos">
+                        <video id="v1" onClick={() => {toggleFullscreen(1)}} width = "960" height = "500" playsInline src={track(1)} autoPlay />
+                        <video id="v2" onClick={() => {toggleFullscreen(2)}} width = "960" height = "500" playsInline src={track(2)} autoPlay />
+                        <video id="v3" onClick={() => {toggleFullscreen(3)}} width = "960" height = "500" playsInline src={track(3)} autoPlay />
+                        <video id="v4" onClick={() => {toggleFullscreen(4)}} width = "960" height = "500" playsInline src={track(4)} autoPlay />
                     </div>            
                 </div>
             )}

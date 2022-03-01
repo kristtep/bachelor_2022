@@ -40,24 +40,16 @@ const SendStream = () => {
 
     
     return (
-
         <>
-        <div id="stream">
-            
-              <>
-                <div id="firstrow">
-                    <video id="1" onClick={() => {toggleFullscreen(1)}} width = "600" height = "400" playsInline muted src={track(1)} autoPlay />
-                    <video id="2" onClick={() => {toggleFullscreen(2)}} width = "600" height = "400" playsInline muted src={track(2)} autoPlay />
-                </div>
-            
-                <div id="secondrow">
-                    <video id="3" onClick={() => {toggleFullscreen(3)}} width = "600" height = "400" playsInline muted src={track(3)} autoPlay />
-                    <video id="4" onClick={() => {toggleFullscreen(4)}} width = "600" height = "400" playsInline muted src={track(4)} autoPlay />
-                </div>
-            
-              </>
-            
+        <div className="stream">             
+          <div className="videos">
+            <video id="1" onClick={() => {toggleFullscreen(1)}} playsInline muted src={track(1)} autoPlay />
+            <video id="2" onClick={() => {toggleFullscreen(2)}} playsInline muted src={track(2)} autoPlay />
+            <video id="3" onClick={() => {toggleFullscreen(3)}} playsInline muted src={track(3)} autoPlay />
+            <video id="4" onClick={() => {toggleFullscreen(4)}} width = "640" height = "480" playsInline muted src={track(4)} autoPlay />
+          </div>        
         </div>
+
         {callAccepted && !callEnded && (
           <div>
             <audio ref={incomingVoice} controls autoPlay />
