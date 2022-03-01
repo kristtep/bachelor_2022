@@ -6,28 +6,29 @@ import { Context } from "../socket";
 
 const Controls = ( { children } ) => {
     
-    const { startWatch, started, me, call, answer, callAccepted, end, callHospital, start, startW } = useContext(Context);
+    const { startWatch, started, call, answer, callAccepted, end, callHospital, start, startW } = useContext(Context);
     const [idToCall, setIdToCall] = useState('');
 
     return (
         <>
         {call.incomingCall && !callAccepted && (
-            <button onClick = {answer}>answer</button>
+            <button className="control-button" onClick = {answer}>Svar</button>
         )}
 
             
         {!started && (
             <>
-        {!startWatch ? (
+        {!startWatch && (
             <div id="hospital">
             <p>Lat som du er på sykehuset</p>
             <button id="watch" onClick = {startW}>Watch</button>
             </div>
-        ) : (
-            
-            <button className="control-button" onClick = {end}>stop stream</button>
-            
         )}
+
+        {callAccepted && (
+                <button className="control-button" id="stop" onClick = {end}>Avslutt</button>
+        )}
+            
         </>
         )}
 
