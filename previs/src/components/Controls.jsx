@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import "../styles.css";
 import { Context } from "../socket";
+import { AiFillCloseCircle, AiFillPhone } from "react-icons/ai";
 
 
 
@@ -37,15 +38,15 @@ const Controls = ( { children } ) => {
         {!started ? (
             <div id="ambulance">
             <p>Lat som at du er i en ambulanse, og DET ER BLOD OVERALT</p>
-            <button id="startstream"onClick = {start}>start stream</button> 
+            <button id="startstream"onClick = {start}>START</button> 
             </div>
         ) : (
             <div id="topbar-ambulance">
-                    <form noValidate autoComplete = "off">
+                    <div>
                         <input type = "text" placeholder = "Enter id to call" value = {idToCall} onChange={(e) => setIdToCall(e.target.value)}/>
-                        <input type = "button" className="control-button" value = "Ring" onClick = {() => callHospital(idToCall)} />
-                    </form>
-                <button className="control-button" id="stop" onClick = {end}>Avslutt</button>
+                        <button className='control-button' onClick={() => callHospital(idToCall)}><p>RING</p><AiFillPhone style={{ fontSize: '30px', color: '#fff'}}/></button>
+                    </div>
+                <button className="control-button" id="stop" onClick = {end}><AiFillCloseCircle style={{ fontSize: '30px' }}/><p>AVSLUTT</p></button>
             </div>
         )}
         </>

@@ -27,13 +27,24 @@ video::-webkit-media-controls {
 }
 
 .control-button {
-    background-color: aqua;
-    height: 40px;
-    width: 90px;
+    background-color: #16C29D;
     border-radius: 10px;
+    border: 2px solid transparent;
     font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    width: 150px;
 }
 
 #stop {
-    background-color: red;
+    background-color: #F22727;
+}
+
+.control-button p {
+    margin: 0 5px;
 }
