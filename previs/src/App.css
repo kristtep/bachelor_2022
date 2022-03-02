@@ -61,3 +61,35 @@
   width: 100%;
   min-height: 400px;
 }
+
+.dropdown-menu {
+    margin-left: 1rem;
+    position: relative;
+}
+
+.dropdown-menu_container-links {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  
+  background-color: white;
+  padding: 2rem;
+  position: absolute;
+  top: 27px;
+  right: -232px;
+  min-width: 310px;
+  border-radius: 5px;
+  box-shadow: 0 0 5 rgba(0,0,0,0.2);
+  background-color: #16C29D;
+  text-decoration: underline;
+}
+
+.dropdown-menu_container-links p a {
+  text-decoration: none;
+  color: white;
+}
+
+.dropdown-menu_container-links p:hover {
+  transform: scale(1.1);
+}

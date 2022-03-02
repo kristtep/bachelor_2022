@@ -18,9 +18,8 @@ video::-webkit-media-controls {
     width: 90%;
     display: flex;
     justify-content: space-between;
+    align-items: flex-end;
 }
-
-
 
 #topbar-ambulance p, button, form {
     margin: 10px;
