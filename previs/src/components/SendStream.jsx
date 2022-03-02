@@ -52,7 +52,7 @@ const SendStream = () => {
 
         {callAccepted && !callEnded && (
           <div>
-            <audio ref={incomingVoice} controls autoPlay />
+            <audio ref={incomingVoice} autoPlay />
           </div>
         )}
         </>
