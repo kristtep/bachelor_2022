@@ -1,11 +1,17 @@
 video::-webkit-media-controls {
     display: none !important;
-}
+    width: 100%;
+    }
 
 .stream {
     display: flex;
     width: 100%;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
+}
+
+#v1, #v2, #v3, #v4 {
+    min-width: 25%;
+    object-fit: contain;
 }
 
 .videos {
@@ -22,7 +28,41 @@ video::-webkit-media-controls {
 }
 
 #topbar-ambulance p, button, form {
-    margin: 10px;
+    margin: 5px;
+}
+
+p {
+   margin: 2px; 
+   color: white;
+}
+
+#controls {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+#start-button {
+    background-color: #16C29D;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    width: 200px;
+}
+
+#stop {
+    background-color: #F22727;
+}
+
+#start-button p {
+    margin: 0 5px;
 }
 
 .control-button {
@@ -38,12 +78,4 @@ video::-webkit-media-controls {
     justify-content: center;
     height: 50px;
     width: 150px;
-}
-
-#stop {
-    background-color: #F22727;
-}
-
-.control-button p {
-    margin: 0 5px;
 }
