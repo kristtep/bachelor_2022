@@ -35,19 +35,18 @@ const SendStream = () => {
         video.srcObject = src;
 
       }, 10000);
-
     }
 
     
     return (
         <>
         <div className="stream">             
-          
+          <div id="videos">
             <video id="v1" onClick={() => {toggleFullscreen(1)}} playsInline muted src={track(1)} autoPlay />
             <video id="v2" onClick={() => {toggleFullscreen(2)}} playsInline muted src={track(2)} autoPlay />
             <video id="v3" onClick={() => {toggleFullscreen(3)}} playsInline muted src={track(3)} autoPlay />
-            <video id="v4" onClick={() => {toggleFullscreen(4)}} width = "640" height = "480" playsInline muted src={track(4)} autoPlay />
-                  
+            <video id="v4" onClick={() => {toggleFullscreen(4)}} width = "640" height = {{ 'max-height': '50%' }} playsInline muted src={track(4)} autoPlay />
+            </div>      
         </div>
 
         {callAccepted && !callEnded && (

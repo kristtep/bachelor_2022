@@ -2,14 +2,9 @@
 
 
 .App {
-  height: 100%;
-  text-align: center;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  align-items: center;
   font-family: 'Roboto', sans-serif;
   background-color: #11406A;
+  height: 100%;
 }
 
 #startstream, #watch {

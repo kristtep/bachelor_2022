@@ -22,7 +22,7 @@ const ViewStream = () => {
         }
     }
 
-    //sandra er kul, simen er gay
+    //sandra er kul, simen er kulest
     const track = (num) => {
 
         setTimeout(() => {
@@ -49,7 +49,7 @@ const ViewStream = () => {
                         <video id="v1" onClick={() => {toggleFullscreen(1)}} playsInline src={track(1)} autoPlay />
                         <video id="v2" onClick={() => {toggleFullscreen(2)}} playsInline src={track(2)} autoPlay />
                         <video id="v3" onClick={() => {toggleFullscreen(3)}} playsInline src={track(3)} autoPlay />
-                        <video id="v4" onClick={() => {toggleFullscreen(4)}} width = "640" height = "480" playsInline src={track(4)} autoPlay />
+                        <video id="v4" onClick={() => {toggleFullscreen(4)}} width = "640" height = {{ 'max-height': '50%' }} playsInline src={track(4)} autoPlay />
                     </div>            
                 </div>
             )}
