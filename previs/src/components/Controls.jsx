@@ -20,7 +20,7 @@ const Controls = ( { children } ) => {
     const [toggleMenu, setToggleMenu] = useState(false);
 
     return (
-        <>
+        <div id="controls">
         {call.incomingCall && !callAccepted && (
             <button className="control-button" onClick = {answer}>Svar</button>
         )}
@@ -53,19 +53,20 @@ const Controls = ( { children } ) => {
             <div id="topbar-ambulance">
                     <div id="call-input">
                         <input type = "text" placeholder = "Enter id to call" value = {idToCall} onChange={(e) => setIdToCall(e.target.value)}/>
-                        <button className='control-button' onClick={() => callHospital(idToCall)}><p>RING</p><AiFillPhone style={{ fontSize: '30px', color: '#fff'}}/>
+                        <div id='start-button'>
+                        <button className='control-button' onClick={() => callHospital(idToCall)}><p>RING</p><AiFillPhone style={{ fontSize: '30px', color: '#fff'}}/></button>
                         <div className='dropdown-menu'>
-        {toggleMenu 
-          ? <RiCloseLine color="fff" size={27} onClick={() => setToggleMenu(false)} />
-          : <RiMenu3Line color="fff" size={27} onClick={() => setToggleMenu(true)} />}
-          {toggleMenu && (
-            <div className='dropdown-menu_container scale-up-center'>
-              <div className="dropdown-menu_container-links">
-                <Menu />
-            </div>
-          </div>
-          )}
-      </div></button>
+                    {toggleMenu 
+                        ? <RiCloseLine color="fff" size={27} onClick={() => setToggleMenu(false)} />
+                        : <RiMenu3Line color="fff" size={27} onClick={() => setToggleMenu(true)} />}
+                    {toggleMenu && (
+                        <div className='dropdown-menu_container scale-up-center'>
+                        <div className="dropdown-menu_container-links">
+                        <Menu />
+                    </div>
+                    </div>
+          )}        </div>
+                    </div>
                     </div>
                 <button className="control-button" id="stop" onClick = {end}><AiFillCloseCircle style={{ fontSize: '30px' }}/><p>AVSLUTT</p></button>
             </div>
@@ -73,7 +74,7 @@ const Controls = ( { children } ) => {
         </>
         )}
         {children}
-        </>
+        </div>
     )     
 
 };

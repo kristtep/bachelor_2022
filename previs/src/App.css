@@ -10,7 +10,6 @@
   align-items: center;
   font-family: 'Roboto', sans-serif;
   background-color: #11406A;
-  font-family: 'Roboto', sans-serif;
 }
 
 #startstream, #watch {
@@ -32,6 +31,7 @@
 .dropdown-menu {
     margin-left: 1rem;
     position: relative;
+    padding-right: 4px;
 }
 
 .dropdown-menu_container-links {
@@ -39,7 +39,6 @@
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: column;
-  
   background-color: white;
   padding: 2rem;
   position: absolute;
