@@ -2,6 +2,7 @@
 
 .App {
   text-align: center;
+  min-height: 1080px;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
