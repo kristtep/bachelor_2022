@@ -17,12 +17,10 @@ const ContextProvider = ({ children }) => {
     const [callEnded, setCallEnded] = useState(false);
     
     const streams = useRef([]);
-    
     const cameras = [];
     const vid1 = useRef();
     const incomingVoice = useRef([]);
-    const connectionRef = useRef();
-            
+    const connectionRef = useRef();      
     
     useEffect( async () => {
         
@@ -103,8 +101,6 @@ const ContextProvider = ({ children }) => {
             setCall({ incomingCall: true, from, signal });
         });
     }, [started, startWatch]);
-
-
 
     const callHospital = (id) => {
 

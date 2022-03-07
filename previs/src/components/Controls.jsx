@@ -51,7 +51,7 @@ const Controls = ( { children } ) => {
             </div>
         ) : (
             <div id="topbar-ambulance">
-                    <div>
+                    <div id="call-input">
                         <input type = "text" placeholder = "Enter id to call" value = {idToCall} onChange={(e) => setIdToCall(e.target.value)}/>
                         <div id='start-button'>
                         <button className='control-button' onClick={() => callHospital(idToCall)}><p>RING</p><AiFillPhone style={{ fontSize: '30px', color: '#fff'}}/></button>

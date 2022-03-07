@@ -22,6 +22,7 @@ const ViewStream = () => {
         }
     }
 
+    //sandra er kul, simen er gay
     const track = (num) => {
 
         setTimeout(() => {
