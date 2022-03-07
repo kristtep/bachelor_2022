@@ -12,6 +12,7 @@ video::-webkit-media-controls {
 
 #v1, #v2, #v3, #v4 {
     min-width: 25%;
+    max-height: 25%;
     object-fit: contain;
 }
 
