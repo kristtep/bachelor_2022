@@ -22,7 +22,6 @@ const ViewStream = () => {
         }
     }
 
-    //sandra er kul, simen er gay
     const track = (num) => {
 
         setTimeout(() => {
@@ -42,7 +41,6 @@ const ViewStream = () => {
         <>
         <p>your id: {me}</p>
         
-            
             {startWatch && callAccepted && !callEnded && (
                 <div className="stream">   
                     <div className="videos">
@@ -54,7 +52,6 @@ const ViewStream = () => {
                 </div>
             )}
             
-
         </>
     )     
 
