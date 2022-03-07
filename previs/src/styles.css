@@ -5,6 +5,7 @@ video::-webkit-media-controls {
 
 .stream {
     display: flex;
+    height: 100%;
     width: 100%;
     flex-wrap: wrap;
 }
@@ -47,4 +48,10 @@ video::-webkit-media-controls {
 
 .control-button p {
     margin: 0 5px;
+}
+
+#call-input {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
 }
