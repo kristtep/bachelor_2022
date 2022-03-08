@@ -9,7 +9,7 @@ const SendStream = () => {
     const { vid1, callAccepted, callEnded, incomingVoice } = useContext(Context);
 
     const toggleFullscreen = (num) => {
-        let elem = document.getElementById(num);
+        let elem = document.getElementById(`v${num}`);
         if(elem){
 
           if(!document.fullscreenElement){
@@ -41,12 +41,12 @@ const SendStream = () => {
     return (
         <>
         <div className="stream">             
-          <div id="videos">
+          
             <video id="v1" onClick={() => {toggleFullscreen(1)}} playsInline muted src={track(1)} autoPlay />
             <video id="v2" onClick={() => {toggleFullscreen(2)}} playsInline muted src={track(2)} autoPlay />
             <video id="v3" onClick={() => {toggleFullscreen(3)}} playsInline muted src={track(3)} autoPlay />
-            <video id="v4" onClick={() => {toggleFullscreen(4)}} width = "640" height = {{ 'max-height': '50%' }} playsInline muted src={track(4)} autoPlay />
-            </div>      
+            <video id="v4" onClick={() => {toggleFullscreen(4)}} playsInline muted src={track(4)} autoPlay />
+                  
         </div>
 
         {callAccepted && !callEnded && (

@@ -104,8 +104,6 @@ const ContextProvider = ({ children }) => {
 
     const callHospital = (id) => {
 
-        console.log(vid1.current);
-
         const peer = new Peer({ 
             initiator: true, 
             trickle: false, 
@@ -113,19 +111,19 @@ const ContextProvider = ({ children }) => {
         });
 
         peer.on("signal", (data) => {
+            console.log("signal call: " + Date.now()/1000);
             socket.emit("callHospital", { hospitalId: id, signalData: data, from: me });
         });
 
         peer.on('stream', (stream) => {
+            console.log("stream call: " + Date.now()/1000);
 
-            incomingVoice.current.srcObject = stream;
-
-            console.log(incomingVoice);
-            
+            incomingVoice.current.srcObject = stream;            
         });
 
         socket.on("callAccepted", (signal) => {
             
+            console.log("call accepted from call: " + Date.now()/1000);
             setCallAccepted(true);
 
             peer.signal(signal);
@@ -144,15 +142,18 @@ const ContextProvider = ({ children }) => {
 
         peer.on("signal", (data) => {
 
+            console.log("signal answer: " + Date.now()/1000);
             socket.emit("answer", { signal: data, to: call.from });
         });
 
         peer.on('stream', (streams) => {
-            
+            console.log("stream answer: " + Date.now()/1000);
             vid1.current = streams;
                 
         });
         
+        console.log("incoming signal: " + Date.now()/1000);
+
         peer.signal(call.signal);
 
         connectionRef.current = peer;

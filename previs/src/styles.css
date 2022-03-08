@@ -7,19 +7,25 @@ video::-webkit-media-controls {
 .stream {
     display: flex;
     width: 100%;
+    height: 92%;
     flex-flow: row wrap;
+    justify-content: center;
     margin: 0;
     padding: 0;
 }
 
 #v1, #v2, #v3, #v4 {
-    max-height: 50%;
+    /* flex-grow: 1; */
+    height: 46vh;
     object-fit: contain;
+}
+#v4 {
+    width: 34.5vw;
 }
 
 .videos {
     display: block;
-    width: 100%;
+    width: 50%;
     align-content: center;
 }
 
@@ -36,8 +42,8 @@ p {
 }
 
 #controls {
-    height: 10%;
     display: flex;
+    height: 8%;
     flex-flow: row nowrap;
     align-items: center;
 }
