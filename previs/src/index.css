@@ -19,6 +19,7 @@ code {
   --stop-button-background: #F22727;
   --toggle-background: white;
   --toggle-color: black;
+   filter: brightness(1);
 }
 [data-theme='dark'] {
   --background: #383838;

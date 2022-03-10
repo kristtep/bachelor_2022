@@ -51,13 +51,16 @@ margin-top: 5px;
   background-color: white;
   padding: 2rem;
   position: absolute;
-  top: 27px;
-  right: -232px;
-  min-width: 310px;
+  top: 42px;
+  right: -40px;
   border-radius: 5px;
   box-shadow: 0 0 5 rgba(0,0,0,0.2);
   background-color: var(--start-button-background);
   text-decoration: underline;
+}
+
+.dropdown-menu_container-links p {
+  margin: 5%;
 }
 
 .dropdown-menu_container-links p a {
@@ -68,3 +71,7 @@ margin-top: 5px;
 .dropdown-menu_container-links p:hover {
   transform: scale(1.1);
 }
+
+#v1:fullscreen, #v2:fullscreen, #v3:fullscreen, #v4:fullscreen {
+  filter: var(--filter);
+} 

@@ -6,7 +6,8 @@ import ViewStream from "./components/ViewStream";
 import Controls from "./components/Controls";
 import { Context } from "./socket";
 import Div100vh from "react-div-100vh";
-import useLocalStorage from 'use-local-storage'
+import useLocalStorage from 'use-local-storage';
+import { RiSunLine, RiMoonLine } from "react-icons/ri";
 
 const App = () => {
 
@@ -23,9 +24,18 @@ const App = () => {
     <Div100vh>
       <div className="App" data-theme={theme}>
           <Controls>
-          <button id="switch" onClick={switchTheme}>
-            {theme === 'light' ? 'Dark' : 'Light'} Theme
-          </button>
+          <div class="theme-switch-wrapper">
+        <label class="theme-switch" for="checkbox">
+          
+        <input type="checkbox" id="checkbox" onClick={switchTheme}/>
+        <div class="slider round">
+          {theme === 'dark' ? (
+          <RiSunLine id="sun" size={40} />) : 
+          (<RiMoonLine id="moon" size={40}/>)
+  }
+          </div>
+        </label>
+        </div>
           </Controls>
           
           {started && (
@@ -40,3 +50,7 @@ const App = () => {
 }
 
 export default App;
+
+{/*<button id="switch" onClick={switchTheme}>
+            {theme === 'light' ? 'Dark' : 'Light'} Theme
+</button> */}
