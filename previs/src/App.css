@@ -7,19 +7,22 @@
 }
 
 #startstream, #watch {
-  width: 451px;
-  height: 158px;
-  margin: 3% 0;
+  
   border-radius: 10px;
   font-size: 50px;
   font-weight: bold;
   background-color: #A1D58F;
 }
 
+#startstream p, #watch p {
+margin-top: 5px;
+}
+
 #ambulance, #hospital {
+  display: flex;
+  flex-direction: row;
   border: 2px solid black;
   width: 100%;
-  min-height: 400px;
 }
 
 .dropdown-menu {

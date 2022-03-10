@@ -4,7 +4,7 @@ import { Context } from "../socket";
 
 const ViewStream = () => {
     
-    const { startWatch, me, vid1, callEnded, callAccepted } = useContext(Context);
+    const { startWatch, vid1, callEnded, callAccepted } = useContext(Context);
 
     const toggleFullscreen = (num) => {
         let elem = document.getElementById(`v${num}`);
@@ -38,9 +38,7 @@ const ViewStream = () => {
       }
 
     return (
-        <>
-        <p>your id: {me}</p>
-        
+        <>        
             {startWatch && callAccepted && !callEnded && (
                 <div className="stream">   
                         <video id="v1" onClick={() => {toggleFullscreen(1)}} playsInline src={track(1)} autoPlay />

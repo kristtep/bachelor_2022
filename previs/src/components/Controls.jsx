@@ -15,7 +15,7 @@ const Menu = () => (
 
 const Controls = ( { children } ) => {
     
-    const { startWatch, started, call, answer, callAccepted, end, callHospital, start, startW } = useContext(Context);
+    const { me, startWatch, started, call, answer, callAccepted, end, callHospital, start, startW } = useContext(Context);
     const [idToCall, setIdToCall] = useState('');
     const [toggleMenu, setToggleMenu] = useState(false);
 
@@ -28,11 +28,13 @@ const Controls = ( { children } ) => {
             
         {!started && (
             <>
-        {!startWatch && (
+        {!startWatch ? (
             <div id="hospital">
             <p>Lat som du er på sykehuset</p>
             <button id="watch" onClick = {startW}>Watch</button>
             </div>
+        ) : (
+            <p>your id: {me}</p>
         )}
 
         {callAccepted && (
