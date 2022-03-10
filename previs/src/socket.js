@@ -15,6 +15,8 @@ const ContextProvider = ({ children }) => {
     const [call, setCall] = useState({});
     const [callAccepted, setCallAccepted] = useState(false);
     const [callEnded, setCallEnded] = useState(false);
+
+    let latency = useState(0);
     
     const streams = useRef([]);
     const cameras = [];
@@ -105,7 +107,8 @@ const ContextProvider = ({ children }) => {
     const callHospital = (id) => {
 
         const peer = new Peer({ 
-            initiator: true, 
+            initiator: true,
+            channelConfig: latency, 
             trickle: false, 
             stream: vid1.current
         });
