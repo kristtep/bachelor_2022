@@ -11,3 +11,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+:root {
+  --background: #11406A;
+  --text-primary: white;
+  --start-button-background: #16C29D;
+  --stop-button-background: #F22727;
+  --toggle-background: white;
+  --toggle-color: black;
+}
+[data-theme='dark'] {
+  --background: #383838;
+  --text-primary: white;
+  filter: brightness(50%);
+  --start-button-background: black;
+  --stop-button-background: black;
+  --toggle-background: black;
+  --toggle-color: white;
+}

@@ -49,7 +49,8 @@ p {
 }
 
 #start-button {
-    background-color: #16C29D;
+    
+    background-color: var(--start-button-background);
     border-radius: 10px;
     border: 2px solid transparent;
     font-size: 20px;
@@ -64,11 +65,15 @@ p {
 }
 
 #stop {
-    background-color: #F22727;
+    background-color: var(--stop-button-background);
 }
 
 #start-button p {
     margin: 0 5px;
+}
+
+#start-button:hover, #stop:hover, .control-button:hover {
+    cursor: pointer;
 }
 
 #call-input {
@@ -78,7 +83,7 @@ p {
 }
 
 .control-button {
-    background-color: #16C29D;
+    background-color: var(--start-button-background);
     border-radius: 10px;
     border: 2px solid transparent;
     font-size: 20px;
@@ -90,4 +95,15 @@ p {
     justify-content: center;
     height: 50px;
     width: 150px;
+}
+
+#switch {
+    background-color: var(--toggle-background);
+    color: var(--toggle-color);
+}
+
+#switch:hover {
+    filter: brightness(1.2);
+    transition-duration: 1s;
+    cursor: pointer;
 }
