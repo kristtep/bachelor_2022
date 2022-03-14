@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "../styles.css";
 import { Context } from "../socket";
 
@@ -24,17 +24,23 @@ const SendStream = () => {
         }
     }
 
+    useEffect( () => {
+      console.log('update');
+
+    }, [vid1.current]);
+
     const track = (num) => {
 
       setTimeout(() => {
 
         let src = new MediaStream();
+        console.log(vid1.current.getTracks());
         src.addTrack(vid1.current.getTracks()[num]);
         let video = document.getElementById(`v${num}`);
         
         video.srcObject = src;
 
-      }, 10000);
+      }, 4000);
     }
 
     

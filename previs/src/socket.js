@@ -11,6 +11,7 @@ const ContextProvider = ({ children }) => {
     
     const [startWatch, setStartWatch] = useState(false);
     const [started, setStarted] = useState(false);
+    const [shareScreen, setShareScreen] = useState(false);
     const [me, setMe] = useState("");
     const [call, setCall] = useState({});
     const [callAccepted, setCallAccepted] = useState(false);
@@ -75,20 +76,7 @@ const ContextProvider = ({ children }) => {
                             //vid3.current.srcObject = currentStream;
                             
                         });
-                }
-                
-                if (cameras.length > 2) {
-                    console.log('last if');
-                    navigator.mediaDevices.getDisplayMedia({ video: true, audio: false })
-                        .then((currentStream) => {
-
-                        streams.current.push(currentStream);
-                        console.log(currentStream.getVideoTracks());
-
-                        vid1.current.addTrack(currentStream.getVideoTracks()[0]);
-                    });
-                }
-                    
+                }   
                 
         }
         else if(startWatch){
@@ -104,7 +92,30 @@ const ContextProvider = ({ children }) => {
         });
     }, [started, startWatch]);
 
+    const startShareScreen = () => {
+        
+        
+            console.log('shareScreen');
+            navigator.mediaDevices.getDisplayMedia({ video: true, audio: false })
+                .then((currentStream) => {
+                    console.log(connectionRef.current);
+                    if(connectionRef.current){
+                        connectionRef.current.addTrack(currentStream.getVideoTracks()[0], vid1.current);
+                        console.log(currentStream.getVideoTracks());
+                        streams.current.push(currentStream);
+                    }else{
+                        console.log('else');
+                        streams.current.push(currentStream);
+                        vid1.current.addTrack(currentStream.getVideoTracks()[0]);
+                    }
+                
+            });
+          
+    }
+
     const callHospital = (id) => {
+
+        
 
         const peer = new Peer({ 
             initiator: true,
@@ -195,6 +206,7 @@ const ContextProvider = ({ children }) => {
             end,
             start,
             startW,
+            startShareScreen,
         }}>
             { children }
         </Context.Provider>
