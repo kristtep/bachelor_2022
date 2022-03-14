@@ -4,6 +4,7 @@ import { Context } from "../socket";
 import { AiFillCloseCircle, AiFillPhone } from "react-icons/ai";
 import { RiMenu3Line, RiCloseLine } from 'react-icons/ri';
 
+
 const Menu = () => (
     <>
       <p><a href="g">AKUTTMOTTAK LILLEHAMMER</a></p>
@@ -20,7 +21,7 @@ const Controls = ( { children } ) => {
     const [toggleMenu, setToggleMenu] = useState(false);
 
     return (
-        <div id="controls">
+        <div id="controls" >
         {call.incomingCall && !callAccepted && (
             <button className="control-button" onClick = {answer}>Svar</button>
         )}
