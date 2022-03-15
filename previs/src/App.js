@@ -18,7 +18,7 @@ const App = () => {
   const switchTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
-}
+  }
 
   return (
     <Div100vh>
