@@ -25,31 +25,9 @@ const ContextProvider = ({ children }) => {
     const incomingVoice = useRef([]);
     const connectionRef = useRef();      
     
-    useEffect( async () => {
+    useEffect(() => {
         
         socket.on("id", (id) => setMe(id));
-        
-        await navigator.mediaDevices.enumerateDevices()
-        .then((devices) => {
-            devices.forEach((device) => {
-                if(device.kind === "videoinput"){
-                    cameras.push(device.deviceId);
-                    console.log('getdevices');
-                };
-            });
-        });
-            
-        
-          
-                
-        
-        if(startWatch){
-            navigator.mediaDevices.getUserMedia({ video: false, audio: true })
-                .then((currentStream) => {
-
-                    incomingVoice.current.push(currentStream);
-                });
-        }
 
         socket.on("callHospital", ({ from, signal }) => {
             setCall({ incomingCall: true, from, signal });
@@ -58,28 +36,27 @@ const ContextProvider = ({ children }) => {
 
     const startShareScreen = () => {
         
-        
-            console.log('shareScreen');
-            navigator.mediaDevices.getDisplayMedia({ video: true, audio: false })
-                .then((currentStream) => {
-                    console.log(connectionRef.current);
-                    if(connectionRef.current){
-                        connectionRef.current.addTrack(currentStream.getVideoTracks()[0], vid1.current);
-                        console.log(currentStream.getVideoTracks());
-                        streams.current.push(currentStream);
-                    }else{
-                        console.log('else');
-                        streams.current.push(currentStream);
-                        vid1.current.addTrack(currentStream.getVideoTracks()[0]);
-                    }
-                
-            });
+
+        console.log('shareScreen');
+        navigator.mediaDevices.getDisplayMedia({ video: true, audio: false })
+            .then((currentStream) => {
+                console.log(connectionRef.current);
+                if(connectionRef.current){
+                    connectionRef.current.addTrack(currentStream.getVideoTracks()[0], vid1.current);
+                    console.log(currentStream.getVideoTracks());
+                    streams.current.push(currentStream);
+                }else{
+                    console.log('else');
+                    streams.current.push(currentStream);
+                    console.log(currentStream.getVideoTracks()[0]);
+                    vid1.current.addTrack(currentStream.getVideoTracks()[0]);
+                    setShareScreen(true);
+                }
+        });
           
     }
 
     const callHospital = (id) => {
-
-        
 
         const peer = new Peer({ 
             initiator: true,
@@ -145,12 +122,24 @@ const ContextProvider = ({ children }) => {
         window.location.reload();
     }
 
-    const getCameras = () => {
+    const getCameras = async () => {
+
+        
 
         console.log('getcameras');
 
-        if (cameras.length != 0){
-            navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[0] } }, audio: true })
+        if (cameras.length === 0){
+            await navigator.mediaDevices.enumerateDevices()
+            .then((devices) => {
+                devices.forEach((device) => {
+                    if(device.kind === "videoinput"){
+                        cameras.push(device.deviceId);
+                        console.log(cameras);
+                    };
+                });
+            });
+            
+            await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[0] } }, audio: true })
                 .then((currentStream) => {
 
                     streams.current.push(currentStream);
@@ -159,7 +148,7 @@ const ContextProvider = ({ children }) => {
                 });
             
                 if (cameras.length > 1){
-                    navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[1] } }, audio: false })
+                    await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[1] } }, audio: false })
                         .then((currentStream) => {
 
                             streams.current.push(currentStream);
@@ -174,7 +163,7 @@ const ContextProvider = ({ children }) => {
                     return vid1.current.getTracks();
                 }
                 if (cameras.length > 2){
-                    navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[2] } }, audio: false })
+                    await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[2] } }, audio: false })
                         .then((currentStream) => {
 
                             streams.current.push(currentStream);
@@ -191,14 +180,19 @@ const ContextProvider = ({ children }) => {
                     return vid1.current.getTracks();
                 }
             }else{
-                console.log('noe');
+                window.alert('cameras already set');
             }
 
     }
 
     const startW = () => {
-        
         setStartWatch(true);
+        
+        navigator.mediaDevices.getUserMedia({ video: false, audio: true })
+            .then((currentStream) => {
+
+                incomingVoice.current.push(currentStream);
+            });  
     }
 
     const start = () => {
@@ -217,6 +211,7 @@ const ContextProvider = ({ children }) => {
             cameras,
             streams,
             vid1,
+            shareScreen,
             callHospital,
             answer,
             end,

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../styles.css";
 import { Context } from "../socket";
 
@@ -6,15 +6,15 @@ import { Context } from "../socket";
 
 const SendStream = () => {
     
-    const { vid1, callAccepted, callEnded, incomingVoice, getCameras } = useContext(Context);
+    const { shareScreen, vid1, callAccepted, callEnded, incomingVoice, getCameras } = useContext(Context);
 
 
     useEffect(() => {
       makeVideoElems();
-    }, []);
+    }, [shareScreen]);
 
     const toggleFullscreen = (num) => {
-        let elem = document.getElementById(`v${num}`);
+        let elem = document.getElementById(`${num}`);
         if(elem){
 
           if(!document.fullscreenElement){
@@ -31,31 +31,46 @@ const SendStream = () => {
 
     const makeVideoElems = async () => {
 
-      const tracks = await getCameras();
-      console.log(tracks);
-
-      for(let i = 1; i < tracks.length + 1; i++){
-        let elem = document.createElement('video');
-        elem.setAttribute('id', i);
-        
-        document.getElementById('stream').appendChild(elem);
-        if(i = tracks.length){
-          setSrc();
+        if(!shareScreen){
+          await getCameras();
         }
-      }
+        let tracks = vid1.current.getVideoTracks();
+
+        console.log(tracks);
+        
+        if(tracks){
+          console.log(tracks.length);
+
+          for(let i = 1; i < tracks.length + 1; i++){
+            if(!document.getElementById(i)){
+            let elem = document.createElement('video');
+            elem.setAttribute('id', i);
+            elem.setAttribute('autoPlay', true);
+            //elem.setAttribute('height', '46%');          
+            
+            document.getElementById('stream').appendChild(elem);
+            setSrc(i);
+            console.log(i);
+            /* if(i === tracks.length){
+              setSrc();
+            } */
+            }
+          }
+        }
+      
+     
+
+      
     } 
 
-    const setSrc = async () => {
+    const setSrc =  (i) => {
 
-      const tracks = await getCameras();
-
-      for(let i = 1; i < tracks.length + 1; i++){
-        let src = new MediaStream();
-        src.addTrack(tracks[i]);
-        let video = document.getElementById(`${i}`);
+      const tracks = vid1.current.getVideoTracks();
       
-        video.srcObject = src;
-      }
+        let src = new MediaStream();
+        src.addTrack(tracks[i-1]);
+        document.getElementById(`${i}`).srcObject = src;
+      
     }
 
     
