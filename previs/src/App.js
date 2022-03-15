@@ -31,8 +31,7 @@ const App = () => {
         <div className="slider round">
           {theme === 'dark' ? (
           <RiSunLine id="sun" size={40} />) : 
-          (<RiMoonLine id="moon" size={40}/>)
-  }
+          (<RiMoonLine id="moon" size={40}/>)}
           </div>
         </label>
         </div>
@@ -50,7 +49,3 @@ const App = () => {
 }
 
 export default App;
-
-{/*<button id="switch" onClick={switchTheme}>
-            {theme === 'light' ? 'Dark' : 'Light'} Theme
-</button> */}
