@@ -88,7 +88,7 @@ const ContextProvider = ({ children }) => {
     }
 
     const answer = () => {
-        setCallAccepted(true);
+        
         const peer = new Peer({ 
             initiator: false, 
             trickle: false, 
@@ -104,7 +104,8 @@ const ContextProvider = ({ children }) => {
         peer.on('stream', (streams) => {
             console.log("stream answer: " + Date.now()/1000);
             vid1.current = streams;
-                
+            setCallAccepted(true);
+
         });
         
         console.log("incoming signal: " + Date.now()/1000);
@@ -212,6 +213,7 @@ const ContextProvider = ({ children }) => {
             streams,
             vid1,
             shareScreen,
+            connectionRef,
             callHospital,
             answer,
             end,

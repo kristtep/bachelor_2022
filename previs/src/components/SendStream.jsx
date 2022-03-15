@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import "../styles.css";
 import { Context } from "../socket";
 
@@ -13,7 +13,7 @@ const SendStream = () => {
       makeVideoElems();
     }, [shareScreen]);
 
-    const toggleFullscreen = (num) => {
+    /* const toggleFullscreen = (num) => {
         let elem = document.getElementById(`${num}`);
         if(elem){
 
@@ -27,7 +27,7 @@ const SendStream = () => {
             document.exitFullscreen();
           }
         }
-    }
+    } */
 
     const makeVideoElems = async () => {
 
