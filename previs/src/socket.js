@@ -34,52 +34,16 @@ const ContextProvider = ({ children }) => {
             devices.forEach((device) => {
                 if(device.kind === "videoinput"){
                     cameras.push(device.deviceId);
+                    console.log('getdevices');
                 };
             });
         });
             
         
-        if (started) {
-            
-            navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[0] } }, audio: true })
-                .then((currentStream) => {
-
-                    streams.current.push(currentStream);
-                    
-                    vid1.current = currentStream;
-                });
-            
-                if (cameras.length > 1){
-                    navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[1] } }, audio: false })
-                        .then((currentStream) => {
-
-                            streams.current.push(currentStream);
-
-                            console.log(vid1);
-
-                            vid1.current.addTrack(currentStream.getVideoTracks()[0]);
-
-                            //vid2.current.srcObject = currentStream;
-                        });
-                }
-                if (cameras.length > 2){
-                    navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[2] } }, audio: false })
-                        .then((currentStream) => {
-
-                            streams.current.push(currentStream);
-                            
-                            vid1.current.addTrack(currentStream.getVideoTracks()[0]);
-
-                            console.log(vid1.current.getTracks());
-
-                            //track(1);
-                            //vid3.current.srcObject = currentStream;
-                            
-                        });
-                }   
+          
                 
-        }
-        else if(startWatch){
+        
+        if(startWatch){
             navigator.mediaDevices.getUserMedia({ video: false, audio: true })
                 .then((currentStream) => {
 
@@ -90,7 +54,7 @@ const ContextProvider = ({ children }) => {
         socket.on("callHospital", ({ from, signal }) => {
             setCall({ incomingCall: true, from, signal });
         });
-    }, [started, startWatch]);
+    }, []);
 
     const startShareScreen = () => {
         
@@ -181,7 +145,59 @@ const ContextProvider = ({ children }) => {
         window.location.reload();
     }
 
+    const getCameras = () => {
+
+        console.log('getcameras');
+
+        if (cameras.length != 0){
+            navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[0] } }, audio: true })
+                .then((currentStream) => {
+
+                    streams.current.push(currentStream);
+                    
+                    vid1.current = currentStream;
+                });
+            
+                if (cameras.length > 1){
+                    navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[1] } }, audio: false })
+                        .then((currentStream) => {
+
+                            streams.current.push(currentStream);
+
+                            console.log(vid1);
+
+                            vid1.current.addTrack(currentStream.getVideoTracks()[0]);
+
+                            //vid2.current.srcObject = currentStream;
+                        });
+                }else{
+                    return vid1.current.getTracks();
+                }
+                if (cameras.length > 2){
+                    navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[2] } }, audio: false })
+                        .then((currentStream) => {
+
+                            streams.current.push(currentStream);
+                            
+                            vid1.current.addTrack(currentStream.getVideoTracks()[0]);
+
+                            console.log(vid1.current.getTracks());
+
+                            //track(1);
+                            //vid3.current.srcObject = currentStream;
+                            
+                        });
+                }else{
+                    return vid1.current.getTracks();
+                }
+            }else{
+                console.log('noe');
+            }
+
+    }
+
     const startW = () => {
+        
         setStartWatch(true);
     }
 
@@ -207,6 +223,7 @@ const ContextProvider = ({ children }) => {
             start,
             startW,
             startShareScreen,
+            getCameras,
         }}>
             { children }
         </Context.Provider>

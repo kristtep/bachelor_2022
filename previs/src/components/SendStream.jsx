@@ -6,7 +6,12 @@ import { Context } from "../socket";
 
 const SendStream = () => {
     
-    const { vid1, callAccepted, callEnded, incomingVoice } = useContext(Context);
+    const { vid1, callAccepted, callEnded, incomingVoice, getCameras } = useContext(Context);
+
+
+    useEffect(() => {
+      makeVideoElems();
+    }, []);
 
     const toggleFullscreen = (num) => {
         let elem = document.getElementById(`v${num}`);
@@ -24,36 +29,40 @@ const SendStream = () => {
         }
     }
 
-    useEffect( () => {
-      console.log('update');
+    const makeVideoElems = async () => {
 
-    }, [vid1.current]);
+      const tracks = await getCameras();
+      console.log(tracks);
 
-    const track = (num) => {
-
-      setTimeout(() => {
-
-        let src = new MediaStream();
-        console.log(vid1.current.getTracks());
-        src.addTrack(vid1.current.getTracks()[num]);
-        let video = document.getElementById(`v${num}`);
+      for(let i = 1; i < tracks.length + 1; i++){
+        let elem = document.createElement('video');
+        elem.setAttribute('id', i);
         
-        video.srcObject = src;
+        document.getElementById('stream').appendChild(elem);
+        if(i = tracks.length){
+          setSrc();
+        }
+      }
+    } 
 
-      }, 4000);
+    const setSrc = async () => {
+
+      const tracks = await getCameras();
+
+      for(let i = 1; i < tracks.length + 1; i++){
+        let src = new MediaStream();
+        src.addTrack(tracks[i]);
+        let video = document.getElementById(`${i}`);
+      
+        video.srcObject = src;
+      }
     }
 
     
     return (
         <>
-        <div className="stream">             
-          
-            <video id="v1" onClick={() => {toggleFullscreen(1)}} playsInline muted src={track(1)} autoPlay />
-            <video id="v2" onClick={() => {toggleFullscreen(2)}} playsInline muted src={track(2)} autoPlay />
-            <video id="v3" onClick={() => {toggleFullscreen(3)}} playsInline muted src={track(3)} autoPlay />
-            <video id="v4" onClick={() => {toggleFullscreen(4)}} playsInline muted src={track(4)} autoPlay />
-                  
-        </div>
+        <div id="stream"></div>
+        
 
         {callAccepted && !callEnded && (
           <div>
