@@ -24,11 +24,11 @@ const App = () => {
     <Div100vh>
       <div className="App" data-theme={theme}>
           <Controls>
-          <div class="theme-switch-wrapper">
-        <label class="theme-switch" for="checkbox">
+          <div className="theme-switch-wrapper">
+        <label className="theme-switch" htmlFor="checkbox">
           
         <input type="checkbox" id="checkbox" onClick={switchTheme}/>
-        <div class="slider round">
+        <div className="slider round">
           {theme === 'dark' ? (
           <RiSunLine id="sun" size={40} />) : 
           (<RiMoonLine id="moon" size={40}/>)}
