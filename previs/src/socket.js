@@ -29,8 +29,6 @@ const ContextProvider = ({ children }) => {
 
     useEffect(() => {
 
-
-
         socket.on("id", (id) => setMe(id));
 
         socket.on("callHospital", ({ from, signal }) => {
@@ -46,9 +44,10 @@ const ContextProvider = ({ children }) => {
                 console.log(connectionRef.current);
                 if(connectionRef.current){
                     console.log('peer connected');
-                    connectionRef.current.addTrack(currentStream.getVideoTracks()[0], vid1.current);
+                    vid1.current.addTrack(currentStream.getVideoTracks()[0]);
                     console.log(currentStream.getVideoTracks());
-
+                    console.log(vid1.current.getTracks());
+                    setShareScreen(true);
                     streams.current.push(currentStream);
                 }else{
                     console.log('else');
@@ -81,6 +80,7 @@ const ContextProvider = ({ children }) => {
             incomingVoice.current.srcObject = stream;
         });
 
+
         socket.on("callAccepted", (signal) => {
 
             console.log("call accepted from call: " + Date.now()/1000);
@@ -100,9 +100,6 @@ const ContextProvider = ({ children }) => {
             streams: incomingVoice.current
         });
 
-        console.log(peer);
-
-
         peer.on("signal", (data) => {
 
             console.log("signal answer: " + Date.now()/1000);
@@ -116,9 +113,14 @@ const ContextProvider = ({ children }) => {
 
         });
 
-        peer.on('addtrack', (e) => {
-            console.log('addtrack');
-            vid1.current = e;
+        peer.on('track', (track, stream) => {
+            if(!vid1.current){
+                vid1.current = stream;
+            }else{
+                vid1.current.addTrack(track);
+            }
+            console.log(track);
+            console.log(stream);
         });
 
         console.log("incoming signal: " + Date.now()/1000);
