@@ -8,24 +8,24 @@ const socket = io("https://bachelor-2022.herokuapp.com/");
 //http://localhost:5000/
 
 const ContextProvider = ({ children }) => {
-    
+
     const [startWatch, setStartWatch] = useState(false);
     const [started, setStarted] = useState(false);
     const [me, setMe] = useState("");
     const [call, setCall] = useState({});
     const [callAccepted, setCallAccepted] = useState(false);
     const [callEnded, setCallEnded] = useState(false);
-    
+
     const streams = useRef([]);
     const cameras = [];
     const vid1 = useRef();
     const incomingVoice = useRef([]);
-    const connectionRef = useRef();      
-    
+    const connectionRef = useRef();
+
     useEffect( async () => {
-        
+
         socket.on("id", (id) => setMe(id));
-        
+
         await navigator.mediaDevices.enumerateDevices()
         .then((devices) => {
             devices.forEach((device) => {
@@ -34,18 +34,18 @@ const ContextProvider = ({ children }) => {
                 };
             });
         });
-            
-        
+
+
         if (started) {
-            
+
             navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[0] } }, audio: true })
                 .then((currentStream) => {
 
                     streams.current.push(currentStream);
-                    
+
                     vid1.current = currentStream;
                 });
-            
+
                 if (cameras.length > 1){
                     navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[1] } }, audio: false })
                         .then((currentStream) => {
@@ -64,17 +64,17 @@ const ContextProvider = ({ children }) => {
                         .then((currentStream) => {
 
                             streams.current.push(currentStream);
-                            
+
                             vid1.current.addTrack(currentStream.getVideoTracks()[0]);
 
                             console.log(vid1.current.getTracks());
 
                             //track(1);
                             //vid3.current.srcObject = currentStream;
-                            
+
                         });
                 }
-                
+
                 if (cameras.length > 2) {
                     console.log('last if');
                     navigator.mediaDevices.getDisplayMedia({ video: true, audio: false })
@@ -86,8 +86,8 @@ const ContextProvider = ({ children }) => {
                         vid1.current.addTrack(currentStream.getVideoTracks()[0]);
                     });
                 }
-                    
-                
+
+
         }
         else if(startWatch){
             navigator.mediaDevices.getUserMedia({ video: false, audio: true })
@@ -102,13 +102,19 @@ const ContextProvider = ({ children }) => {
         });
     }, [started, startWatch]);
 
+    const screenShare = () => {
+
+    }
+
     const callHospital = (id) => {
 
-        const peer = new Peer({ 
-            initiator: true, 
-            trickle: false, 
+        const peer = new Peer({
+            initiator: true,
+            trickle: false,
             stream: vid1.current
         });
+
+        console.log(peer.getStats(null));
 
         peer.on("signal", (data) => {
             console.log("signal call: " + Date.now()/1000);
@@ -118,11 +124,11 @@ const ContextProvider = ({ children }) => {
         peer.on('stream', (stream) => {
             console.log("stream call: " + Date.now()/1000);
 
-            incomingVoice.current.srcObject = stream;            
+            incomingVoice.current.srcObject = stream;
         });
 
         socket.on("callAccepted", (signal) => {
-            
+
             console.log("call accepted from call: " + Date.now()/1000);
             setCallAccepted(true);
 
@@ -134,11 +140,14 @@ const ContextProvider = ({ children }) => {
 
     const answer = () => {
         setCallAccepted(true);
-        const peer = new Peer({ 
-            initiator: false, 
-            trickle: false, 
-            streams: incomingVoice.current 
+        const peer = new Peer({
+            initiator: false,
+            trickle: false,
+            streams: incomingVoice.current
         });
+
+        console.log(peer);
+
 
         peer.on("signal", (data) => {
 
@@ -149,9 +158,10 @@ const ContextProvider = ({ children }) => {
         peer.on('stream', (streams) => {
             console.log("stream answer: " + Date.now()/1000);
             vid1.current = streams;
-                
+            console.log(vid1.current.RTCVideoSourceStats());
+
         });
-        
+
         console.log("incoming signal: " + Date.now()/1000);
 
         peer.signal(call.signal);
