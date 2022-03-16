@@ -20,17 +20,19 @@ app.get("/", (req, res) => {
 io.on("connection", (socket) => {
     socket.emit("id", socket.id);
     
-    console.log(socket.id);
+    
 
     socket.on("disconnect", () => {
         socket.broadcast.emit("callEnded");
     });
 
     socket.on("callHospital", ({ hospitalId, signalData, from }) => {
+        console.log("socket callHospital: " + Date.now()/1000);
         io.to(hospitalId).emit("callHospital", { signal: signalData, from });
     });
 
     socket.on("answer", (data) => {
+        console.log("socket answer: " + Date.now()/1000);
         io.to(data.to).emit("callAccepted", data.signal);
     });
 });

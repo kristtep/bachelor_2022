@@ -4,6 +4,7 @@ import { Context } from "../socket";
 import { AiFillCloseCircle, AiFillPhone } from "react-icons/ai";
 import { RiMenu3Line, RiCloseLine } from 'react-icons/ri';
 
+
 const Menu = () => (
     <>
       <p><a href="g">AKUTTMOTTAK LILLEHAMMER</a></p>
@@ -15,12 +16,12 @@ const Menu = () => (
 
 const Controls = ( { children } ) => {
     
-    const { startWatch, started, call, answer, callAccepted, end, callHospital, start, startW } = useContext(Context);
+    const { me, startWatch, started, call, answer, callAccepted, end, callHospital, start, startW, startShareScreen } = useContext(Context);
     const [idToCall, setIdToCall] = useState('');
     const [toggleMenu, setToggleMenu] = useState(false);
 
     return (
-        <div id="controls">
+        <div id="controls" >
         {call.incomingCall && !callAccepted && (
             <button className="control-button" onClick = {answer}>Svar</button>
         )}
@@ -28,11 +29,13 @@ const Controls = ( { children } ) => {
             
         {!started && (
             <>
-        {!startWatch && (
+        {!startWatch ? (
             <div id="hospital">
             <p>Lat som du er på sykehuset</p>
             <button id="watch" onClick = {startW}>Watch</button>
             </div>
+        ) : (
+            <p>your id: {me}</p>
         )}
 
         {callAccepted && (
@@ -69,6 +72,7 @@ const Controls = ( { children } ) => {
                     </div>
                     <input type = "text" placeholder = "Enter id to call" value = {idToCall} onChange={(e) => setIdToCall(e.target.value)}/>
                     </div>
+                    <button className="control-button" onClick={() => startShareScreen()}>Del skjerm</button>
                 <button className="control-button" id="stop" onClick = {end}><AiFillCloseCircle style={{ fontSize: '30px' }}/><p>AVSLUTT</p></button>
             </div>
         )}

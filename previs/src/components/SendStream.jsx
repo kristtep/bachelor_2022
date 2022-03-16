@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "../styles.css";
 import { Context } from "../socket";
 
@@ -6,10 +6,15 @@ import { Context } from "../socket";
 
 const SendStream = () => {
 
-    const { vid1, callAccepted, callEnded, incomingVoice } = useContext(Context);
+    const { shareScreen, vid1, callAccepted, callEnded, incomingVoice, getCameras } = useContext(Context);
 
-    const toggleFullscreen = (num) => {
-        let elem = document.getElementById(`v${num}`);
+
+    useEffect(() => {
+      makeVideoElems();
+    }, [shareScreen]);
+
+    /* const toggleFullscreen = (num) => {
+        let elem = document.getElementById(`${num}`);
         if(elem){
 
           if(!document.fullscreenElement){
@@ -22,32 +27,57 @@ const SendStream = () => {
             document.exitFullscreen();
           }
         }
+    } */
+
+    const makeVideoElems = async () => {
+
+        if(!shareScreen){
+          await getCameras();
+        }
+        let tracks = vid1.current.getVideoTracks();
+
+        console.log(tracks);
+
+        if(tracks){
+          console.log(tracks.length);
+
+          for(let i = 1; i < tracks.length + 1; i++){
+            if(!document.getElementById(i)){
+            let elem = document.createElement('video');
+            elem.setAttribute('id', i);
+            elem.setAttribute('autoPlay', true);
+            //elem.setAttribute('height', '46%');
+
+            document.getElementById('stream').appendChild(elem);
+            setSrc(i);
+            console.log(i);
+            /* if(i === tracks.length){
+              setSrc();
+            } */
+            }
+          }
+        }
+
+
+
+
     }
 
-    const track = (num) => {
+    const setSrc =  (i) => {
 
-      setTimeout(() => {
+      const tracks = vid1.current.getVideoTracks();
 
         let src = new MediaStream();
-        src.addTrack(vid1.current.getTracks()[num]);
-        let video = document.getElementById(`v${num}`);
+        src.addTrack(tracks[i-1]);
+        document.getElementById(`${i}`).srcObject = src;
 
-        video.srcObject = src;
-
-      }, 10000);
     }
 
 
     return (
         <>
-        <div className="stream">
+        <div id="stream"></div>
 
-            <video id="v1" onClick={() => {toggleFullscreen(1)}} playsInline muted src={track(1)} autoPlay />
-            <video id="v2" onClick={() => {toggleFullscreen(2)}} playsInline muted src={track(2)} autoPlay />
-            <video id="v3" onClick={() => {toggleFullscreen(3)}} playsInline muted src={track(3)} autoPlay />
-            <video id="v4" onClick={() => {toggleFullscreen(4)}} playsInline muted src={track(4)} autoPlay />
-
-        </div>
 
         {callAccepted && !callEnded && (
           <div>

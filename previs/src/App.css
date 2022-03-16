@@ -1,21 +1,37 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,700;1,400&display=swap');
 
-
 .App {
   font-family: 'Roboto', sans-serif;
-  background-color: #11406A;
   height: 100%;
 }
 
+.App {
+  color: var(--text-primary);
+  background-color: var(--background);
+  transition: all .5s;
+}
+button {
+  color: var(--text-primary);
+  background-color: var(--background);
+  border: 2px var(--text-primary) solid;
+  float: right;
+}
+
 #startstream, #watch {
-  margin: 3% 0;
+
   border-radius: 10px;
   font-size: 50px;
   font-weight: bold;
   background-color: #A1D58F;
 }
 
+#startstream p, #watch p {
+margin-top: 5px;
+}
+
 #ambulance, #hospital {
+  display: flex;
+  flex-direction: row;
   border: 2px solid black;
   width: 100%;
 }
@@ -34,13 +50,16 @@
   background-color: white;
   padding: 2rem;
   position: absolute;
-  top: 27px;
-  right: -232px;
-  min-width: 310px;
+  top: 42px;
+  right: -40px;
   border-radius: 5px;
   box-shadow: 0 0 5 rgba(0,0,0,0.2);
-  background-color: #16C29D;
+  background-color: var(--start-button-background);
   text-decoration: underline;
+}
+
+.dropdown-menu_container-links p {
+  margin: 5%;
 }
 
 .dropdown-menu_container-links p a {
@@ -50,4 +69,8 @@
 
 .dropdown-menu_container-links p:hover {
   transform: scale(1.1);
+}
+
+#v1:fullscreen, #v2:fullscreen, #v3:fullscreen, #v4:fullscreen {
+  filter: var(--filter);
 }
