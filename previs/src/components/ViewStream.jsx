@@ -8,7 +8,7 @@ const ViewStream = () => {
 
     useEffect(() =>{
       makeVideoElems();
-    },[vid1.current, callAccepted]);
+    },[vid1.current, callAccepted, connectionRef.current]);
 
     const toggleFullscreen = (num) => {
         let elem = document.getElementById(`v${num}`);

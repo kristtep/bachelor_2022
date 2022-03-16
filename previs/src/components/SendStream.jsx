@@ -6,7 +6,7 @@ import { Context } from "../socket";
 
 const SendStream = () => {
 
-    const { shareScreen, vid1, callAccepted, callEnded, incomingVoice, getCameras } = useContext(Context);
+    const { shareScreen, vid1, callAccepted, callEnded, incomingVoice, getCameras, connectionRef } = useContext(Context);
 
 
     useEffect(() => {
@@ -73,7 +73,6 @@ const SendStream = () => {
     return (
         <>
         <div id="stream"></div>
-
 
         {callAccepted && !callEnded && (
           <div>
