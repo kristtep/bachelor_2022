@@ -25,7 +25,11 @@ const ContextProvider = ({ children }) => {
     const incomingVoice = useRef([]);
     const connectionRef = useRef();
 
+
+
     useEffect(() => {
+
+
 
         socket.on("id", (id) => setMe(id));
 
@@ -40,8 +44,10 @@ const ContextProvider = ({ children }) => {
             .then((currentStream) => {
                 console.log(connectionRef.current);
                 if(connectionRef.current){
+                    console.log('peer connected');
                     connectionRef.current.addTrack(currentStream.getVideoTracks()[0], vid1.current);
                     console.log(currentStream.getVideoTracks());
+
                     streams.current.push(currentStream);
                 }else{
                     console.log('else');
@@ -53,10 +59,6 @@ const ContextProvider = ({ children }) => {
         });
     }
 
-    const screenShare = () => {
-
-    }
-
     const callHospital = (id) => {
 
         const peer = new Peer({
@@ -65,7 +67,6 @@ const ContextProvider = ({ children }) => {
             stream: vid1.current
         });
 
-        console.log(peer.getStats(null));
 
         peer.on("signal", (data) => {
             console.log("signal call: " + Date.now()/1000);
@@ -113,6 +114,11 @@ const ContextProvider = ({ children }) => {
 
         });
 
+        peer.on('addtrack', (e) => {
+            console.log('addtrack');
+            vid1.current = e;
+        });
+
         console.log("incoming signal: " + Date.now()/1000);
 
         peer.signal(call.signal);
@@ -129,7 +135,6 @@ const ContextProvider = ({ children }) => {
     }
 
     const getCameras = async () => {
-        console.log('getcameras');
 
         if (cameras.length === 0){
             await navigator.mediaDevices.enumerateDevices()
@@ -137,7 +142,6 @@ const ContextProvider = ({ children }) => {
                 devices.forEach((device) => {
                     if(device.kind === "videoinput"){
                         cameras.push(device.deviceId);
-                        console.log(cameras);
                     };
                 });
             });
@@ -156,11 +160,7 @@ const ContextProvider = ({ children }) => {
 
                             streams.current.push(currentStream);
 
-                            console.log(vid1);
-
                             vid1.current.addTrack(currentStream.getVideoTracks()[0]);
-
-                            //vid2.current.srcObject = currentStream;
                         });
                 }else{
                     return vid1.current.getTracks();
@@ -172,11 +172,6 @@ const ContextProvider = ({ children }) => {
                             streams.current.push(currentStream);
 
                             vid1.current.addTrack(currentStream.getVideoTracks()[0]);
-
-                            console.log(vid1.current.getTracks());
-
-                            //track(1);
-                            //vid3.current.srcObject = currentStream;
 
                         });
                 }else{

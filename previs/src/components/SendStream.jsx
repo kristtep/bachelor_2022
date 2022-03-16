@@ -13,7 +13,7 @@ const SendStream = () => {
       makeVideoElems();
     }, [shareScreen]);
 
-    /* const toggleFullscreen = (num) => {
+    const toggleFullscreen = (num) => {
         let elem = document.getElementById(`${num}`);
         if(elem){
 
@@ -27,7 +27,7 @@ const SendStream = () => {
             document.exitFullscreen();
           }
         }
-    } */
+    }
 
     const makeVideoElems = async () => {
 
@@ -46,14 +46,10 @@ const SendStream = () => {
             let elem = document.createElement('video');
             elem.setAttribute('id', i);
             elem.setAttribute('autoPlay', true);
-            //elem.setAttribute('height', '46%');
+            elem.onclick = () => toggleFullscreen(i);
 
             document.getElementById('stream').appendChild(elem);
             setSrc(i);
-            console.log(i);
-            /* if(i === tracks.length){
-              setSrc();
-            } */
             }
           }
         }
