@@ -35,8 +35,6 @@ const ContextProvider = ({ children }) => {
     }, []);
 
     const startShareScreen = () => {
-
-
         console.log('shareScreen');
         navigator.mediaDevices.getDisplayMedia({ video: true, audio: false })
             .then((currentStream) => {
@@ -53,7 +51,6 @@ const ContextProvider = ({ children }) => {
                     setShareScreen(true);
                 }
         });
-
     }
 
     const screenShare = () => {
@@ -132,9 +129,6 @@ const ContextProvider = ({ children }) => {
     }
 
     const getCameras = async () => {
-
-
-
         console.log('getcameras');
 
         if (cameras.length === 0){
@@ -191,15 +185,12 @@ const ContextProvider = ({ children }) => {
             }else{
                 window.alert('cameras already set');
             }
-
     }
 
     const startW = () => {
         setStartWatch(true);
-
         navigator.mediaDevices.getUserMedia({ video: false, audio: true })
             .then((currentStream) => {
-
                 incomingVoice.current.push(currentStream);
             });
     }

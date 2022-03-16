@@ -4,7 +4,7 @@ video::-webkit-media-controls {
     width: 100%;
     }
 
-#stream {
+#stream, #vstream {
     display: flex;
     width: 100%;
     height: 92%;
@@ -14,18 +14,11 @@ video::-webkit-media-controls {
     padding: 0;
 }
 
-#stream video {
-  height: 46%;  
+#vstream video, #stream video {
+  object-fit: contain;
+  max-width: 49%;
+  max-height: 49%;
   flex-grow: 1;
-}
-
-#v1, #v2, #v3, #v4 {
-    /* flex-grow: 1; */
-    height: 46vh;
-    object-fit: contain;
-}
-#v4 {
-    width: 50vw;
 }
 
 .videos {
@@ -49,7 +42,7 @@ p {
 #controls {
     display: flex;
     height: 8%;
-    flex-flow: row nowrap;
+    flex-flow: column nowrap;
     align-items: center;
 }
 
