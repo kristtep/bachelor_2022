@@ -31,7 +31,7 @@ const Controls = ( { children } ) => {
             <>
         {!startWatch ? (
             <div id="hospital">
-            <p>Lat som du er på sykehuset</p>
+            
             <button id="watch" onClick = {startW}>Watch</button>
             </div>
         ) : (
@@ -49,7 +49,6 @@ const Controls = ( { children } ) => {
             <>
         {!started ? (
             <div id="ambulance">
-            <p>Lat som at du er i en ambulanse, og DET ER BLOD OVERALT</p>
             <button id="startstream"onClick = {start}>START</button> 
             </div>
         ) : (
@@ -81,7 +80,6 @@ const Controls = ( { children } ) => {
         {children}
         </div>
     )     
-
 };
 
 export default Controls;

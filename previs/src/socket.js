@@ -37,7 +37,6 @@ const ContextProvider = ({ children }) => {
     }, []);
 
     const startShareScreen = () => {
-
         console.log('shareScreen');
         navigator.mediaDevices.getDisplayMedia({ video: true, audio: false })
             .then((currentStream) => {
@@ -57,7 +56,6 @@ const ContextProvider = ({ children }) => {
                     setShareScreen(true);
                 }
         });
-
     }
 
     const callHospital = (id) => {
@@ -184,15 +182,12 @@ const ContextProvider = ({ children }) => {
             }else{
                 window.alert('cameras already set');
             }
-
     }
 
     const startW = () => {
         setStartWatch(true);
-
         navigator.mediaDevices.getUserMedia({ video: false, audio: true })
             .then((currentStream) => {
-
                 incomingVoice.current.push(currentStream);
             });
     }

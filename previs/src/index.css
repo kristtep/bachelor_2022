@@ -24,7 +24,7 @@ code {
 [data-theme='dark'] {
   --background: #383838;
   --text-primary: white;
-  filter: brightness(50%);
+  filter: brightness(120%);
   --start-button-background: black;
   --stop-button-background: black;
   --toggle-background: black;
