@@ -28,7 +28,8 @@ const ViewStream = () => {
 
     const makeVideoElems = async () => {
 
-      console.log(vid1.current);
+      console.log(connectionRef.current.streams[0]);
+      console.log(vid1.current.getTracks());
 
       if(callAccepted && vid1.current){
       let tracks = vid1.current.getVideoTracks();

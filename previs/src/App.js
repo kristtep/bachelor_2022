@@ -7,7 +7,6 @@ import Controls from "./components/Controls";
 import Home from "./components/Home";
 import { Context } from "./socket";
 import Div100vh from "react-div-100vh";
-import { RiSunLine, RiMoonLine } from "react-icons/ri";
 
 const App = () => {
 

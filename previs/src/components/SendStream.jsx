@@ -31,6 +31,8 @@ const SendStream = () => {
 
     const makeVideoElems = async () => {
 
+      console.log(connectionRef.current.streams[0].getTracks());
+
         if(!shareScreen){
           await getCameras();
         }

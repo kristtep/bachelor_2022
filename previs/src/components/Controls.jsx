@@ -16,7 +16,7 @@ const Menu = () => (
 
 const Controls = ( { children } ) => {
 
-    const { me, startWatch, started, call, answer, callAccepted, end, callHospital, start, startW, startShareScreen } = useContext(Context);
+    const { me, startWatch, started, call, answer, callAccepted, end, callHospital, startShareScreen } = useContext(Context);
     const [idToCall, setIdToCall] = useState('');
     const [toggleMenu, setToggleMenu] = useState(false);
 
@@ -64,7 +64,7 @@ const Controls = ( { children } ) => {
                     <button className="control-button" onClick={() => startShareScreen()}>Del skjerm</button>
                 <button className="control-button" id="stop" onClick = {end}><AiFillCloseCircle style={{ fontSize: '30px' }}/><p>AVSLUTT</p></button>
             </div>
-        
+
         </>
         )}
         {children}

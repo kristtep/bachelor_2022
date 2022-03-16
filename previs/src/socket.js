@@ -46,6 +46,8 @@ const ContextProvider = ({ children }) => {
                     vid1.current.addTrack(currentStream.getVideoTracks()[0]);
                     console.log(currentStream.getVideoTracks());
                     console.log(vid1.current.getTracks());
+
+                    connectionRef.current.addTrack(currentStream.getVideoTracks()[0], vid1.current);
                     setShareScreen(true);
                     streams.current.push(currentStream);
                 }else{
@@ -112,6 +114,7 @@ const ContextProvider = ({ children }) => {
         });
 
         peer.on('track', (track, stream) => {
+            console.log('ontrack');
             if(!vid1.current){
                 vid1.current = stream;
             }else{
