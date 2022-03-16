@@ -13,6 +13,7 @@ video::-webkit-media-controls {
     justify-content: center;
     margin: 0;
     padding: 0;
+    flex-grow: 1;
 }
 
 #vstream video, #stream video {
