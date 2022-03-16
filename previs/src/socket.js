@@ -25,10 +25,7 @@ const ContextProvider = ({ children }) => {
     const incomingVoice = useRef([]);
     const connectionRef = useRef();
 
-
-
     useEffect(() => {
-
         socket.on("id", (id) => setMe(id));
 
         socket.on("callHospital", ({ from, signal }) => {
@@ -61,13 +58,11 @@ const ContextProvider = ({ children }) => {
     }
 
     const callHospital = (id) => {
-
         const peer = new Peer({
             initiator: true,
             trickle: false,
             stream: vid1.current
         });
-
 
         peer.on("signal", (data) => {
             console.log("signal call: " + Date.now()/1000);
@@ -93,7 +88,6 @@ const ContextProvider = ({ children }) => {
     }
 
     const answer = () => {
-
         const peer = new Peer({
             initiator: false,
             trickle: false,
@@ -151,7 +145,7 @@ const ContextProvider = ({ children }) => {
                 });
             });
 
-            await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[0] } }, audio: true })
+            await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[0] }, width: 1920, height: 1080 }, audio: true })
                 .then((currentStream) => {
 
                     streams.current.push(currentStream);
@@ -160,7 +154,7 @@ const ContextProvider = ({ children }) => {
                 });
 
                 if (cameras.length > 1){
-                    await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[1] } }, audio: false })
+                    await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[1] }, width: 1920, height: 1080 }, audio: false })
                         .then((currentStream) => {
 
                             streams.current.push(currentStream);
@@ -171,7 +165,7 @@ const ContextProvider = ({ children }) => {
                     return vid1.current.getTracks();
                 }
                 if (cameras.length > 2){
-                    await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[2] } }, audio: false })
+                    await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[2] }, width: 1920, height: 1080 }, audio: false })
                         .then((currentStream) => {
 
                             streams.current.push(currentStream);
