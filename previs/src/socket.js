@@ -25,12 +25,7 @@ const ContextProvider = ({ children }) => {
     const incomingVoice = useRef([]);
     const connectionRef = useRef();
 
-
-
     useEffect(() => {
-
-
-
         socket.on("id", (id) => setMe(id));
 
         socket.on("callHospital", ({ from, signal }) => {
@@ -60,13 +55,11 @@ const ContextProvider = ({ children }) => {
     }
 
     const callHospital = (id) => {
-
         const peer = new Peer({
             initiator: true,
             trickle: false,
             stream: vid1.current
         });
-
 
         peer.on("signal", (data) => {
             console.log("signal call: " + Date.now()/1000);
@@ -91,7 +84,6 @@ const ContextProvider = ({ children }) => {
     }
 
     const answer = () => {
-
         const peer = new Peer({
             initiator: false,
             trickle: false,
@@ -99,7 +91,6 @@ const ContextProvider = ({ children }) => {
         });
 
         console.log(peer);
-
 
         peer.on("signal", (data) => {
 
