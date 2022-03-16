@@ -3,14 +3,14 @@ import "../styles.css";
 import { Context } from "../socket";
 
 const ViewStream = () => {
-    
-    const { startWatch, vid1, callEnded, callAccepted } = useContext(Context);
+
+    const { startWatch, vid1, callEnded, callAccepted, connectionRef } = useContext(Context);
 
     useEffect(() =>{
       makeVideoElems();
     },[vid1.current, callAccepted]);
 
-    /* const toggleFullscreen = (num) => {
+    const toggleFullscreen = (num) => {
         let elem = document.getElementById(`v${num}`);
         if(elem){
 
@@ -24,7 +24,7 @@ const ViewStream = () => {
             document.exitFullscreen();
           }
         }
-    } */
+    }
 
     const makeVideoElems = async () => {
 
@@ -34,7 +34,7 @@ const ViewStream = () => {
       let tracks = vid1.current.getVideoTracks();
 
       console.log(tracks);
-      
+
       if(tracks){
         console.log(tracks.length);
 
@@ -43,14 +43,11 @@ const ViewStream = () => {
           let elem = document.createElement('video');
           elem.setAttribute('id', i);
           elem.setAttribute('autoPlay', true);
-          //elem.setAttribute('height', '46%');          
-          
+          elem.onclick = () => toggleFullscreen(i);
+
           document.getElementById('vstream').appendChild(elem);
           setSrc(i);
           console.log(i);
-          /* if(i === tracks.length){
-            setSrc();
-          } */
           }
         }
       }
@@ -60,21 +57,21 @@ const ViewStream = () => {
   const setSrc =  (i) => {
 
     const tracks = vid1.current.getVideoTracks();
-    
+
       let src = new MediaStream();
       src.addTrack(tracks[i-1]);
       document.getElementById(`${i}`).srcObject = src;
-    
+
   }
 
     return (
-        <>        
+        <>
             {startWatch && callAccepted && !callEnded && (
                 <div id="vstream"></div>
             )}
-            
+
         </>
-    )     
+    )
 
 };
 
