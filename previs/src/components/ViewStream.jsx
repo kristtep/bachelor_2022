@@ -4,11 +4,11 @@ import { Context } from "../socket";
 
 const ViewStream = () => {
 
-    const { startWatch, vid1, callEnded, callAccepted, connectionRef } = useContext(Context);
+    const { startWatch, vid1, callEnded, callAccepted, shareScreen, connectionRef } = useContext(Context);
 
     useEffect(() =>{
       makeVideoElems();
-    },[vid1.current, callAccepted, connectionRef.current]);
+    },[ callAccepted, shareScreen ]);
 
     const toggleFullscreen = (num) => {
         let elem = document.getElementById(`v${num}`);
@@ -26,10 +26,7 @@ const ViewStream = () => {
         }
     }
 
-    const makeVideoElems = async () => {
-
-      console.log(connectionRef.current.streams[0]);
-      console.log(vid1.current.getTracks());
+    const makeVideoElems = () => {
 
       if(callAccepted && vid1.current){
       let tracks = vid1.current.getVideoTracks();
@@ -42,7 +39,7 @@ const ViewStream = () => {
         for(let i = 1; i < tracks.length + 1; i++){
           if(!document.getElementById(i)){
           let elem = document.createElement('video');
-          elem.setAttribute('id', i);
+          elem.setAttribute('id', `v${i}`);
           elem.setAttribute('autoPlay', true);
           elem.onclick = () => toggleFullscreen(i);
 
@@ -51,6 +48,8 @@ const ViewStream = () => {
           console.log(i);
           }
         }
+      }else{
+        window.alert('no media tracks detected');
       }
     }
   }
@@ -61,7 +60,7 @@ const ViewStream = () => {
 
       let src = new MediaStream();
       src.addTrack(tracks[i-1]);
-      document.getElementById(`${i}`).srcObject = src;
+      document.getElementById(`v${i}`).srcObject = src;
 
   }
 

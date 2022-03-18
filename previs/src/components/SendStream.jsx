@@ -31,11 +31,14 @@ const SendStream = () => {
 
     const makeVideoElems = async () => {
 
-      console.log(connectionRef.current.streams[0].getTracks());
-
         if(!shareScreen){
           await getCameras();
         }
+
+        if(connectionRef.current){
+          console.log(connectionRef.current.streams[0].getTracks());
+        }
+
         let tracks = vid1.current.getVideoTracks();
 
         console.log(tracks);

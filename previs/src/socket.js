@@ -41,9 +41,6 @@ const ContextProvider = ({ children }) => {
                 if(connectionRef.current){
                     console.log('peer connected');
                     vid1.current.addTrack(currentStream.getVideoTracks()[0]);
-                    console.log(currentStream.getVideoTracks());
-                    console.log(vid1.current.getTracks());
-
                     connectionRef.current.addTrack(currentStream.getVideoTracks()[0], vid1.current);
                     setShareScreen(true);
                     streams.current.push(currentStream);
@@ -63,6 +60,11 @@ const ContextProvider = ({ children }) => {
             trickle: false,
             stream: vid1.current
         });
+        
+        peer.on('onaddtrack', async (track) => {
+            console.log('ontrack');
+            console.log(track);  
+        });
 
         peer.on("signal", (data) => {
             console.log("signal call: " + Date.now()/1000);
@@ -74,7 +76,6 @@ const ContextProvider = ({ children }) => {
 
             incomingVoice.current.srcObject = stream;
         });
-
 
         socket.on("callAccepted", (signal) => {
 
@@ -93,30 +94,32 @@ const ContextProvider = ({ children }) => {
             trickle: false,
             streams: incomingVoice.current
         });
-
-        peer.on("signal", (data) => {
-
-            console.log("signal answer: " + Date.now()/1000);
-            socket.emit("answer", { signal: data, to: call.from });
-        });
-
-        peer.on('stream', (streams) => {
-            console.log("stream answer: " + Date.now()/1000);
-            vid1.current = streams;
-            setCallAccepted(true);
-
-        });
-
+        
         peer.on('track', (track, stream) => {
             console.log('ontrack');
+            console.log(stream);
+            console.log(track);
             if(!vid1.current){
                 vid1.current = stream;
+                vid1.current.addTrack(track);
+                setCallAccepted(true);
             }else{
                 vid1.current.addTrack(track);
             }
-            console.log(track);
-            console.log(stream);
         });
+
+        peer.on("signal", (data) => {
+            console.log("signal answer: " + Date.now()/1000);
+            socket.emit("answer", { signal: data, to: call.from });      
+        });
+
+        /* peer.on('stream', (streams) => {
+            console.log("stream answer: " + Date.now()/1000);
+            vid1.current = streams;
+            setCallAccepted(true);   
+        }); */
+
+        
 
         console.log("incoming signal: " + Date.now()/1000);
 
@@ -128,7 +131,9 @@ const ContextProvider = ({ children }) => {
     const end = () => {
         setCallEnded(true);
 
-        connectionRef.current.destroy();
+        if(connectionRef.current){
+            connectionRef.current.destroy();
+        }
 
         window.location.reload();
     }
