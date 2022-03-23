@@ -17,8 +17,6 @@ const ContextProvider = ({ children }) => {
     const [callAccepted, setCallAccepted] = useState(false);
     const [callEnded, setCallEnded] = useState(false);
 
-    let latency = useState(0);
-
     const streams = useRef([]);
     const cameras = [];
     const vid1 = useRef();
@@ -76,6 +74,7 @@ const ContextProvider = ({ children }) => {
 
             incomingVoice.current.srcObject = stream;
         });
+
 
         socket.on("callAccepted", (signal) => {
 
