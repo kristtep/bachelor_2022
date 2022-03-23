@@ -29,8 +29,9 @@ const Controls = ( { children } ) => {
 
         {!started && (
             <>
-
-            <p>your id: {me}</p>
+            <div id="watchid">
+                <p>your id: {me}</p>
+            </div>
 
         {callAccepted && (
                 <button className="control-button" id="stop" onClick = {end}>Avslutt</button>

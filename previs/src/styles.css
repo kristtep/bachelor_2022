@@ -43,8 +43,17 @@ p {
 #controls {
     display: flex;
     height: 8%;
-    flex-flow: column nowrap;
+    flex-flow: row nowrap;
+    justify-content: space-between;
     align-items: center;
+    padding: 0 1%;
+}
+
+#watchid {
+  background-color: #212121;
+  padding: 1%;
+  border-radius: 10px;
+  font-size: 20px;
 }
 
 #start-button {
