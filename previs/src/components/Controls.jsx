@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import "../styles.css";
 import { Context } from "../socket";
 import { AiFillCloseCircle, AiFillPhone } from "react-icons/ai";
-import { RiMenu3Line, RiCloseLine } from 'react-icons/ri';
+import { RiMenuLine, RiCloseLine } from 'react-icons/ri';
 
 
 const Menu = () => (
@@ -55,13 +55,12 @@ const Controls = ( { children } ) => {
         ) : (
             <div id="topbar-ambulance">
                     <div id="call-input">
-                        
                         <div id='start-button'>
                         <button className='control-button' onClick={() => callHospital(idToCall)}><p>RING</p><AiFillPhone style={{ fontSize: '30px', color: '#fff'}}/></button>
                         <div className='dropdown-menu'>
                     {toggleMenu 
                         ? <RiCloseLine color="fff" size={27} onClick={() => setToggleMenu(false)} />
-                        : <RiMenu3Line color="fff" size={27} onClick={() => setToggleMenu(true)} />}
+                        : <RiMenuLine color="fff" size={27} onClick={() => setToggleMenu(true)} />}
                     {toggleMenu && (
                         <div className='dropdown-menu_container scale-up-center'>
                         <div className="dropdown-menu_container-links">
