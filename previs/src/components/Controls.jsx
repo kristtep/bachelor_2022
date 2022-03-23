@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import "../styles.css";
 import { Context } from "../socket";
-import { AiFillCloseCircle, AiFillPhone } from "react-icons/ai";
 import { RiMenuLine, RiCloseLine } from 'react-icons/ri';
 
 
