@@ -8,7 +8,7 @@ const socket = io("https://bachelor-2022.herokuapp.com/");
 //http://localhost:5000/
 
 const ContextProvider = ({ children }) => {
-    
+
     const [startWatch, setStartWatch] = useState(false);
     const [started, setStarted] = useState(false);
     const [shareScreen, setShareScreen] = useState(false);
@@ -18,15 +18,14 @@ const ContextProvider = ({ children }) => {
     const [callEnded, setCallEnded] = useState(false);
 
     let latency = useState(0);
-    
+
     const streams = useRef([]);
     const cameras = [];
     const vid1 = useRef();
     const incomingVoice = useRef([]);
-    const connectionRef = useRef();      
-    
+    const connectionRef = useRef();
+
     useEffect(() => {
-        
         socket.on("id", (id) => setMe(id));
 
         socket.on("callHospital", ({ from, signal }) => {
@@ -35,15 +34,15 @@ const ContextProvider = ({ children }) => {
     }, []);
 
     const startShareScreen = () => {
-        
-
         console.log('shareScreen');
         navigator.mediaDevices.getDisplayMedia({ video: true, audio: false })
             .then((currentStream) => {
                 console.log(connectionRef.current);
                 if(connectionRef.current){
+                    console.log('peer connected');
+                    vid1.current.addTrack(currentStream.getVideoTracks()[0]);
                     connectionRef.current.addTrack(currentStream.getVideoTracks()[0], vid1.current);
-                    console.log(currentStream.getVideoTracks());
+                    setShareScreen(true);
                     streams.current.push(currentStream);
                 }else{
                     console.log('else');
@@ -53,16 +52,18 @@ const ContextProvider = ({ children }) => {
                     setShareScreen(true);
                 }
         });
-          
     }
 
     const callHospital = (id) => {
-
-        const peer = new Peer({ 
+        const peer = new Peer({
             initiator: true,
-            channelConfig: latency, 
-            trickle: false, 
+            trickle: false,
             stream: vid1.current
+        });
+        
+        peer.on('onaddtrack', async (track) => {
+            console.log('ontrack');
+            console.log(track);  
         });
 
         peer.on("signal", (data) => {
@@ -73,11 +74,11 @@ const ContextProvider = ({ children }) => {
         peer.on('stream', (stream) => {
             console.log("stream call: " + Date.now()/1000);
 
-            incomingVoice.current.srcObject = stream;            
+            incomingVoice.current.srcObject = stream;
         });
 
         socket.on("callAccepted", (signal) => {
-            
+
             console.log("call accepted from call: " + Date.now()/1000);
             setCallAccepted(true);
 
@@ -88,25 +89,38 @@ const ContextProvider = ({ children }) => {
     }
 
     const answer = () => {
-        setCallAccepted(true);
-        const peer = new Peer({ 
-            initiator: false, 
-            trickle: false, 
-            streams: incomingVoice.current 
+        const peer = new Peer({
+            initiator: false,
+            trickle: false,
+            streams: incomingVoice.current
+        });
+        
+        peer.on('track', (track, stream) => {
+            console.log('ontrack');
+            console.log(stream);
+            console.log(track);
+            if(!vid1.current){
+                vid1.current = stream;
+                vid1.current.addTrack(track);
+                setCallAccepted(true);
+            }else{
+                vid1.current.addTrack(track);
+            }
         });
 
         peer.on("signal", (data) => {
-
             console.log("signal answer: " + Date.now()/1000);
-            socket.emit("answer", { signal: data, to: call.from });
+            socket.emit("answer", { signal: data, to: call.from });      
         });
 
-        peer.on('stream', (streams) => {
+        /* peer.on('stream', (streams) => {
             console.log("stream answer: " + Date.now()/1000);
             vid1.current = streams;
-                
-        });
+            setCallAccepted(true);   
+        }); */
+
         
+
         console.log("incoming signal: " + Date.now()/1000);
 
         peer.signal(call.signal);
@@ -117,16 +131,14 @@ const ContextProvider = ({ children }) => {
     const end = () => {
         setCallEnded(true);
 
-        connectionRef.current.destroy();
+        if(connectionRef.current){
+            connectionRef.current.destroy();
+        }
 
         window.location.reload();
     }
 
     const getCameras = async () => {
-
-        
-
-        console.log('getcameras');
 
         if (cameras.length === 0){
             await navigator.mediaDevices.enumerateDevices()
@@ -134,47 +146,37 @@ const ContextProvider = ({ children }) => {
                 devices.forEach((device) => {
                     if(device.kind === "videoinput"){
                         cameras.push(device.deviceId);
-                        console.log(cameras);
                     };
                 });
             });
-            
-            await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[0] } }, audio: true })
+
+            await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[0] }, width: 1920, height: 1080 }, audio: true })
                 .then((currentStream) => {
 
                     streams.current.push(currentStream);
-                    
+
                     vid1.current = currentStream;
                 });
-            
+
                 if (cameras.length > 1){
-                    await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[1] } }, audio: false })
+                    await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[1] }, width: 1920, height: 1080 }, audio: false })
                         .then((currentStream) => {
 
                             streams.current.push(currentStream);
 
-                            console.log(vid1);
-
                             vid1.current.addTrack(currentStream.getVideoTracks()[0]);
-
-                            //vid2.current.srcObject = currentStream;
                         });
                 }else{
                     return vid1.current.getTracks();
                 }
                 if (cameras.length > 2){
-                    await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[2] } }, audio: false })
+                    await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[2] }, width: 1920, height: 1080 }, audio: false })
                         .then((currentStream) => {
 
                             streams.current.push(currentStream);
-                            
+
                             vid1.current.addTrack(currentStream.getVideoTracks()[0]);
 
-                            console.log(vid1.current.getTracks());
-
-                            //track(1);
-                            //vid3.current.srcObject = currentStream;
-                            
                         });
                 }else{
                     return vid1.current.getTracks();
@@ -182,17 +184,14 @@ const ContextProvider = ({ children }) => {
             }else{
                 window.alert('cameras already set');
             }
-
     }
 
     const startW = () => {
         setStartWatch(true);
-        
         navigator.mediaDevices.getUserMedia({ video: false, audio: true })
             .then((currentStream) => {
-
                 incomingVoice.current.push(currentStream);
-            });  
+            });
     }
 
     const start = () => {
@@ -212,6 +211,7 @@ const ContextProvider = ({ children }) => {
             streams,
             vid1,
             shareScreen,
+            connectionRef,
             callHospital,
             answer,
             end,

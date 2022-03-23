@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import "../styles.css";
 import { Context } from "../socket";
 
 
 
 const SendStream = () => {
-    
-    const { shareScreen, vid1, callAccepted, callEnded, incomingVoice, getCameras } = useContext(Context);
+
+    const { shareScreen, vid1, callAccepted, callEnded, incomingVoice, getCameras, connectionRef } = useContext(Context);
 
 
     useEffect(() => {
@@ -34,10 +34,15 @@ const SendStream = () => {
         if(!shareScreen){
           await getCameras();
         }
+
+        if(connectionRef.current){
+          console.log(connectionRef.current.streams[0].getTracks());
+        }
+
         let tracks = vid1.current.getVideoTracks();
 
         console.log(tracks);
-        
+
         if(tracks){
           console.log(tracks.length);
 
@@ -46,38 +51,33 @@ const SendStream = () => {
             let elem = document.createElement('video');
             elem.setAttribute('id', i);
             elem.setAttribute('autoPlay', true);
-            //elem.setAttribute('height', '46%');          
-            
+            elem.onclick = () => toggleFullscreen(i);
+
             document.getElementById('stream').appendChild(elem);
             setSrc(i);
-            console.log(i);
-            /* if(i === tracks.length){
-              setSrc();
-            } */
             }
           }
         }
-      
-     
 
-      
-    } 
+
+
+
+    }
 
     const setSrc =  (i) => {
 
       const tracks = vid1.current.getVideoTracks();
-      
+
         let src = new MediaStream();
         src.addTrack(tracks[i-1]);
         document.getElementById(`${i}`).srcObject = src;
-      
+
     }
 
-    
+
     return (
         <>
         <div id="stream"></div>
-        
 
         {callAccepted && !callEnded && (
           <div>

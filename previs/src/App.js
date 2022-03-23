@@ -4,44 +4,34 @@ import './App.css';
 import SendStream from "./components/SendStream";
 import ViewStream from "./components/ViewStream";
 import Controls from "./components/Controls";
+import Home from "./components/Home";
 import { Context } from "./socket";
 import Div100vh from "react-div-100vh";
-import useLocalStorage from 'use-local-storage';
-import { RiSunLine, RiMoonLine } from "react-icons/ri";
 
 const App = () => {
 
   const { started, startWatch } = useContext(Context);
-  const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const [theme, setTheme] = useLocalStorage('theme', defaultDark ? 'dark' : 'light');
-
-  const switchTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-  }
 
   return (
     <Div100vh>
-      <div className="App" data-theme={theme}>
-          <Controls>
-          <div className="theme-switch-wrapper">
-        <label className="theme-switch" htmlFor="checkbox">
-          
-        <input type="checkbox" id="checkbox" onClick={switchTheme}/>
-        <div className="slider round">
-          {theme === 'dark' ? (
-          <RiSunLine id="sun" size={40} />) : 
-          (<RiMoonLine id="moon" size={40}/>)}
-          </div>
-        </label>
-        </div>
-          </Controls>
-          
+      <div className="App">
+          {!started && !startWatch && (
+            <Home />
+          )}
+
+
           {started && (
+            <>
+            <Controls />
             <SendStream />
+            </>
           )}
           {startWatch && (
+            <>
+            <Controls />
             <ViewStream />
+            </>
+
           )}
       </div>
     </Div100vh>

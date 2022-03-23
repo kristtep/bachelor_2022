@@ -15,8 +15,8 @@ const Menu = () => (
   )
 
 const Controls = ( { children } ) => {
-    
-    const { me, startWatch, started, call, answer, callAccepted, end, callHospital, start, startW, startShareScreen } = useContext(Context);
+
+    const { me, startWatch, started, call, answer, callAccepted, end, callHospital, startShareScreen } = useContext(Context);
     const [idToCall, setIdToCall] = useState('');
     const [toggleMenu, setToggleMenu] = useState(false);
 
@@ -26,39 +26,28 @@ const Controls = ( { children } ) => {
             <button className="control-button" onClick = {answer}>Svar</button>
         )}
 
-            
+
         {!started && (
             <>
-        {!startWatch ? (
-            <div id="hospital">
-            <p>Lat som du er på sykehuset</p>
-            <button id="watch" onClick = {startW}>Watch</button>
-            </div>
-        ) : (
+
             <p>your id: {me}</p>
-        )}
 
         {callAccepted && (
                 <button className="control-button" id="stop" onClick = {end}>Avslutt</button>
         )}
-            
+
         </>
         )}
 
         {!startWatch && (
             <>
-        {!started ? (
-            <div id="ambulance">
-            <p>Lat som at du er i en ambulanse, og DET ER BLOD OVERALT</p>
-            <button id="startstream"onClick = {start}>START</button> 
-            </div>
-        ) : (
+
             <div id="topbar-ambulance">
                     <div id="call-input">
                         <div id='start-button'>
                         <button className='control-button' onClick={() => callHospital(idToCall)}><p>RING</p><AiFillPhone style={{ fontSize: '30px', color: '#fff'}}/></button>
                         <div className='dropdown-menu'>
-                    {toggleMenu 
+                    {toggleMenu
                         ? <RiCloseLine color="fff" size={27} onClick={() => setToggleMenu(false)} />
                         : <RiMenuLine color="fff" size={27} onClick={() => setToggleMenu(true)} />}
                     {toggleMenu && (
@@ -74,13 +63,12 @@ const Controls = ( { children } ) => {
                     <button className="control-button" onClick={() => startShareScreen()}>Del skjerm</button>
                 <button className="control-button" id="stop" onClick = {end}><AiFillCloseCircle style={{ fontSize: '30px' }}/><p>AVSLUTT</p></button>
             </div>
-        )}
+
         </>
         )}
         {children}
         </div>
-    )     
-
+    )
 };
 
 export default Controls;
