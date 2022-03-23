@@ -3,6 +3,7 @@ const server = require("http").createServer(app);
 const cors = require("cors");
 
 const io = require("socket.io")(server, {
+    pingInterval: 5000,
     cors: {
         origin: "*",
         methods: ["GET", "POST"]
