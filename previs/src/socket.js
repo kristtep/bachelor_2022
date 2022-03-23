@@ -223,7 +223,6 @@ const ContextProvider = ({ children }) => {
             { children }
         </Context.Provider>
     );
-
 };
 
 export { ContextProvider, Context };
