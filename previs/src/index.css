@@ -13,7 +13,7 @@ code {
 }
 
 :root {
-  --background: #11406A;
+  --background: #212121;
   --text-primary: white;
   --start-button-background: #16C29D;
   --stop-button-background: #F22727;
@@ -21,12 +21,4 @@ code {
   --toggle-color: black;
    filter: brightness(1);
 }
-[data-theme='dark'] {
-  --background: #383838;
-  --text-primary: white;
-  filter: brightness(120%);
-  --start-button-background: black;
-  --stop-button-background: black;
-  --toggle-background: black;
-  --toggle-color: white;
-}
+

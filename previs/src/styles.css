@@ -100,8 +100,7 @@ p {
     flex-flow: row nowrap;
     align-items: center;
     justify-content: center;
-    height: 50px;
-    width: 200px;
+    padding: 1%;
 }
 
 #switch {

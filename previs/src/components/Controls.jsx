@@ -34,7 +34,7 @@ const Controls = ( { children } ) => {
             </div>
 
         {callAccepted && (
-                <button className="control-button" id="stop" onClick = {end}>Avslutt</button>
+                <button className="control-button" id="stop" onClick = {end}>AVSLUTT</button>
         )}
 
         </>
