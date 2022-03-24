@@ -94,8 +94,21 @@ input {
   
   border-radius: 10px;
   background-color: #F5751B;
-  padding: 1%;
+  justify-content: center;
+  height: 50px;
+  width: 350px; 
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+
 }
 
+.hodetelefoner {
+  color: #fff;
+  padding: 2%;
+  font-size: 30px;
+}
 
 
