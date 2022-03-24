@@ -4,7 +4,7 @@ import { Context } from "../socket";
 
 const SendStream = () => {
 
-    const { shareScreen, vid1, callAccepted, callEnded, incoming, getCameras } = useContext(Context);
+    const { shareScreen, startShareScreen, vid1, callAccepted, callEnded, incoming, getCameras } = useContext(Context);
 
     useEffect(() => {
       makeVideoElems();
@@ -71,9 +71,16 @@ const SendStream = () => {
           <div id="mirror">
             <video ref={incoming} autoPlay />
           </div>
+
+        /* <div id="stream"><div id="buttons">
+        <button id="ultrasound" onClick={() => startShareScreen()}>ULTRALYD</button>
+        <button id="thermal" onClick={() => startShareScreen()}>TERMISK</button>
+        </div> */
+        
         ) : (
           <div id="stream"></div>
         )}
+        
         </>
     )
 

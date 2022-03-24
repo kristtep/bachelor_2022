@@ -8,7 +8,7 @@ video::-webkit-media-controls {
 #stream, #vstream {
     display: flex;
     width: 100%;
-    height: 92%;
+    max-height: 92%;
     flex-flow: row wrap;
     justify-content: center;
     margin: 0;
@@ -30,14 +30,16 @@ video::-webkit-media-controls {
 
 #vstream video, #stream video {
   object-fit: contain;
-  max-width: 49%;
-  max-height: 49%;
+  width: 50%;
+  height: 50%;
+  
 }
 
 .videos {
     display: block;
     width: 50%;
     align-content: center;
+    
 }
 
 #topbar-ambulance {
