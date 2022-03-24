@@ -4,7 +4,7 @@ import { Context } from "../socket";
 
 const ViewStream = () => {
 
-    const { startWatch, vid1, callEnded, callAccepted, shareScreen, connectionRef } = useContext(Context);
+    const { startWatch, vid1, callEnded, callAccepted, shareScreen } = useContext(Context);
 
     useEffect(() =>{
       makeVideoElems();
@@ -61,7 +61,6 @@ const ViewStream = () => {
       let src = new MediaStream();
       src.addTrack(tracks[i-1]);
       document.getElementById(`v${i}`).srcObject = src;
-
   }
 
     return (
@@ -69,10 +68,8 @@ const ViewStream = () => {
             {startWatch && callAccepted && !callEnded && (
                 <div id="vstream"></div>
             )}
-
         </>
     )
-
 };
 
 export default ViewStream;
