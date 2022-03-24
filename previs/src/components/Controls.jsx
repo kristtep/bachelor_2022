@@ -1,8 +1,7 @@
 import React, { useContext, useState } from "react";
 import "../styles.css";
 import { Context } from "../socket";
-import { AiFillCloseCircle, AiFillPhone } from "react-icons/ai";
-import { RiMenu3Line, RiCloseLine } from 'react-icons/ri';
+import { RiMenuLine, RiCloseLine } from 'react-icons/ri';
 
 
 const Menu = () => (
@@ -29,8 +28,9 @@ const Controls = ( { children } ) => {
 
         {!started && (
             <>
-
-            <p>your id: {me}</p>
+            <div id="watchid">
+                <p>your id: {me}</p>
+            </div>
 
         {callAccepted && (
                 <button className="control-button" id="stop" onClick = {end}>Avslutt</button>
@@ -44,13 +44,12 @@ const Controls = ( { children } ) => {
 
             <div id="topbar-ambulance">
                     <div id="call-input">
-
                         <div id='start-button'>
-                        <button className='control-button' onClick={() => callHospital(idToCall)}><p>RING</p><AiFillPhone style={{ fontSize: '30px', color: '#fff'}}/></button>
+                        <button className='control-button' onClick={() => callHospital(idToCall)}><p>RING</p></button>
                         <div className='dropdown-menu'>
                     {toggleMenu
-                        ? <RiCloseLine color="fff" size={27} onClick={() => setToggleMenu(false)} />
-                        : <RiMenu3Line color="fff" size={27} onClick={() => setToggleMenu(true)} />}
+                        ? <RiCloseLine color="fff" size={35} onClick={() => setToggleMenu(false)} />
+                        : <RiMenuLine color="fff" size={30} onClick={() => setToggleMenu(true)} />}
                     {toggleMenu && (
                         <div className='dropdown-menu_container scale-up-center'>
                         <div className="dropdown-menu_container-links">
@@ -59,10 +58,10 @@ const Controls = ( { children } ) => {
                     </div>
           )}        </div>
                     </div>
-                    <input type = "text" placeholder = "Enter id to call" value = {idToCall} onChange={(e) => setIdToCall(e.target.value)}/>
+                    <input type = "text" placeholder = "Enter id to call.." value = {idToCall} onChange={(e) => setIdToCall(e.target.value)}/>
                     </div>
                     <button className="control-button" onClick={() => startShareScreen()}>Del skjerm</button>
-                <button className="control-button" id="stop" onClick = {end}><AiFillCloseCircle style={{ fontSize: '30px' }}/><p>AVSLUTT</p></button>
+                <button className="control-button" id="stop" onClick = {end}><p>AVSLUTT</p></button>
             </div>
 
         </>
