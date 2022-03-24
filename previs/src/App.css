@@ -110,6 +110,18 @@ input {
 
 #buttons button {
   min-height: 50%;
+  background-color: var(--start-button-background);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  font-size: 28px;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 200px;
 }
 
 /**
@@ -161,7 +173,7 @@ input {
     height: 50px;
     width: 200px;
     -webkit-animation: pulsate-bck 0.5s ease-in-out infinite both;
-	        animation: pulsate-bck 0.5s ease-in-out infinite both;
+	  animation: pulsate-bck 0.5s ease-in-out infinite both;
 }
 
 
