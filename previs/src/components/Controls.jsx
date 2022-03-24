@@ -53,7 +53,7 @@ const Controls = ( { children } ) => {
             {callAccepted ? (
                 <>
                 <div id="callerid">
-                <p>Caller ID: </p>
+                <p>Streaming to: </p>
                 <p>{idToCall}</p>
                 </div>
                 <button className="control-button" id="stop" onClick = {end}><p>AVSLUTT</p></button>
