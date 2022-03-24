@@ -61,7 +61,6 @@ const ViewStream = () => {
       let src = new MediaStream();
       src.addTrack(tracks[i-1]);
       document.getElementById(`v${i}`).srcObject = src;
-
   }
 
     return (
@@ -69,10 +68,8 @@ const ViewStream = () => {
             {startWatch && callAccepted && !callEnded && (
                 <div id="vstream"></div>
             )}
-
         </>
     )
-
 };
 
 export default ViewStream;

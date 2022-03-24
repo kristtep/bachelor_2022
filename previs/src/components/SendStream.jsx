@@ -2,12 +2,9 @@ import React, { useContext, useEffect } from "react";
 import "../styles.css";
 import { Context } from "../socket";
 
-
-
 const SendStream = () => {
 
     const { shareScreen, vid1, callAccepted, callEnded, incomingVoice, getCameras, connectionRef } = useContext(Context);
-
 
     useEffect(() => {
       makeVideoElems();
@@ -58,13 +55,9 @@ const SendStream = () => {
             }
           }
         }
-
-
-
-
     }
 
-    const setSrc =  (i) => {
+    const setSrc = (i) => {
 
       const tracks = vid1.current.getVideoTracks();
 
@@ -73,7 +66,6 @@ const SendStream = () => {
         document.getElementById(`${i}`).srcObject = src;
 
     }
-
 
     return (
         <>
