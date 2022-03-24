@@ -22,7 +22,7 @@ const Controls = ( { children } ) => {
     return (
         <div id="controls" >
         {call.incomingCall && !callAccepted && (
-            <button className="control-button" onClick = {answer}>Svar</button>
+            <button className="answer-button" onClick = {answer}>Svar</button>
         )}
 
 
