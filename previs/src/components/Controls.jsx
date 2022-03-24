@@ -22,7 +22,7 @@ const Controls = ( { children } ) => {
     return (
         <div id="controls" >
         {call.incomingCall && !callAccepted && (
-            <button className="control-button" onClick = {answer}>SVAR</button>
+            <button className="answer-button" onClick = {answer}>Svar</button>
         )}
 
 
@@ -55,7 +55,7 @@ const Controls = ( { children } ) => {
             {callAccepted ? (
                 <>
                 <div id="callerid">
-                <p>Caller ID: </p>
+                <p>Streaming to: </p>
                 <p>{idToCall}</p>
                 </div>
                 <button className="control-button" id="stop" onClick = {end}><p>AVSLUTT</p></button>
