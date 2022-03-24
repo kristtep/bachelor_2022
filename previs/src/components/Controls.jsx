@@ -41,8 +41,10 @@ const Controls = ( { children } ) => {
         ): (
         
             <div id="watchid">
-                <p>your id: {me}</p>
+                <p>Your ID:</p>
+                <p>{me}</p>
             </div>
+          
 
         )}
             </>
@@ -75,7 +77,7 @@ const Controls = ( { children } ) => {
                     </div>
           )}        </div>
                     </div>
-                    <input type = "text" placeholder = "Enter id to call.." value = {idToCall} onChange={(e) => setIdToCall(e.target.value)}/>
+                    <input type = "text" placeholder = "Skriv inn id for samtale" value = {idToCall} onChange={(e) => setIdToCall(e.target.value)}/>
                     </div>
                     <button className="control-button" onClick={() => startShareScreen()}>Del skjerm</button>
                 <button className="control-button" id="stop" onClick = {end}><p>AVSLUTT</p></button>

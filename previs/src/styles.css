@@ -103,3 +103,15 @@ p {
     height: 50px;
     width: 200px;
 }
+
+
+#watchid {
+    background-color: #F5751B;
+    border-radius: 10px;
+    height: 20px;
+    width: 350px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+  }
