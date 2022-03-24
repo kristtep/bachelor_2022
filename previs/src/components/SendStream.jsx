@@ -4,7 +4,7 @@ import { Context } from "../socket";
 
 const SendStream = () => {
 
-    const { shareScreen, vid1, callAccepted, callEnded, incomingVoice, getCameras, connectionRef } = useContext(Context);
+    const { shareScreen, vid1, callAccepted, callEnded, incomingVoice, getCameras } = useContext(Context);
 
     useEffect(() => {
       makeVideoElems();
@@ -32,9 +32,6 @@ const SendStream = () => {
           await getCameras();
         }
 
-        if(connectionRef.current){
-          console.log(connectionRef.current.streams[0].getTracks());
-        }
 
         let tracks = vid1.current.getVideoTracks();
 
