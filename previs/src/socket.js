@@ -70,6 +70,8 @@ const ContextProvider = ({ children }) => {
         peer.on("signal", (data) => {
             console.log("signal call: " + Date.now()/1000);
             socket.emit("callHospital", { hospitalId: id, signalData: data, from: me });
+
+            console.log(id);
         });
 
         peer.on('stream', (stream) => {
@@ -81,7 +83,7 @@ const ContextProvider = ({ children }) => {
 
         socket.on("callAccepted", (signal) => {
 
-            console.log("call accepted from call: " + Date.now()/1000);
+            console.log("callaccepted from call: " + Date.now()/1000);
             setCallAccepted(true);
             console.log(call);
             peer.signal(signal);

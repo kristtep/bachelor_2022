@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import "../styles.css";
 import { Context } from "../socket";
-import { RiMenuLine, RiCloseLine } from 'react-icons/ri';
+import { RiMenuLine, RiCloseLine, RiCustomerService2Fill } from 'react-icons/ri';
 
 
 const Menu = () => (
@@ -33,9 +33,9 @@ const Controls = ( { children } ) => {
                 <>
                 <div id="callerid">
                 <p>Caller ID: </p>
-                <p>{call.from}</p>
+                <p>{call.from}</p><RiCustomerService2Fill className="hodetelefoner"/>
                 </div>
-                <button className="control-button" id="stop" onClick = {end}>Avslutt</button>
+                <button className="control-button" id="stop" onClick = {end}>AVSLUTT</button>
             
             </>
         ): (
@@ -53,7 +53,7 @@ const Controls = ( { children } ) => {
             {callAccepted ? (
                 <>
                 <div id="callerid">
-                <p>Caller ID: </p>
+                <p>Streaming to: </p>
                 <p>{idToCall}</p>
                 </div>
                 <button className="control-button" id="stop" onClick = {end}><p>AVSLUTT</p></button>
