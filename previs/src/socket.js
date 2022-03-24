@@ -17,8 +17,6 @@ const ContextProvider = ({ children }) => {
     const [callAccepted, setCallAccepted] = useState(false);
     const [callEnded, setCallEnded] = useState(false);
 
-    let latency = useState(0);
-
     const streams = useRef([]);
     const cameras = [];
     const vid1 = useRef();
@@ -60,10 +58,10 @@ const ContextProvider = ({ children }) => {
             trickle: false,
             stream: vid1.current
         });
-        
+
         peer.on('onaddtrack', async (track) => {
             console.log('ontrack');
-            console.log(track);  
+            console.log(track);
         });
 
         peer.on("signal", (data) => {
@@ -76,6 +74,7 @@ const ContextProvider = ({ children }) => {
 
             incomingVoice.current.srcObject = stream;
         });
+
 
         socket.on("callAccepted", (signal) => {
 
@@ -94,7 +93,7 @@ const ContextProvider = ({ children }) => {
             trickle: false,
             streams: incomingVoice.current
         });
-        
+
         peer.on('track', (track, stream) => {
             console.log('ontrack');
             console.log(stream);
@@ -110,17 +109,9 @@ const ContextProvider = ({ children }) => {
 
         peer.on("signal", (data) => {
             console.log("signal answer: " + Date.now()/1000);
-            socket.emit("answer", { signal: data, to: call.from });      
+            socket.emit("answer", { signal: data, to: call.from });
         });
-
-        /* peer.on('stream', (streams) => {
-            console.log("stream answer: " + Date.now()/1000);
-            vid1.current = streams;
-            setCallAccepted(true);   
-        }); */
-
         
-
         console.log("incoming signal: " + Date.now()/1000);
 
         peer.signal(call.signal);
@@ -223,7 +214,6 @@ const ContextProvider = ({ children }) => {
             { children }
         </Context.Provider>
     );
-
 };
 
 export { ContextProvider, Context };
