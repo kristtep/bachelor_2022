@@ -26,13 +26,16 @@ const ContextProvider = ({ children }) => {
     useEffect(() => {
         socket.on("id", (id) => setMe(id));
 
+
         socket.on("callHospital", ({ from, signal }) => {
             setCall({ incomingCall: true, from, signal });
         });
+        
     }, []);
 
     const startShareScreen = () => {
         console.log('shareScreen');
+        
         navigator.mediaDevices.getDisplayMedia({ video: true, audio: false })
             .then((currentStream) => {
                 console.log(connectionRef.current);
@@ -82,7 +85,7 @@ const ContextProvider = ({ children }) => {
 
             console.log("callaccepted from call: " + Date.now()/1000);
             setCallAccepted(true);
-
+            console.log(call);
             peer.signal(signal);
         });
 
@@ -100,6 +103,7 @@ const ContextProvider = ({ children }) => {
             console.log('ontrack');
             console.log(stream);
             console.log(track);
+            console.log(call.from);
             if(!vid1.current){
                 vid1.current = stream;
                 vid1.current.addTrack(track);

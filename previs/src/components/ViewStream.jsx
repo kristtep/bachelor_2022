@@ -4,7 +4,7 @@ import { Context } from "../socket";
 
 const ViewStream = () => {
 
-    const { startWatch, vid1, callEnded, callAccepted, shareScreen } = useContext(Context);
+    const { startWatch, vid1, call, callEnded, callAccepted, shareScreen } = useContext(Context);
 
     useEffect(() =>{
       makeVideoElems();
@@ -66,7 +66,10 @@ const ViewStream = () => {
     return (
         <>
             {startWatch && callAccepted && !callEnded && (
+              <>
+              
                 <div id="vstream"></div>
+                </>
             )}
         </>
     )
