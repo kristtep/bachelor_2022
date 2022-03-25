@@ -94,9 +94,20 @@ input {
   text-align: center;
   border-radius: 10px;
   background-color: #F5751B;
-  height: 50px;
-  width: 200px;
+  height: 50px; 
+  width: 320px;
+  display: flex;
+  flex-flow: row nowrap;
+ align-items: center;
+ justify-content: center;
 }
+
+.hodetelefoner {
+  font-size: 25px;
+  padding: 1%;
+}
+
+
 
 #buttons {
   background-color: #212121;

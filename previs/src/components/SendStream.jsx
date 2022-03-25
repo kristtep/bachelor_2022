@@ -4,11 +4,11 @@ import { Context } from "../socket";
 
 const SendStream = () => {
 
-    const { shareScreen, startShareScreen, vid1, callAccepted, callEnded, incomingVoice, getCameras } = useContext(Context);
+    const { shareScreen, startShareScreen, vid1, callAccepted, callEnded, incoming, getCameras } = useContext(Context);
 
     useEffect(() => {
       makeVideoElems();
-    }, [shareScreen]);
+    }, [shareScreen, callAccepted]);
 
     const toggleFullscreen = (num) => {
         let elem = document.getElementById(`${num}`);
@@ -32,7 +32,6 @@ const SendStream = () => {
           await getCameras();
         }
 
-
         let tracks = vid1.current.getVideoTracks();
 
         console.log(tracks);
@@ -49,33 +48,37 @@ const SendStream = () => {
 
             document.getElementById('stream').appendChild(elem);
             setSrc(i);
+            }else{
+              let del = document.getElementById(i);
+              del.remove();
             }
           }
         }
+      
     }
 
     const setSrc = (i) => {
 
       const tracks = vid1.current.getVideoTracks();
-
-        let src = new MediaStream();
-        src.addTrack(tracks[i-1]);
-        document.getElementById(`${i}`).srcObject = src;
-
+      let src = new MediaStream();
+      src.addTrack(tracks[i-1]);
+      document.getElementById(`${i}`).srcObject = src;
     }
 
     return (
         <>
-        <div id="stream"><div id="buttons">
+        {callAccepted && !callEnded ? (
+          <div id="mirror">
+            <video ref={incoming} autoPlay />
+          </div>
+
+        /* <div id="stream"><div id="buttons">
         <button id="ultrasound" onClick={() => startShareScreen()}>ULTRALYD</button>
         <button id="thermal" onClick={() => startShareScreen()}>TERMISK</button>
-        </div>
-        </div>
-
-        {callAccepted && !callEnded && (
-          <div>
-            <audio ref={incomingVoice} autoPlay />
-          </div>
+        </div> */
+        
+        ) : (
+          <div id="stream"></div>
         )}
         
         </>
