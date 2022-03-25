@@ -158,7 +158,6 @@ input {
   }
 }
 
-
 .answer-button {
   background-color: var(--start-button-background);
     border-radius: 10px;
@@ -175,6 +174,8 @@ input {
     -webkit-animation: pulsate-bck 0.5s ease-in-out infinite both;
 	  animation: pulsate-bck 0.5s ease-in-out infinite both;
 }
+
+
 
 
 
