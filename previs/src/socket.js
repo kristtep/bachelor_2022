@@ -20,7 +20,7 @@ const ContextProvider = ({ children }) => {
     const streams = useRef([]);
     const cameras = [];
     const vid1 = useRef();
-    const incomingVoice = useRef([]);
+    const incoming = useRef([]);
     const connectionRef = useRef();
 
     useEffect(() => {
@@ -77,7 +77,7 @@ const ContextProvider = ({ children }) => {
         peer.on('stream', (stream) => {
             console.log("stream call: " + Date.now()/1000);
 
-            incomingVoice.current.srcObject = stream;
+            incoming.current.srcObject = stream;
         });
 
 
@@ -96,7 +96,7 @@ const ContextProvider = ({ children }) => {
         const peer = new Peer({
             initiator: false,
             trickle: false,
-            streams: incomingVoice.current
+            streams: incoming.current
         });
 
         peer.on('track', (track, stream) => {
@@ -185,9 +185,16 @@ const ContextProvider = ({ children }) => {
 
     const startW = () => {
         setStartWatch(true);
-        navigator.mediaDevices.getUserMedia({ video: false, audio: true })
+        navigator.mediaDevices.getDisplayMedia({ video: true, audio: false })
             .then((currentStream) => {
-                incomingVoice.current.push(currentStream);
+                
+                const stream = new MediaStream(currentStream);
+                
+                navigator.mediaDevices.getUserMedia({ video: false, audio: true })
+                .then((currentStream) => {
+                    stream.addTrack(currentStream.getAudioTracks()[0]);
+                    incoming.current.push(stream);
+                });
             });
     }
 
@@ -202,7 +209,7 @@ const ContextProvider = ({ children }) => {
             call,
             callAccepted,
             callEnded,
-            incomingVoice,
+            incoming,
             me,
             cameras,
             streams,

@@ -94,9 +94,20 @@ input {
   text-align: center;
   border-radius: 10px;
   background-color: #F5751B;
-  height: 50px;
-  width: 200px;
+  height: 50px; 
+  width: 320px;
+  display: flex;
+  flex-flow: row nowrap;
+ align-items: center;
+ justify-content: center;
 }
+
+.hodetelefoner {
+  font-size: 25px;
+  padding: 1%;
+}
+
+
 
 #buttons {
   background-color: #212121;
@@ -128,6 +139,18 @@ input {
 =======
 #buttons button {
   min-height: 50%;
+  background-color: var(--start-button-background);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  font-size: 28px;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 200px;
 }
 
 /**
@@ -164,7 +187,6 @@ input {
   }
 }
 
-
 .answer-button {
   background-color: var(--start-button-background);
     border-radius: 10px;
@@ -179,9 +201,15 @@ input {
     height: 50px;
     width: 200px;
     -webkit-animation: pulsate-bck 0.5s ease-in-out infinite both;
+<<<<<<< HEAD
 	        animation: pulsate-bck 0.5s ease-in-out infinite both;
 >>>>>>> 1d41bb6b4813609294e2a8dd761bfb545ce5df3f
+=======
+	  animation: pulsate-bck 0.5s ease-in-out infinite both;
+>>>>>>> f91298193f956df81177b8f0144b92180f610093
 }
+
+
 
 
 
