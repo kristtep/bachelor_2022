@@ -4,7 +4,7 @@ import { Context } from "../socket";
 
 const SendStream = () => {
 
-    const { shareScreen, startShareScreen, vid1, callAccepted, callEnded, incoming, getCameras } = useContext(Context);
+    const { shareScreen, vid1, callAccepted, callEnded, incoming, getCameras } = useContext(Context);
 
     useEffect(() => {
       makeVideoElems();
@@ -48,7 +48,7 @@ const SendStream = () => {
 
             document.getElementById('stream').appendChild(elem);
             setSrc(i);
-            }else{
+            }else if(document.getElementById(i) && callAccepted){
               let del = document.getElementById(i);
               del.remove();
             }

@@ -119,7 +119,6 @@ input {
   align-items: center;
 }
 
-<<<<<<< HEAD
 #watchid {
   background-color: #F5751B;
   border-radius: 10px;
@@ -136,7 +135,7 @@ input {
   color: #fff;
   padding: 2%;
   font-size: 30px;
-=======
+}
 #buttons button {
   min-height: 50%;
   background-color: var(--start-button-background);
@@ -201,12 +200,8 @@ input {
     height: 50px;
     width: 200px;
     -webkit-animation: pulsate-bck 0.5s ease-in-out infinite both;
-<<<<<<< HEAD
-	        animation: pulsate-bck 0.5s ease-in-out infinite both;
->>>>>>> 1d41bb6b4813609294e2a8dd761bfb545ce5df3f
-=======
 	  animation: pulsate-bck 0.5s ease-in-out infinite both;
->>>>>>> f91298193f956df81177b8f0144b92180f610093
+	  animation: pulsate-bck 0.5s ease-in-out infinite both;
 }
 
 
