@@ -79,7 +79,7 @@ margin-top: 5px;
 }
 
 #v1:fullscreen, #v2:fullscreen, #v3:fullscreen, #v4:fullscreen {
-  filter: var(--filter);
+  filter: brightness(1.3);
 }
 
 input {
@@ -202,6 +202,10 @@ input {
     -webkit-animation: pulsate-bck 0.5s ease-in-out infinite both;
 	  animation: pulsate-bck 0.5s ease-in-out infinite both;
 	  animation: pulsate-bck 0.5s ease-in-out infinite both;
+}
+
+:not(:root):fullscreen {
+  filter: brightness(1.0);
 }
 
 
