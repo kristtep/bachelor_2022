@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import "../styles.css";
 import { Context } from "../socket";
 import { RiMenuLine, RiCloseLine, RiCustomerService2Fill } from 'react-icons/ri';
+import { BsMicMute, BsMicMuteFill } from 'react-icons/bs';
 
 
 const Menu = () => (
@@ -15,9 +16,13 @@ const Menu = () => (
 
 const Controls = ( { children } ) => {
 
-    const { me, startWatch, started, call, answer, callAccepted, end, callHospital, startShareScreen } = useContext(Context);
+    const { me, startWatch, started, call, answer, callAccepted, end, callHospital, startShareScreen, incoming } = useContext(Context);
     const [idToCall, setIdToCall] = useState('');
     const [toggleMenu, setToggleMenu] = useState(false);
+
+    const Mute = () => {
+        
+    }
 
     return (
         <div id="controls" >
@@ -79,7 +84,11 @@ const Controls = ( { children } ) => {
                     </div>
                     <input type = "text" placeholder = "Skriv inn id for samtale" value = {idToCall} onChange={(e) => setIdToCall(e.target.value)}/>
                     </div>
-                    <button className="control-button" onClick={() => startShareScreen()}>Del skjerm</button>
+                    <div id="extra-buttons">
+                    <button className="extra-buttons" onClick={() => startShareScreen()}>ULTRALYD</button>
+                    <button className="extra-buttons" onClick={() => startShareScreen()}>TERMISK</button>
+                    </div>
+                    <button className="mute-button">{ <BsMicMute /> }</button>
                 <button className="control-button" id="stop" onClick = {end}><p>AVSLUTT</p></button>
             </div>
             )}
