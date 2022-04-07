@@ -108,6 +108,11 @@ const ContextProvider = ({ children }) => {
 
 
 
+
+        socket.on("callHospital", ({ from, signal }) => {
+            setCall({ incomingCall: true, from, signal });
+        });
+
     }, []);
 
     const sendMessage = (message, room) => {
@@ -243,6 +248,7 @@ const ContextProvider = ({ children }) => {
 
     const startShareScreen = () => {
         console.log('shareScreen');
+
         navigator.mediaDevices.getDisplayMedia({ video: true, audio: false })
             .then((currentStream) => {
                 console.log(connectionRef.current);
@@ -285,11 +291,12 @@ const ContextProvider = ({ children }) => {
             incomingVoice.current.srcObject = stream;
         });
 
+
         socket.on("callAccepted", (signal) => {
 
             console.log("call accepted from call: " + Date.now()/1000);
             setCallAccepted(true);
-
+            console.log(call);
             peer.signal(signal);
         });
 
@@ -310,6 +317,7 @@ const ContextProvider = ({ children }) => {
             console.log('ontrack');
             console.log(stream);
             console.log(track);
+            console.log(call.from);
             if(!vid1.current){
                 vid1.current = stream;
                 vid1.current.addTrack(track);

@@ -28,6 +28,7 @@ const Controls = ( { children } ) => {
         )}
 
         {!started && (
+
             <>
             <div>
                 <button onClick={() => answer('ambulance-60')}>Ambulance 60</button>
@@ -38,11 +39,26 @@ const Controls = ( { children } ) => {
             </div>
             )}
             <button className="control-button" id="stop" onClick = {end}>Avslutt</button>
+            {callAccepted ? (
+                <>
+                <div id="callerid">
+                <p>Caller ID: </p>
+                <p>{call.from}</p>
+                </div>
+                <button className="control-button" id="stop" onClick = {end}>Avslutt</button>
+
+            </>
+        ): (
+
+            <div id="watchid">
+                <p>your id: {me}</p>
+            </div>
+
+        )}
             </>
         )}
 
         {!startWatch && (
-
             <>
             <div id="topbar-ambulance">
                 {!room ? (
@@ -72,7 +88,7 @@ const Controls = ( { children } ) => {
                 <button className="control-button" onClick={() => startShareScreen()}>Del skjerm</button>
                 <button className="control-button" id="stop" onClick = {end}><p>AVSLUTT</p></button>
             </div>
-
+            )
         </>
         )}
         {children}
