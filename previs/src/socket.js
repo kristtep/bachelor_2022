@@ -30,13 +30,6 @@ const ContextProvider = ({ children }) => {
             }
         ]
     };
-<<<<<<< HEAD
-    //const [isChannelReady, setIsChannelReady] = useState(false);
-    //const [isInitiator, setIsInitiator] = useState(false);
-    //const [isStarted, setIsStarted] = useState(false);
-    //var pc;
-    //var dataChannel;
-=======
     const [isChannelReady, setIsChannelReady] = useState(false);
     const [isInitiator, setIsInitiator] = useState(false);
     const [isStarted, setIsStarted] = useState(false);
@@ -46,22 +39,13 @@ const ContextProvider = ({ children }) => {
     var clientName = "ambulance" + Math.floor(Math.random() * 10 + 1);
     var remoteClient;
     var room = "PreViS";
->>>>>>> 94cc8e8fbd4414d39e88124a5158c085d84871f9
 
     const [startWatch, setStartWatch] = useState(false);
     const [started, setStarted] = useState(false);
     const [shareScreen, setShareScreen] = useState(false);
     const [me, setMe] = useState("");
     const [room, setRoom] = useState('');
-<<<<<<< HEAD
-    //const [users, setUsers] = useState({});
-    //const [stream, setStream] = useState();
-    const [call, setCall] = useState({});
-    //const [caller, setCaller] = useState('');
-    //const [callerSignal, setCallerSignal] = useState();
-=======
     const [call, setCall] = useState(false);
->>>>>>> 94cc8e8fbd4414d39e88124a5158c085d84871f9
     const [callAccepted, setCallAccepted] = useState(false);
     const [callEnded, setCallEnded] = useState(false);
 
@@ -74,12 +58,6 @@ const ContextProvider = ({ children }) => {
 
     useEffect(() => {
         console.log(socket);
-<<<<<<< HEAD
-        socket.on("id", (id) => setMe(id));
-
-        socket.on("callHospital", ({ from, signal }) => {
-            setCall({ incomingCall: true, from, signal });
-=======
 
         socket.on("created", (room) => {
             console.log("room created: " + room);
@@ -123,7 +101,6 @@ const ContextProvider = ({ children }) => {
             } else if (message === "bye" && isStarted) {
                 handleRemoteHangup();
             }
->>>>>>> 94cc8e8fbd4414d39e88124a5158c085d84871f9
         });
 
     }, []);
@@ -150,84 +127,6 @@ const ContextProvider = ({ children }) => {
         });
     }
 
-<<<<<<< HEAD
-    const callHospital = (room) => {
-
-        const peer = new Peer({
-            initiator: true,
-            trickle: false,
-            config: turnStunConfig,
-            stream: vid1.current,
-        });
-
-        setRoom(room);
-
-        peer.on("signal", (data) => {
-            console.log("signal call: " + Date.now()/1000);
-
-            //socket.emit('join-room', room);
-            socket.emit("callHospital", { room: room, signalData: data, from: me });
-        });
-
-        peer.on('stream', (stream) => {
-            console.log("stream call: " + Date.now()/1000);
-            incomingVoice.current.srcObject = stream;
-        });
-
-
-        socket.on("callAccepted", (signal) => {
-
-            console.log("call accepted from call: " + Date.now()/1000);
-            setCallAccepted(true);
-            console.log(call);
-            peer.signal(signal);
-        });
-
-        connectionRef.current = peer;
-    }
-
-    const answer = (room) => {
-        const peer = new Peer({
-            initiator: false,
-            trickle: false,
-            config: turnStunConfig,
-            streams: incomingVoice.current
-        });
-
-        console.log(call);
-
-        setRoom(room);
-
-        peer.on('track', (track, stream) => {
-            console.log('ontrack');
-            console.log(stream);
-            console.log(track);
-            console.log(call.from);
-            if(!vid1.current){
-                vid1.current = stream;
-                vid1.current.addTrack(track);
-                setCallAccepted(true);
-            }else{
-                vid1.current.addTrack(track);
-            }
-        });
-
-        socket.emit("answer", {room: room});
-
-        peer.on("signal", (data) => {
-            console.log("signal answer: " + Date.now()/1000);
-            socket.emit("answer", { signal: data, room: room });
-        });
-
-        console.log("incoming signal: " + Date.now()/1000);
-
-        peer.signal(call.signal);
-
-        connectionRef.current = peer;
-    }
-
-=======
->>>>>>> 94cc8e8fbd4414d39e88124a5158c085d84871f9
     const end = () => {
         setCallEnded(true);
 
