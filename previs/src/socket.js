@@ -30,22 +30,38 @@ const ContextProvider = ({ children }) => {
             }
         ]
     };
+<<<<<<< HEAD
     //const [isChannelReady, setIsChannelReady] = useState(false);
     //const [isInitiator, setIsInitiator] = useState(false);
     //const [isStarted, setIsStarted] = useState(false);
     //var pc;
     //var dataChannel;
+=======
+    const [isChannelReady, setIsChannelReady] = useState(false);
+    const [isInitiator, setIsInitiator] = useState(false);
+    const [isStarted, setIsStarted] = useState(false);
+    var pc;
+    var turnReady;
+    var dataChannel;
+    var clientName = "ambulance" + Math.floor(Math.random() * 10 + 1);
+    var remoteClient;
+    var room = "PreViS";
+>>>>>>> 94cc8e8fbd4414d39e88124a5158c085d84871f9
 
     const [startWatch, setStartWatch] = useState(false);
     const [started, setStarted] = useState(false);
     const [shareScreen, setShareScreen] = useState(false);
     const [me, setMe] = useState("");
     const [room, setRoom] = useState('');
+<<<<<<< HEAD
     //const [users, setUsers] = useState({});
     //const [stream, setStream] = useState();
     const [call, setCall] = useState({});
     //const [caller, setCaller] = useState('');
     //const [callerSignal, setCallerSignal] = useState();
+=======
+    const [call, setCall] = useState(false);
+>>>>>>> 94cc8e8fbd4414d39e88124a5158c085d84871f9
     const [callAccepted, setCallAccepted] = useState(false);
     const [callEnded, setCallEnded] = useState(false);
 
@@ -58,10 +74,56 @@ const ContextProvider = ({ children }) => {
 
     useEffect(() => {
         console.log(socket);
+<<<<<<< HEAD
         socket.on("id", (id) => setMe(id));
 
         socket.on("callHospital", ({ from, signal }) => {
             setCall({ incomingCall: true, from, signal });
+=======
+
+        socket.on("created", (room) => {
+            console.log("room created: " + room);
+            setIsInitiator(true);
+        });
+
+        socket.on('join', (room, client) => {
+            console.log("Another peer (" + client + ") wants to join room " + room + ".");
+            setIsChannelReady(true);
+            remoteClient = client;
+            socket.emit("creatorname", room, clientName);
+        });
+
+        socket.on("mynameis", (client) => {
+            remoteClient = client;
+        });
+
+        socket.on("joined", (room) => {
+            setIsChannelReady(true);
+            console.log("joined: " + room);
+        });
+
+        socket.on("message", (room, message) => {
+            console.log("client recieved message: " + message + ". To room " + room);
+            if(message === "gotuser"){
+                maybeStart();
+            } else if(message.type === "offer"){
+                if (!isInitiator && !isStarted) {
+                    maybeStart();
+                }
+                pc.setRemoteDescription(new RTCSessionDescription(message));
+                doAnswer();
+            } else if (message.type === "answer" && isStarted) {
+                pc.setRemoteDescription(new RTCSessionDescription(message));
+            } else if (message.type === "candidate" && isStarted) {
+                var candidate = new RTCIceCandidate({
+                    sdpMLineIndex: message.label,
+                    candidate: message.candidate,
+                });
+                pc.addIceCandidate(candidate);
+            } else if (message === "bye" && isStarted) {
+                handleRemoteHangup();
+            }
+>>>>>>> 94cc8e8fbd4414d39e88124a5158c085d84871f9
         });
 
     }, []);
@@ -88,6 +150,7 @@ const ContextProvider = ({ children }) => {
         });
     }
 
+<<<<<<< HEAD
     const callHospital = (room) => {
 
         const peer = new Peer({
@@ -163,6 +226,8 @@ const ContextProvider = ({ children }) => {
         connectionRef.current = peer;
     }
 
+=======
+>>>>>>> 94cc8e8fbd4414d39e88124a5158c085d84871f9
     const end = () => {
         setCallEnded(true);
 
