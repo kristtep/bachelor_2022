@@ -30,13 +30,11 @@ const ContextProvider = ({ children }) => {
             }
         ]
     };
-    const [isChannelReady, setIsChannelReady] = useState(false);
-    const [isInitiator, setIsInitiator] = useState(false);
-    const [isStarted, setIsStarted] = useState(false);
-    var pc;
-    var turnReady;
-    var dataChannel;
-    var remoteClient;
+    //const [isChannelReady, setIsChannelReady] = useState(false);
+    //const [isInitiator, setIsInitiator] = useState(false);
+    //const [isStarted, setIsStarted] = useState(false);
+    //var pc;
+    //var dataChannel;
 
     const [startWatch, setStartWatch] = useState(false);
     const [started, setStarted] = useState(false);
@@ -45,7 +43,7 @@ const ContextProvider = ({ children }) => {
     const [room, setRoom] = useState('');
     //const [users, setUsers] = useState({});
     //const [stream, setStream] = useState();
-    const [call, setCall] = useState(false);
+    const [call, setCall] = useState({});
     //const [caller, setCaller] = useState('');
     //const [callerSignal, setCallerSignal] = useState();
     const [callAccepted, setCallAccepted] = useState(false);
@@ -62,189 +60,11 @@ const ContextProvider = ({ children }) => {
         console.log(socket);
         socket.on("id", (id) => setMe(id));
 
-        /* socket.on('allUsers', (users) => {
-            setUsers(users);
-        }); */
-
-        socket.on("created", (room) => {
-            console.log("Created room " + room);
-            setIsInitiator(true);
-        });
-
-        socket.on('join', (room, client) => {
-            setIsChannelReady(true);
-            socket.emit("creatorname", room, "Ambulance-60");
-        });
-
-        socket.on("joined", (room) => {
-            console.log('joined room: ' + room);
-            setIsChannelReady(true);
-        });
-
-        socket.on('message', (message, room) => {
-            console.log("Client recieved message: " + message + " in room: " + room);
-            if(message === 'gotuser'){
-                maybeStart();
-            } else if (message.type === 'offer') {
-                if (!isInitiator && !isStarted) {
-                    maybeStart();
-                }
-                pc.setRemoteDescription(new RTCSessionDescription(message));
-                doAnswer();
-            } else if (message.type === 'answer' && isStarted) {
-                pc.setRemoteDescription(new RTCSessionDescription(message));
-            } else if (message.type === 'candidate' && isStarted) {
-                var candidate = new RTCIceCandidate({
-                    sdpMLineIndex: message.label,
-                    candidate: message.candidate,
-                });
-                pc.addIceCandidate(candidate);
-            } else if (message === 'end' && isStarted) {
-                handleRemoteHangup();
-            }
-        });
-
-
-
-
-
-
         socket.on("callHospital", ({ from, signal }) => {
             setCall({ incomingCall: true, from, signal });
         });
 
     }, []);
-
-    const sendMessage = (message, room) => {
-        console.log("Client sending message: " + message + " from room: " + room);
-        socket.emit("message", message, room)
-    };
-
-    const maybeStart = () => {
-        console.log(">>>maybeStart() ", isStarted, isChannelReady);
-        if (!isStarted && isChannelReady) {
-            console.log(">>> creating peer connection");
-            createPeerConnection();
-            setIsStarted(true);
-            console.log("isInitiator", isInitiator);
-            if (isInitiator) {
-                doCall();
-            }
-        }
-    }
-
-    window.onbeforeunload = () => {
-       sendMessage('end', room);
-    };
-
-    var dataChannel;
-
-    const createPeerConnection = () => {
-        try {
-            pc = new RTCPeerConnection(turnStunConfig);
-            pc.onicecandidate = handleIceCandidate();
-            console.log('Created RTCPeerConnection');
-            dataChannel = pc.createDataChannel('filetransfer');
-            dataChannel.onopen = (event) => {
-
-            };
-
-            dataChannel.onmessage = (event) => {
-                console.log("The offerer recieved a message" + event.data);
-            };
-
-            dataChannel.onerror = (error) => {
-                console.log("data channel error: " + error);
-            }
-
-            dataChannel.onclose = (event) => {
-                console.log("data channel closed");
-            }
-
-            pc.ondatachannel = (event) => {
-                var channel = event.channel;
-                channel.onopen = (event) => {
-                    channel.send("ANSWEREROPEN");
-                };
-                channel.onmessage = async (event) => {
-                    try {
-                        var themessage = event.data;
-                        console.log(themessage, event);
-                    } catch (err) {
-                        console.log(err);
-                    }
-                };
-            };
-        } catch (e) {
-            console.log("Failed to create PeerConnection, exception: " + e.message);
-            alert("Cannot create RTCPeerConnection object");
-            return;
-        }
-    }
-
-    const handleIceCandidate = (event) => {
-        console.log("icecandidate event: ", event);
-        if (event.candidate) {
-            sendMessage(
-                {
-                    type: "candidate",
-                    label: event.candidate.sdpMLineIndex,
-                    id: event.candidate.sdpMid,
-                    candidate: event.candidate.candidate,
-                },
-                room
-            );
-        } else {
-            console.log("End of candidates");
-        }
-    }
-
-    const handleCreateOfferError = (error) => {
-        console.log("createOffer() error: " + error);
-    }
-
-    const doCall = () => {
-        console.log("sending offer to peer");
-        pc.createOffer(setLocalAndSendMessage, handleCreateOfferError);
-    }
-
-    const doAnswer = () => {
-        console.log('sending answer to peer');
-        pc.createAnswer().then(
-            setLocalAndSendMessage,
-            onCreateSessionDescriptionError
-        );
-    }
-
-    const setLocalAndSendMessage = (sessionDescription) => {
-        pc.setLocalDescription(sessionDescription);
-        console.log("setLocalAndSendMessage sending message" + sessionDescription);
-        sendMessage(sessionDescription, room);
-    }
-
-    const onCreateSessionDescriptionError = (error) => {
-        console.log("Failed to create session description: " + error);
-    }
-
-    const hangup = () => {
-        console.log("hanging up");
-        stop();
-        sendMessage('end', room);
-    }
-
-    const handleRemoteHangup = () => {
-        console.log("session terminated");
-        stop();
-        setIsInitiator(false);
-    }
-
-    const stop = () => {
-        setIsStarted(false);
-        pc.close();
-        pc = null;
-    }
-
-
 
     const startShareScreen = () => {
         console.log('shareScreen');
@@ -282,7 +102,7 @@ const ContextProvider = ({ children }) => {
         peer.on("signal", (data) => {
             console.log("signal call: " + Date.now()/1000);
 
-            socket.emit('join-room', room);
+            //socket.emit('join-room', room);
             socket.emit("callHospital", { room: room, signalData: data, from: me });
         });
 
@@ -311,6 +131,8 @@ const ContextProvider = ({ children }) => {
             streams: incomingVoice.current
         });
 
+        console.log(call);
+
         setRoom(room);
 
         peer.on('track', (track, stream) => {
@@ -327,9 +149,10 @@ const ContextProvider = ({ children }) => {
             }
         });
 
+        socket.emit("answer", {room: room});
+
         peer.on("signal", (data) => {
             console.log("signal answer: " + Date.now()/1000);
-            socket.emit('join-room', room);
             socket.emit("answer", { signal: data, room: room });
         });
 

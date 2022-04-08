@@ -62,11 +62,12 @@ io.on("connection", (socket) => {
     });
 
     socket.on('callHospital', (data) => {
-
+        socket.join(data.room);
         socket.to(data.room).emit('callHospital', { signal: data.signalData, from: data.from });
     });
 
     socket.on('answer', (data) => {
+        socket.join(data.room);
         socket.to(data.room).emit('callAccepted', data.signal);
     });
 

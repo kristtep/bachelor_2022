@@ -8,7 +8,7 @@ import { RiMenuLine, RiCloseLine } from 'react-icons/ri';
 
 const Controls = ( { children } ) => {
 
-    const { room, startWatch, started, call, answer, callAccepted, end, callHospital, startShareScreen } = useContext(Context);
+    const { me, room, startWatch, started, call, answer, callAccepted, end, callHospital, startShareScreen } = useContext(Context);
 //    const [idToCall, setIdToCall] = useState('');
     const [toggleMenu, setToggleMenu] = useState(false);
 
@@ -39,22 +39,6 @@ const Controls = ( { children } ) => {
             </div>
             )}
             <button className="control-button" id="stop" onClick = {end}>Avslutt</button>
-            {callAccepted ? (
-                <>
-                <div id="callerid">
-                <p>Caller ID: </p>
-                <p>{call.from}</p>
-                </div>
-                <button className="control-button" id="stop" onClick = {end}>Avslutt</button>
-
-            </>
-        ): (
-
-            <div id="watchid">
-                <p>your id: {me}</p>
-            </div>
-
-        )}
             </>
         )}
 
@@ -88,7 +72,6 @@ const Controls = ( { children } ) => {
                 <button className="control-button" onClick={() => startShareScreen()}>Del skjerm</button>
                 <button className="control-button" id="stop" onClick = {end}><p>AVSLUTT</p></button>
             </div>
-            )
         </>
         )}
         {children}
