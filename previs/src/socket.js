@@ -44,7 +44,7 @@ const ContextProvider = ({ children }) => {
     const [started, setStarted] = useState(false);
     const [shareScreen, setShareScreen] = useState(false);
     const [me, setMe] = useState("");
-    const [room, setRoom] = useState('');
+    //const [room, setRoom] = useState('');
     const [call, setCall] = useState(false);
     const [callAccepted, setCallAccepted] = useState(false);
     const [callEnded, setCallEnded] = useState(false);
@@ -99,11 +99,112 @@ const ContextProvider = ({ children }) => {
                 });
                 pc.addIceCandidate(candidate);
             } else if (message === "bye" && isStarted) {
-                handleRemoteHangup();
+                //handleRemoteHangup();
+                console.log("remote hang up");
             }
         });
 
     }, []);
+
+    const sendMessage = (room, message) => {
+        console.log("message: " + message + " to room: " + room);
+        socket.emit("message", room, message)
+    }
+
+    const maybeStart = () => {
+        console.log(">>>maybestart ", isStarted, isChannelReady);
+        if(!isStarted && isChannelReady) {
+            console.log(">>> creating peer connection");
+            createPeerConnection();
+            setIsStarted(true);
+            if(isInitiator) {
+                doCall();
+            }
+        }
+    }
+
+    window.onbeforeunload = () => {
+        sendMessage("bye", room);
+    }
+
+    var dataChannel;
+
+    const createPeerConnection = () => {
+        try {
+            pc = new RTCPeerConnection(turnStunConfig);
+            pc.onicecandidate = handleIceCandidate;
+            console.log("created rtcpeerconnection");
+            
+            //sending side
+            dataChannel = pc.createDataChannel("filetransfer");
+            dataChannel.onmessage = (event) => {
+                console.log(event);
+            }
+
+            //recieving side
+            pc.ondatachannel = (event) => {
+                var channel = event.channel;
+                channel.onopen = (event) => {
+                    channel.send("ANSWEREROPEN");
+                };
+                channel.onmessage = async (event) => {
+                    try {
+                        var theMessage = event.data;
+                        console.log(theMessage, event);
+
+                    } catch (err) {
+                        console.log(err);
+                    }
+                };
+            };
+        } catch (e) {
+            console.log("failed to create peer connection: " + e);
+            return;
+        }
+    }
+
+    const handleIceCandidate = (event) => {
+        console.log("icecandidate event: " + event);
+        if (event.candidate) {
+            sendMessage(
+                {
+                    type: "candidate",
+                    label: event.candidate.sdpMLineIndex,
+                    id: event.candidate.sdpMid,
+                    candidate: event.candidate.candidate,
+                },
+                room
+            );
+        } else {
+            console.log("end of candidates");
+        }
+    }
+
+    const doCall = () => {
+        console.log("sending offer to peer");
+        pc.createOffer(setLocalAndSendMessage);
+    }
+
+    const doAnswer = () => {
+        console.log("sending answer to peer");
+        pc.createAnswer().then(
+            setLocalAndSendMessage
+        );
+    }
+
+    const setLocalAndSendMessage = (sessionDescription) => {
+        pc.setLocalDescription(sessionDescription);
+        console.log("setlocalandsendmessage sending message", sessionDescription);
+        sendMessage(sessionDescription, room);
+    }
+
+    const callRoom = () => {
+        socket.emit("create or join", room, clientName);
+        sendMessage("gotuser", room);
+        if(isInitiator){
+            maybeStart();
+        }
+    }
 
     const startShareScreen = () => {
         console.log('shareScreen');
@@ -205,15 +306,15 @@ const ContextProvider = ({ children }) => {
             callAccepted,
             callEnded,
             incomingVoice,
-            me,
+            clientName,
             room,
             cameras,
             streams,
             vid1,
             shareScreen,
             connectionRef,
-            callHospital,
-            answer,
+            clientName,
+            callRoom,
             end,
             start,
             startW,

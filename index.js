@@ -40,7 +40,6 @@ io.on("connection", (socket) => {
             socket.emit("joined", room, socket.id);
             io.sockets.in(room).emit("ready");
         }
-        socket.to(data.room).emit('callAccepted', data.signal);
     });
 
     socket.on("creatorname", (room, client) => {

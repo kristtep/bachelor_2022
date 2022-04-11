@@ -8,13 +8,13 @@ import { RiMenuLine, RiCloseLine } from 'react-icons/ri';
 
 const Controls = ( { children } ) => {
 
-    const { me, room, startWatch, started, call, answer, callAccepted, end, callHospital, startShareScreen } = useContext(Context);
+    const { clientName, room, startWatch, started, call, answer, callAccepted, end, callRoom, startShareScreen } = useContext(Context);
 //    const [idToCall, setIdToCall] = useState('');
     const [toggleMenu, setToggleMenu] = useState(false);
 
     const Menu = () => (
         <>
-        <p onClick={() => callHospital('ambulance-60')}>AKUTTMOTTAK LILLEHAMMER</p>
+        <p onClick={() => callRoom()}>AKUTTMOTTAK LILLEHAMMER</p>
         <p><a href="h">SLAGVAKT SI</a></p>
         <p><a href="h">LUFTAMBULANSE</a></p>
         <p><a href="h">ANESTESI LEGEBIL</a></p>
@@ -31,7 +31,7 @@ const Controls = ( { children } ) => {
 
             <>
             <div>
-                <button onClick={() => answer('ambulance-60')}>Ambulance 60</button>
+                <button onClick={() => callRoom()}>Ambulance 60</button>
             </div>
             {room && (
                 <div id="watchid">
@@ -69,7 +69,7 @@ const Controls = ( { children } ) => {
                     </div>
                 )}
 
-                <button className="control-button" onClick={() => startShareScreen()}>Del skjerm</button>
+                <button className="control-button" onClick={() => callRoom()}>Del skjerm</button>
                 <button className="control-button" id="stop" onClick = {end}><p>AVSLUTT</p></button>
             </div>
         </>
