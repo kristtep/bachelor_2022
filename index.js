@@ -11,8 +11,6 @@ const io = require("socket.io")(server, {
     }
 });
 
-const users = [];
-
 app.use(cors());
 
 const PORT = process.env.PORT || 5000;
@@ -22,17 +20,32 @@ app.get("/", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-    socket.emit("id", socket.id);
 
-    socket.on('join server', (username) => {
-        const user = {
-            username,
-            id: socket.id,
-        };
-        users.push(user);
-        io.emit('new user', users);
+    socket.on('message', (message, room) => {
+
+        socket.to(room).emit('message', message, room);
     });
 
+    socket.on('create or join', (room, client) => {
+        var cliInRoom = io.sockets.adapter.rooms.get(room);
+        var numCli = cliInRoom ? cliInRoom.size : 0;
+        console.log("room " + room + " has " + numCli + " clients.");
+
+        if (numCli === 0){
+            socket.join(room);
+            socket.emit("created", room, socket.id);
+        } else {
+            io.sockets.in(room).emit("join", room, client);
+            socket.join(room);
+            socket.emit("joined", room, socket.id);
+            //usikker på hvor den mottakeren til denne er, sender "ready" til socket rommet men har ikke noe mottaker for det i socket.js fila
+            io.sockets.in(room).emit("ready");
+        }
+    });
+
+    socket.on("creatorname", (room, client) => {
+        socket.to(room).emit("mynameis", client);
+    })
     socket.on('ipaddr', () => {
         var ifaces = os.networkInterfaces();
         for (var dev in ifaces) {
@@ -44,31 +57,9 @@ io.on("connection", (socket) => {
         }
     });
 
-    socket.emit("id", socket.id);
-
-    io.sockets.emit('allUsers', users);
-
-    socket.on("disconnect", () => {
-        delete users[socket.io];
-        //socket.broadcast.emit("callEnded");
-    });
-
-    socket.on('join-room', (room, callback) => {
-        socket.join(room);
-        console.log(room);
-        callback(messages[room]);
-        socket.emit('joined', messages[room]);
-    });
-
-    socket.on('callHospital', (data) => {
-
-        socket.to(data.room).emit('callHospital', { signal: data.signalData, from: data.from });
-    });
-
-    socket.on('answer', (data) => {
-        socket.to(data.room).emit('callAccepted', data.signal);
-    });
-
+    socket.on("bye", () => {
+        console.log("Ending...");
+    })
 
     /* socket.on("callHospital", ({ room, hospitalId, signalData, from, name }) => {
         console.log("socket callHospital: " + Date.now()/1000);
