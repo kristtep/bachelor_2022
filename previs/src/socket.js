@@ -58,8 +58,8 @@ const ContextProvider = ({ children }) => {
     const streams = useRef([]);
     const cameras = [];
     //endre navn?
-    const vid1 = new MediaStream();
-    const incomingVoice = new MediaStream();
+    const vid1 = useRef();
+    const incomingVoice = useRef();
     var pc;
 
     useEffect(() => {
@@ -151,25 +151,25 @@ const ContextProvider = ({ children }) => {
                 console.log(event);
             } */
 
-            console.log('vid1: ' + vid1.getTracks(), 'incomingvoice :' + incomingVoice.getTracks());
+            console.log('vid1: ' + vid1.current, 'incomingvoice :' + incomingVoice.current);
             console.log('started: ' + started, 'startWatch: ' + startWatch);
 
             var senderTracks;
             var recieverTracks;
 
             //addTrack funker ikke tror jeg, undefined på konsoll logging av peerconnetion
-            if(vid1.getTracks().length !== 0){
-                senderTracks = vid1.getTracks();
+            if(vid1.current){
+                senderTracks = vid1.current.getTracks();
                 console.log(senderTracks);
                 for (const track of senderTracks) {
-                    pc.addTrack(track, vid1);
+                    pc.addTrack(track, vid1.current);
                     console.log(pc);
                 }
-            } else if(incomingVoice.getTracks().length !== 0){
-                recieverTracks = incomingVoice.getTracks();
+            } else if(incomingVoice.current){
+                recieverTracks = incomingVoice.current.getTracks();
                 console.log(recieverTracks);
                 for (const track of recieverTracks) {
-                    pc.addTrack(track, incomingVoice);
+                    pc.addTrack(track, incomingVoice.current);
                     console.log(pc);
                 }
             }
@@ -179,16 +179,18 @@ const ContextProvider = ({ children }) => {
             //recieving side
             //error om resolution overload når den prøver å lage ny mediastream, fant ikke noe brukbart på stackoverflow
             pc.ontrack = (event) => {
-                console.log(event.streams);
+                console.log(event.streams[0].getTracks());
                 console.log(event.track);
-                if(incomingVoice.getTracks().length === 0){
+                if(!incomingVoice.current){
                     console.log('making new stream sender');
-                    incomingVoice.addTrack(event.track);
+                    incomingVoice.current = event.streams[0];
                     setShareScreen(false);
                 } else {
+                    if(!vid1.current){
                     console.log('making new stream reciever');
-                    vid1.addTrack(event.track);
+                    vid1.current = event.streams[0];
                     setShareScreen(true);
+                    }
                 }
                 
             };
@@ -329,9 +331,7 @@ const ContextProvider = ({ children }) => {
 
                     console.log(currentStream.getTracks());
 
-                    vid1.addTrack(currentStream.getTracks()[0]);
-                    vid1.addTrack(currentStream.getTracks()[1]);
-                    console.log(vid1.getTracks());
+                    vid1.current = currentStream;
                 });
 
                 if (cameras.length > 1){
@@ -342,10 +342,10 @@ const ContextProvider = ({ children }) => {
 
                             console.log(currentStream.getTracks());
 
-                            vid1.addTrack(currentStream.getVideoTracks()[0]);
+                            vid1.current.addTrack(currentStream.getVideoTracks()[0]);
                         });
                 }else{
-                    return vid1.getTracks();
+                    return vid1.current.getTracks();
                 }
                 if (cameras.length > 2){
                     await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[2] }, width: 1920, height: 1080 }, audio: false })
@@ -353,11 +353,11 @@ const ContextProvider = ({ children }) => {
 
                             //streams.current.push(currentStream);
 
-                            vid1.addTrack(currentStream.getVideoTracks()[0]);
+                            vid1.current.addTrack(currentStream.getVideoTracks()[0]);
 
                         });
                 }else{
-                    return vid1.getTracks();
+                    return vid1.current.getTracks();
                 }
             }else{
                 window.alert('cameras already set');
@@ -369,7 +369,7 @@ const ContextProvider = ({ children }) => {
         setStateStartWatch(true);
         navigator.mediaDevices.getUserMedia({ video: false, audio: true })
             .then((currentStream) => {
-                incomingVoice.addTrack(currentStream.getTracks()[0]);
+                incomingVoice.current = currentStream;
             });
     }
 
@@ -393,9 +393,7 @@ const ContextProvider = ({ children }) => {
 
                     console.log(currentStream.getTracks());
 
-                    vid1.addTrack(currentStream.getTracks()[0]);
-                    vid1.addTrack(currentStream.getTracks()[1]);
-                    console.log(vid1.getTracks());
+                    vid1.current = currentStream;
                 });
 
                 if (cameras.length > 1){
@@ -406,10 +404,10 @@ const ContextProvider = ({ children }) => {
 
                             console.log(currentStream.getTracks());
 
-                            vid1.addTrack(currentStream.getVideoTracks()[0]);
+                            vid1.current.addTrack(currentStream.getVideoTracks()[0]);
                         });
                 }else{
-                    return vid1.getTracks();
+                    return vid1.current.getTracks();
                 }
                 if (cameras.length > 2){
                     await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[2] }, width: 1920, height: 1080 }, audio: false })
@@ -417,11 +415,11 @@ const ContextProvider = ({ children }) => {
 
                             //streams.current.push(currentStream);
 
-                            vid1.addTrack(currentStream.getVideoTracks()[0]);
+                            vid1.current.addTrack(currentStream.getVideoTracks()[0]);
 
                         });
                 }else{
-                    return vid1.getTracks();
+                    return vid1.current.getTracks();
                 }
             }else{
                 window.alert('cameras already set');

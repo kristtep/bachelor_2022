@@ -28,32 +28,34 @@ const SendStream = () => {
 
     const makeVideoElems = async () => {
 
-        if(!shareScreen){
+        /* if(!shareScreen){
           await getCameras();
+        } */
+
+        if(incomingVoice.current){
+          console.log(incomingVoice.current.getTracks());
         }
 
-        if(incomingVoice){
-          console.log(incomingVoice.getTracks());
-        }
+        console.log(vid1.current);
 
-        console.log(vid1);
+        if(vid1.current){
+          let tracks = vid1.current.getVideoTracks();
+        
+          console.log(tracks);
 
-        let tracks = vid1.getVideoTracks();
+          if(tracks){
+            console.log(tracks.length);
 
-        console.log(tracks);
+            for(let i = 1; i < tracks.length + 1; i++){
+              if(!document.getElementById(i)){
+              let elem = document.createElement('video');
+              elem.setAttribute('id', i);
+              elem.setAttribute('autoPlay', true);
+              elem.onclick = () => toggleFullscreen(i);
 
-        if(tracks){
-          console.log(tracks.length);
-
-          for(let i = 1; i < tracks.length + 1; i++){
-            if(!document.getElementById(i)){
-            let elem = document.createElement('video');
-            elem.setAttribute('id', i);
-            elem.setAttribute('autoPlay', true);
-            elem.onclick = () => toggleFullscreen(i);
-
-            document.getElementById('stream').appendChild(elem);
-            setSrc(i);
+              document.getElementById('stream').appendChild(elem);
+              setSrc(i);
+              }
             }
           }
         }
@@ -61,7 +63,7 @@ const SendStream = () => {
 
     const setSrc = (i) => {
 
-      const tracks = vid1.getVideoTracks();
+      const tracks = vid1.current.getVideoTracks();
 
         let src = new MediaStream();
         src.addTrack(tracks[i-1]);
@@ -75,7 +77,7 @@ const SendStream = () => {
 
         {callAccepted && !callEnded && (
           <div>
-            <audio src={incomingVoice} autoPlay />
+            <audio ref={incomingVoice} autoPlay />
           </div>
         )}
         </>

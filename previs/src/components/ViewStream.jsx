@@ -28,10 +28,10 @@ const ViewStream = () => {
 
     const makeVideoElems = () => {
 
-      console.log("makevideoelems in view", vid1.getTracks());
+      console.log("makevideoelems in view", vid1.current);
 
-      if(callAccepted && vid1.getTracks() !== 0){
-      let tracks = vid1.getVideoTracks();
+      if(callAccepted && vid1.current.getTracks() !== 0){
+      let tracks = vid1.current.getTracks();
 
       console.log(tracks);
 
@@ -58,7 +58,7 @@ const ViewStream = () => {
 
   const setSrc =  (i) => {
 
-    const tracks = vid1.getVideoTracks();
+    const tracks = vid1.current.getTracks();
 
       let src = new MediaStream();
       src.addTrack(tracks[i-1]);
@@ -67,7 +67,7 @@ const ViewStream = () => {
 
     return (
         <>
-            {startWatch && callAccepted && !callEnded && (
+            {/* startWatch && */ callAccepted && !callEnded && (
               <>
 
                 <div id="vstream"></div>
