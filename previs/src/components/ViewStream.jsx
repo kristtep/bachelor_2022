@@ -28,7 +28,7 @@ const ViewStream = () => {
 
     const makeVideoElems = () => {
 
-      console.log("makevideoelems in view", vid1.current);
+      console.log("makevideoelems in view", vid1.getTracks());
 
       if(callAccepted && vid1.getTracks() !== 0){
       let tracks = vid1.getVideoTracks();

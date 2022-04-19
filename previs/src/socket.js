@@ -45,8 +45,10 @@ const ContextProvider = ({ children }) => {
     var remoteClient;
     var room = "PreViS";
 
-    const [startWatch, setStartWatch] = useState(false);
-    const [started, setStarted] = useState(false);
+    var startWatch = false;
+    const [stateStartWatch, setStateStartWatch] = useState(false)
+    var started = false;
+    const [stateStart, setStateStart] = useState(false);
     const [shareScreen, setShareScreen] = useState(false);
     //const [room, setRoom] = useState('');
     const [call, setCall] = useState(false);
@@ -156,18 +158,18 @@ const ContextProvider = ({ children }) => {
             var recieverTracks;
 
             //addTrack funker ikke tror jeg, undefined på konsoll logging av peerconnetion
-            if(vid1.getTracks() !== 0){
+            if(vid1.getTracks().length !== 0){
                 senderTracks = vid1.getTracks();
                 console.log(senderTracks);
                 for (const track of senderTracks) {
-                    pc.addTrack(track);
+                    pc.addTrack(track, vid1);
                     console.log(pc);
                 }
-            } else if(incomingVoice.getTracks() !== 0){
+            } else if(incomingVoice.getTracks().length !== 0){
                 recieverTracks = incomingVoice.getTracks();
                 console.log(recieverTracks);
                 for (const track of recieverTracks) {
-                    pc.addTrack(track);
+                    pc.addTrack(track, incomingVoice);
                     console.log(pc);
                 }
             }
@@ -177,15 +179,18 @@ const ContextProvider = ({ children }) => {
             //recieving side
             //error om resolution overload når den prøver å lage ny mediastream, fant ikke noe brukbart på stackoverflow
             pc.ontrack = (event) => {
+                console.log(event.streams);
                 console.log(event.track);
-                if(!incomingVoice.getTracks()){
+                if(incomingVoice.getTracks().length === 0){
                     console.log('making new stream sender');
                     incomingVoice.addTrack(event.track);
-                } else if (!vid1.getTracks()) {
+                    setShareScreen(false);
+                } else {
                     console.log('making new stream reciever');
                     vid1.addTrack(event.track);
+                    setShareScreen(true);
                 }
-                setShareScreen(true);
+                
             };
         } catch (e) {
             console.log("failed to create peer connection: " + e);
@@ -326,6 +331,7 @@ const ContextProvider = ({ children }) => {
 
                     vid1.addTrack(currentStream.getTracks()[0]);
                     vid1.addTrack(currentStream.getTracks()[1]);
+                    console.log(vid1.getTracks());
                 });
 
                 if (cameras.length > 1){
@@ -333,6 +339,8 @@ const ContextProvider = ({ children }) => {
                         .then((currentStream) => {
 
                             //streams.current.push(currentStream);
+
+                            console.log(currentStream.getTracks());
 
                             vid1.addTrack(currentStream.getVideoTracks()[0]);
                         });
@@ -357,21 +365,76 @@ const ContextProvider = ({ children }) => {
     }
 
     const startW = () => {
-        setStartWatch(true);
+        startWatch = true;
+        setStateStartWatch(true);
         navigator.mediaDevices.getUserMedia({ video: false, audio: true })
             .then((currentStream) => {
                 incomingVoice.addTrack(currentStream.getTracks()[0]);
             });
     }
 
-    const start = () => {
-        setStarted(true);
+    const start = async () => {
+        started = true;
+        setStateStart(true);
+        if (cameras.length === 0){
+            await navigator.mediaDevices.enumerateDevices()
+            .then((devices) => {
+                devices.forEach((device) => {
+                    if(device.kind === "videoinput"){
+                        cameras.push(device.deviceId);
+                    };
+                });
+            });
+
+            await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[0] }, width: 1920, height: 1080 }, audio: true })
+                .then((currentStream) => {
+
+                    //streams.current.push(currentStream);
+
+                    console.log(currentStream.getTracks());
+
+                    vid1.addTrack(currentStream.getTracks()[0]);
+                    vid1.addTrack(currentStream.getTracks()[1]);
+                    console.log(vid1.getTracks());
+                });
+
+                if (cameras.length > 1){
+                    await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[1] }, width: 1920, height: 1080 }, audio: false })
+                        .then((currentStream) => {
+
+                            //streams.current.push(currentStream);
+
+                            console.log(currentStream.getTracks());
+
+                            vid1.addTrack(currentStream.getVideoTracks()[0]);
+                        });
+                }else{
+                    return vid1.getTracks();
+                }
+                if (cameras.length > 2){
+                    await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[2] }, width: 1920, height: 1080 }, audio: false })
+                        .then((currentStream) => {
+
+                            //streams.current.push(currentStream);
+
+                            vid1.addTrack(currentStream.getVideoTracks()[0]);
+
+                        });
+                }else{
+                    return vid1.getTracks();
+                }
+            }else{
+                window.alert('cameras already set');
+            }
+            setShareScreen(true);
     }
 
     return (
         <Context.Provider value={{
             startWatch,
             started,
+            stateStartWatch,
+            stateStart,
             isChannelReady,
             isInitiator,
             isStarted,

@@ -32,9 +32,11 @@ const SendStream = () => {
           await getCameras();
         }
 
-        if(incomingVoice.getTracks()){
+        if(incomingVoice){
           console.log(incomingVoice.getTracks());
         }
+
+        console.log(vid1);
 
         let tracks = vid1.getVideoTracks();
 

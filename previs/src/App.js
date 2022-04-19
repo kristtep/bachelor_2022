@@ -10,23 +10,23 @@ import Div100vh from "react-div-100vh";
 
 const App = () => {
 
-  const { started, startWatch } = useContext(Context);
+  const { stateStart, stateStartWatch } = useContext(Context);
 
   return (
     <Div100vh>
       <div className="App">
-          {!started && !startWatch && (
+          {!stateStart && !stateStartWatch && (
             <Home />
           )}
 
 
-          {started && (
+          {stateStart && (
             <>
             <Controls />
             <SendStream />
             </>
           )}
-          {startWatch && (
+          {stateStartWatch && (
             <>
             <Controls />
             <ViewStream />
