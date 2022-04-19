@@ -1,21 +1,27 @@
-import React, { useContext } from "react";
 import "../styles.css";
-import { Context } from "../socket";
+import { Link } from "react-router-dom";
 
 const Home = () => {
 
-    const { start, startW } = useContext(Context);
+    
 
     return (
         <div id="home" >
-            <div id="hospital">
-            <p>Lat som du er på sykehuset</p>
-            <button id="watch" onClick = {startW}>Watch</button>
+            <div id="welcome">
+                <p>Velkommen til PreViS Samhandlingssystem, et video overføringsystem for ambulanser og sykehus</p>
+            </div>
+            <div id="start">
+                <Link to="hospital">
+                    <h2>Sykehus</h2>
+                </Link>
+                
             </div>
 
-            <div id="ambulance">
-            <p>Lat som at du er i en ambulanse, og DET ER BLOD OVERALT</p>
-            <button id="startstream"onClick = {start}>START</button>
+            <div id="start">
+                <Link to="ambulance">
+                    <h2>Ambulanse</h2>
+                </Link>
+                
             </div>
         </div>
     )

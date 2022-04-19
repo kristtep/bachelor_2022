@@ -1,7 +1,8 @@
 import React, { useContext, useState } from "react";
 import "../styles.css";
 import { Context } from "../socket";
-import { RiMenuLine, RiCloseLine } from 'react-icons/ri';
+import { RiMenuLine, RiCloseLine, RiCustomerService2Fill } from 'react-icons/ri';
+import { BsMicMute, BsMicMuteFill } from 'react-icons/bs';
 
 
 
@@ -23,9 +24,6 @@ const Controls = ( { children } ) => {
 
     return (
         <div id="controls" >
-        {call.incomingCall && !callAccepted && (
-            <button className="control-button" onClick = {answer}>Svar</button>
-        )}
 
         {!stateStart && (
 
@@ -34,9 +32,9 @@ const Controls = ( { children } ) => {
                 <button onClick={() => callRoom()}>Ambulance 60</button>
             </div>
             {room && (
-                <div id="watchid">
-                <p>your room: {room}</p>
-            </div>
+                <div id="callerid">
+                <p>{room}</p><RiCustomerService2Fill className="hodetelefoner"/>
+                </div>
             )}
             <button className="control-button" id="stop" onClick = {hangUp}>Avslutt</button>
             </>
@@ -65,11 +63,13 @@ const Controls = ( { children } ) => {
                     </div>
                     ) : (
                     <div>
-                        <p>room: {room}</p>
+                        <p>Room: {room}</p>
                     </div>
                 )}
-
-                <button className="control-button" onClick={() => startShareScreen()}>Del skjerm</button>
+                <div id="extra-buttons">
+                    <button className="extra-buttons" onClick={() => startShareScreen()}>ULTRALYD</button>
+                    <button className="extra-buttons" onClick={() => startShareScreen()}>TERMISK</button>
+                </div>
                 <button className="control-button" id="stop" onClick = {hangUp}><p>AVSLUTT</p></button>
             </div>
         </>
