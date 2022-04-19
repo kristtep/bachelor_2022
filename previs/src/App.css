@@ -17,15 +17,32 @@ button {
   float: right;
 }
 
+#welcome {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
 #startstream, #watch {
   border-radius: 10px;
   font-size: 50px;
   font-weight: bold;
-  background-color: #A1D58F;
+  background-color: #FFFFFF;
+  color: black;
+  cursor: pointer;
+  height: 200px;
+  width: 300px;
 }
 
 #startstream p, #watch p {
 margin-top: 5px;
+}
+
+#startstream:hover, #watch:hover {
+  transform: scale(1.1);
+  transition-duration: 0.2s;
 }
 
 #home {
@@ -36,12 +53,29 @@ margin-top: 5px;
   align-items: center;
 }
 
-#ambulance, #hospital {
+#start {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+
+#start a {
+  text-decoration: none;
+  color: #FFFFFF;
+}
+
+#start a:hover {
+  transform: scale(1.1);
+}
+
+#hospital, #ambulance {
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .dropdown-menu {

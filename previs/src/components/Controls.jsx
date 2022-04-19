@@ -65,7 +65,7 @@ const Controls = ( { children } ) => {
                     </div>
                     ) : (
                     <div>
-                        <p>room: {room}</p>
+                        <p>Room: {room}</p>
                     </div>
                 )}
 
