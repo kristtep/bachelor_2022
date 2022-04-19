@@ -56,8 +56,8 @@ const ContextProvider = ({ children }) => {
     const streams = useRef([]);
     const cameras = [];
     //endre navn?
-    const vid1 = useRef();
-    const incomingVoice = useRef();
+    const vid1 = new MediaStream();
+    const incomingVoice = new MediaStream();
     var pc;
 
     useEffect(() => {
@@ -149,22 +149,22 @@ const ContextProvider = ({ children }) => {
                 console.log(event);
             } */
 
-            console.log('vid1: ' + vid1.current, 'incomingvoice :' + incomingVoice.current);
+            console.log('vid1: ' + vid1.getTracks(), 'incomingvoice :' + incomingVoice.getTracks());
             console.log('started: ' + started, 'startWatch: ' + startWatch);
 
             var senderTracks;
             var recieverTracks;
 
             //addTrack funker ikke tror jeg, undefined på konsoll logging av peerconnetion
-            if(vid1.current){
-                senderTracks = vid1.current.getTracks();
+            if(vid1.getTracks() !== 0){
+                senderTracks = vid1.getTracks();
                 console.log(senderTracks);
                 for (const track of senderTracks) {
                     pc.addTrack(track);
                     console.log(pc);
                 }
-            } else if(incomingVoice.current){
-                recieverTracks = incomingVoice.current.getTracks();
+            } else if(incomingVoice.getTracks() !== 0){
+                recieverTracks = incomingVoice.getTracks();
                 console.log(recieverTracks);
                 for (const track of recieverTracks) {
                     pc.addTrack(track);
@@ -178,13 +178,14 @@ const ContextProvider = ({ children }) => {
             //error om resolution overload når den prøver å lage ny mediastream, fant ikke noe brukbart på stackoverflow
             pc.ontrack = (event) => {
                 console.log(event.track);
-                if(!incomingVoice.current){
+                if(!incomingVoice.getTracks()){
                     console.log('making new stream sender');
-                    incomingVoice.current = new MediaStream(event.track);
-                } else if (!vid1.current) {
+                    incomingVoice.addTrack(event.track);
+                } else if (!vid1.getTracks()) {
                     console.log('making new stream reciever');
-                    vid1.current = new MediaStream(event.track);
+                    vid1.addTrack(event.track);
                 }
+                setShareScreen(true);
             };
         } catch (e) {
             console.log("failed to create peer connection: " + e);
@@ -280,7 +281,7 @@ const ContextProvider = ({ children }) => {
                 console.log(pc.current);
                 if(pc.current){
                     console.log('peer connected');
-                    vid1.current.addTrack(currentStream.getVideoTracks()[0]);
+                    vid1.addTrack(currentStream.getVideoTracks()[0]);
                     pc.current.addTrack(currentStream.getVideoTracks()[0], vid1.current);
                     setShareScreen(true);
                     streams.current.push(currentStream);
@@ -319,33 +320,36 @@ const ContextProvider = ({ children }) => {
             await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[0] }, width: 1920, height: 1080 }, audio: true })
                 .then((currentStream) => {
 
-                    streams.current.push(currentStream);
+                    //streams.current.push(currentStream);
 
-                    vid1.current = currentStream;
+                    console.log(currentStream.getTracks());
+
+                    vid1.addTrack(currentStream.getTracks()[0]);
+                    vid1.addTrack(currentStream.getTracks()[1]);
                 });
 
                 if (cameras.length > 1){
                     await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[1] }, width: 1920, height: 1080 }, audio: false })
                         .then((currentStream) => {
 
-                            streams.current.push(currentStream);
+                            //streams.current.push(currentStream);
 
-                            vid1.current.addTrack(currentStream.getVideoTracks()[0]);
+                            vid1.addTrack(currentStream.getVideoTracks()[0]);
                         });
                 }else{
-                    return vid1.current.getTracks();
+                    return vid1.getTracks();
                 }
                 if (cameras.length > 2){
                     await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[2] }, width: 1920, height: 1080 }, audio: false })
                         .then((currentStream) => {
 
-                            streams.current.push(currentStream);
+                            //streams.current.push(currentStream);
 
-                            vid1.current.addTrack(currentStream.getVideoTracks()[0]);
+                            vid1.addTrack(currentStream.getVideoTracks()[0]);
 
                         });
                 }else{
-                    return vid1.current.getTracks();
+                    return vid1.getTracks();
                 }
             }else{
                 window.alert('cameras already set');
@@ -356,7 +360,7 @@ const ContextProvider = ({ children }) => {
         setStartWatch(true);
         navigator.mediaDevices.getUserMedia({ video: false, audio: true })
             .then((currentStream) => {
-                incomingVoice.current = currentStream;
+                incomingVoice.addTrack(currentStream.getTracks()[0]);
             });
     }
 

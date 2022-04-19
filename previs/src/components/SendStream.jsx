@@ -32,11 +32,11 @@ const SendStream = () => {
           await getCameras();
         }
 
-        if(incomingVoice.current){
-          console.log(incomingVoice.current.getTracks());
+        if(incomingVoice.getTracks()){
+          console.log(incomingVoice.getTracks());
         }
 
-        let tracks = vid1.current.getVideoTracks();
+        let tracks = vid1.getVideoTracks();
 
         console.log(tracks);
 
@@ -59,7 +59,7 @@ const SendStream = () => {
 
     const setSrc = (i) => {
 
-      const tracks = vid1.current.getVideoTracks();
+      const tracks = vid1.getVideoTracks();
 
         let src = new MediaStream();
         src.addTrack(tracks[i-1]);
@@ -73,7 +73,7 @@ const SendStream = () => {
 
         {callAccepted && !callEnded && (
           <div>
-            <audio ref={incomingVoice} autoPlay />
+            <audio src={incomingVoice} autoPlay />
           </div>
         )}
         </>
