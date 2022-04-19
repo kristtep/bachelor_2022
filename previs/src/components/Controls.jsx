@@ -66,7 +66,10 @@ const Controls = ( { children } ) => {
                         <p>Room: {room}</p>
                     </div>
                 )}
-
+                <div id="extra-buttons">
+                    <button className="extra-buttons" onClick={() => startShareScreen()}>ULTRALYD</button>
+                    <button className="extra-buttons" onClick={() => startShareScreen()}>TERMISK</button>
+                </div>
                 <button className="control-button" onClick={() => callRoom('sender')}>Del skjerm</button>
                 <button className="control-button" id="stop" onClick = {hangUp}><p>AVSLUTT</p></button>
             </div>

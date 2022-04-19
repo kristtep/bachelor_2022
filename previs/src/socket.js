@@ -44,7 +44,7 @@ const ContextProvider = ({ children }) => {
     var clientName = "ambulance" + Math.floor(Math.random() * 100 + 1);
     var remoteClient;
     var room = "PreViS";
-
+    
     var startWatch = false;
     const [stateStartWatch, setStateStartWatch] = useState(false)
     var started = false;
