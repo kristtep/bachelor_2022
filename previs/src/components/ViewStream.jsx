@@ -4,7 +4,7 @@ import { Context } from "../socket";
 
 const ViewStream = () => {
 
-    const { startWatch, vid1, callEnded, callAccepted, shareScreen, pc } = useContext(Context);
+    const { stateStartWatch, vid1, callEnded, callAccepted, shareScreen, pc } = useContext(Context);
 
     useEffect(() =>{
       makeVideoElems();
@@ -30,8 +30,8 @@ const ViewStream = () => {
 
       console.log("makevideoelems in view", vid1.current);
 
-      if(callAccepted && vid1.current.getTracks() !== 0){
-      let tracks = vid1.current.getTracks();
+      if(callAccepted && vid1.current){
+      let tracks = vid1.current.getVideoTracks();
 
       console.log(tracks);
 
@@ -61,13 +61,16 @@ const ViewStream = () => {
     const tracks = vid1.current.getTracks();
 
       let src = new MediaStream();
-      src.addTrack(tracks[i-1]);
+      if(i === 1){
+        src.addTrack(tracks[0]);
+      }
+      src.addTrack(tracks[i]);
       document.getElementById(`v${i}`).srcObject = src;
   }
 
     return (
         <>
-            {/* startWatch && */ callAccepted && !callEnded && (
+            { stateStartWatch && callAccepted && !callEnded && (
               <>
 
                 <div id="vstream"></div>

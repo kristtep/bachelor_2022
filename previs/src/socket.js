@@ -36,14 +36,10 @@ const ContextProvider = ({ children }) => {
     var isChannelReady = false;
     var isInitiator = false;
     var isStarted = false;
-    var hosp = false;
-    var ambu = false;
-    //var pc;
-    var turnReady;
-    var dataChannel;
     var clientName = "ambulance" + Math.floor(Math.random() * 100 + 1);
     var remoteClient;
     var room = "PreViS";
+    //var pc;
 
     var startWatch = false;
     const [stateStartWatch, setStateStartWatch] = useState(false)
@@ -60,7 +56,7 @@ const ContextProvider = ({ children }) => {
     //endre navn?
     const vid1 = useRef();
     const incomingVoice = useRef();
-    var pc;
+    const pc = useRef();
 
     useEffect(() => {
         console.log(socket);
@@ -98,17 +94,17 @@ const ContextProvider = ({ children }) => {
                     maybeStart();
                 }
                 console.log("offer and setting remotedesc, and running doAnswer()");
-                pc.setRemoteDescription(new RTCSessionDescription(message));
+                pc.current.setRemoteDescription(new RTCSessionDescription(message));
                 doAnswer();
             } else if (message.type === "answer" && isStarted) {
-                pc.setRemoteDescription(new RTCSessionDescription(message));
+                pc.current.setRemoteDescription(new RTCSessionDescription(message));
                 setCallAccepted(true);
             } else if (message.type === "candidate" && isStarted) {
                 var candidate = new RTCIceCandidate({
                     sdpMLineIndex: message.label,
                     candidate: message.candidate,
                 });
-                pc.addIceCandidate(candidate);
+                pc.current.addIceCandidate(candidate);
             } else if (message === "bye" && isStarted) {
                 handleRemoteHangup();
                 console.log("remote hang up");
@@ -140,8 +136,9 @@ const ContextProvider = ({ children }) => {
 
     const createPeerConnection = () => {
         try {
-            pc = new RTCPeerConnection(turnStunConfig);
-            pc.onicecandidate = handleIceCandidate;
+            pc.current = new RTCPeerConnection(turnStunConfig);
+            pc.current.onicecandidate = handleIceCandidate;
+            pc.current.onnegotiationneeded = handleNegotiationNeeded;
             console.log("created rtcpeerconnection");
 
             //sending side
@@ -162,15 +159,15 @@ const ContextProvider = ({ children }) => {
                 senderTracks = vid1.current.getTracks();
                 console.log(senderTracks);
                 for (const track of senderTracks) {
-                    pc.addTrack(track, vid1.current);
-                    console.log(pc);
+                    pc.current.addTrack(track, vid1.current);
+                    console.log(pc.current);
                 }
             } else if(incomingVoice.current){
                 recieverTracks = incomingVoice.current.getTracks();
                 console.log(recieverTracks);
                 for (const track of recieverTracks) {
-                    pc.addTrack(track, incomingVoice.current);
-                    console.log(pc);
+                    pc.current.addTrack(track, incomingVoice.current);
+                    console.log(pc.current);
                 }
             }
 
@@ -178,7 +175,7 @@ const ContextProvider = ({ children }) => {
 
             //recieving side
             //error om resolution overload når den prøver å lage ny mediastream, fant ikke noe brukbart på stackoverflow
-            pc.ontrack = (event) => {
+            pc.current.ontrack = (event) => {
                 console.log(event.streams[0].getTracks());
                 console.log(event.track);
                 if(!incomingVoice.current){
@@ -190,6 +187,8 @@ const ContextProvider = ({ children }) => {
                     console.log('making new stream reciever');
                     vid1.current = event.streams[0];
                     setShareScreen(true);
+                    } else{
+                        vid1.current.addTrack(event.track);
                     }
                 }
                 
@@ -198,6 +197,25 @@ const ContextProvider = ({ children }) => {
             console.log("failed to create peer connection: " + e);
             return;
         }
+    }
+
+    const handleNegotiationNeeded = () => {
+        console.log('negotiation needed');
+        pc.current.createOffer().then((offer) => {
+            return pc.current.setLocalDescription(offer);
+        })
+        .then(() => {
+            sendMessage(
+                {
+                    type: "offer",
+                    sdp: pc.current.localDescription
+                },
+                room
+            );
+        })
+        .catch((e) => {
+            console.log('negotiation error: ' + e);
+        })
     }
 
     const handleIceCandidate = (event) => {
@@ -223,19 +241,19 @@ const ContextProvider = ({ children }) => {
 
     const doCall = () => {
         console.log("sending offer to peer");
-        pc.createOffer(setLocalAndSendMessage, handleCreateOfferError);
+        pc.current.createOffer(setLocalAndSendMessage, handleCreateOfferError);
     }
 
     const doAnswer = () => {
         console.log("sending answer to peer");
-        pc.createAnswer().then(
+        pc.current.createAnswer().then(
             setLocalAndSendMessage,
             onCreateSessionDescriptionError
         );
     }
 
     const setLocalAndSendMessage = (sessionDescription) => {
-        pc.setLocalDescription(sessionDescription);
+        pc.current.setLocalDescription(sessionDescription);
         console.log("setlocalandsendmessage sending message", sessionDescription);
         sendMessage(sessionDescription, room);
         setCallAccepted(true);
@@ -245,13 +263,7 @@ const ContextProvider = ({ children }) => {
         console.log("failed to create session description: " + error);
     }
 
-    const callRoom = (role) => {
-
-        if(role === 'sender'){
-            ambu = true;
-        } else if (role === 'reciever'){
-            hosp = true;
-        }
+    const callRoom = () => {
 
         socket.emit("create or join", room, clientName);
         sendMessage("gotuser", room);
@@ -275,9 +287,9 @@ const ContextProvider = ({ children }) => {
 
     const stop = () => {
         isStarted = false;
-        console.log(pc);
-        //pc.close();
-        pc = null;
+        console.log(pc.current);
+        pc.current.stop();
+        pc.current = null;
     }
 
     const startShareScreen = () => {
@@ -288,13 +300,13 @@ const ContextProvider = ({ children }) => {
                 console.log(pc.current);
                 if(pc.current){
                     console.log('peer connected');
-                    vid1.addTrack(currentStream.getVideoTracks()[0]);
+                    vid1.current.addTrack(currentStream.getVideoTracks()[0]);
                     pc.current.addTrack(currentStream.getVideoTracks()[0], vid1.current);
                     setShareScreen(true);
-                    streams.current.push(currentStream);
+                    //streams.current.push(currentStream);
                 }else{
                     console.log('else');
-                    streams.current.push(currentStream);
+                    //streams.current.push(currentStream);
                     console.log(currentStream.getVideoTracks()[0]);
                     vid1.current.addTrack(currentStream.getVideoTracks()[0]);
                     setShareScreen(true);
@@ -305,8 +317,8 @@ const ContextProvider = ({ children }) => {
     const end = () => {
         setCallEnded(true);
 
-        if(pc){
-            pc.destroy();
+        if(pc.current){
+            pc.current.stop();
         }
 
         window.location.reload();

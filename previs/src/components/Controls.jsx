@@ -8,13 +8,13 @@ import { RiMenuLine, RiCloseLine } from 'react-icons/ri';
 
 const Controls = ( { children } ) => {
 
-    const { clientName, room, stateStartWatch, stateStart, call, answer, callAccepted, end, callRoom, hangUp, startShareScreen } = useContext(Context);
+    const { room, stateStartWatch, stateStart, call, answer, callAccepted, end, callRoom, hangUp, startShareScreen } = useContext(Context);
 //    const [idToCall, setIdToCall] = useState('');
     const [toggleMenu, setToggleMenu] = useState(false);
 
     const Menu = () => (
         <>
-        <p onClick={() => callRoom('sender')}>AKUTTMOTTAK LILLEHAMMER</p>
+        <p onClick={() => callRoom()}>AKUTTMOTTAK LILLEHAMMER</p>
         <p><a href="h">SLAGVAKT SI</a></p>
         <p><a href="h">LUFTAMBULANSE</a></p>
         <p><a href="h">ANESTESI LEGEBIL</a></p>
@@ -31,7 +31,7 @@ const Controls = ( { children } ) => {
 
             <>
             <div>
-                <button onClick={() => callRoom('reciever')}>Ambulance 60</button>
+                <button onClick={() => callRoom()}>Ambulance 60</button>
             </div>
             {room && (
                 <div id="watchid">
@@ -45,7 +45,7 @@ const Controls = ( { children } ) => {
         {!stateStartWatch && (
             <>
             <div id="topbar-ambulance">
-                {!room ? (
+                {!callAccepted ? (
                     <div id="call-input">
                         <div id='start-button'>
                             <button className='control-button' onClick={() => setToggleMenu(true)}><p>RING</p></button>
@@ -69,7 +69,7 @@ const Controls = ( { children } ) => {
                     </div>
                 )}
 
-                <button className="control-button" onClick={() => callRoom('sender')}>Del skjerm</button>
+                <button className="control-button" onClick={() => startShareScreen()}>Del skjerm</button>
                 <button className="control-button" id="stop" onClick = {hangUp}><p>AVSLUTT</p></button>
             </div>
         </>
