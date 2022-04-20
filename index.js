@@ -19,6 +19,8 @@ app.get("/", (req, res) => {
     res.send("Server is running");
 });
 
+var check = 0;
+
 io.on("connection", (socket) => {
 
     socket.on('message', (message, room) => {
@@ -33,7 +35,9 @@ io.on("connection", (socket) => {
 
         if (numCli === 0){
             socket.join(room);
-            socket.emit("created", room, socket.id);
+            check++;
+            console.log(check);
+            socket.emit("created", room, socket.id, check);
         } else {
             io.sockets.in(room).emit("join", room, client);
             socket.join(room);
