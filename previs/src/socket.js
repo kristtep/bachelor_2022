@@ -45,6 +45,7 @@ const ContextProvider = ({ children }) => {
     const [shareScreen, setShareScreen] = useState(false);
     const [callAccepted, setCallAccepted] = useState(false);
     const [callEnded, setCallEnded] = useState(false);
+    const [camReady, setCamReady] = useState(false);
 
     const streams = useRef([]);
     const cameras = [];
@@ -158,14 +159,14 @@ const ContextProvider = ({ children }) => {
             var recieverTracks;
 
             //addTrack funker ikke tror jeg, undefined på konsoll logging av peerconnetion
-            if(vid1.current){
+            if(stateStart){
                 senderTracks = vid1.current.getTracks();
                 console.log(senderTracks);
                 for (const track of senderTracks) {
                     pc.current.addTrack(track, vid1.current);
                     console.log(pc.current);
                 }
-            } else if(incomingVoice.current){
+            } else if(stateStartWatch){
                 recieverTracks = incomingVoice.current.getTracks();
                 console.log(recieverTracks);
                 for (const track of recieverTracks) {
@@ -174,18 +175,16 @@ const ContextProvider = ({ children }) => {
                 }
             }
 
-
-
             //recieving side
             //error om resolution overload når den prøver å lage ny mediastream, fant ikke noe brukbart på stackoverflow
             pc.current.ontrack = (event) => {
                 console.log(event.streams[0].getTracks());
                 console.log(event.track);
-                if(!incomingVoice.current){
+                if(stateStart){
                     console.log('making new stream sender');
                     incomingVoice.current = event.streams[0];
                     setShareScreen(false);
-                } else {
+                } else if (stateStartWatch) {
                     if(!vid1.current){
                     console.log('making new stream reciever');
                     vid1.current = event.streams[0];
@@ -306,10 +305,8 @@ const ContextProvider = ({ children }) => {
                     vid1.current.addTrack(currentStream.getVideoTracks()[0]);
                     pc.current.addTrack(currentStream.getVideoTracks()[0], vid1.current);
                     setShareScreen(true);
-                    //streams.current.push(currentStream);
                 }else{
                     console.log('else');
-                    //streams.current.push(currentStream);
                     console.log(currentStream.getVideoTracks()[0]);
                     vid1.current.addTrack(currentStream.getVideoTracks()[0]);
                     setShareScreen(true);
@@ -327,70 +324,23 @@ const ContextProvider = ({ children }) => {
         window.location.reload();
     }
 
-    const getCameras = async () => {
-
-        if (cameras.length === 0){
-            await navigator.mediaDevices.enumerateDevices()
-            .then((devices) => {
-                devices.forEach((device) => {
-                    if(device.kind === "videoinput"){
-                        cameras.push(device.deviceId);
-                    };
-                });
-            });
-
-            await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[0] }, width: 1920, height: 1080 }, audio: true })
-                .then((currentStream) => {
-
-                    //streams.current.push(currentStream);
-
-                    console.log(currentStream.getTracks());
-
-                    vid1.current = currentStream;
-                });
-
-                if (cameras.length > 1){
-                    await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[1] }, width: 1920, height: 1080 }, audio: false })
-                        .then((currentStream) => {
-
-                            //streams.current.push(currentStream);
-
-                            console.log(currentStream.getTracks());
-
-                            vid1.current.addTrack(currentStream.getVideoTracks()[0]);
-                        });
-                }else{
-                    return vid1.current.getTracks();
-                }
-                if (cameras.length > 2){
-                    await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[2] }, width: 1920, height: 1080 }, audio: false })
-                        .then((currentStream) => {
-
-                            //streams.current.push(currentStream);
-
-                            vid1.current.addTrack(currentStream.getVideoTracks()[0]);
-
-                        });
-                }else{
-                    return vid1.current.getTracks();
-                }
-            }else{
-                window.alert('cameras already set');
-            }
-    }
-
     const startW = () => {
         startWatch = true;
         setStateStartWatch(true);
         navigator.mediaDevices.getUserMedia({ video: false, audio: true })
             .then((currentStream) => {
                 incomingVoice.current = currentStream;
+                navigator.mediaDevices.getDisplayMedia({ video: true, audio: false })
+                .then((currentStream) => {
+                    incomingVoice.current.addTrack(currentStream.getVideoTracks()[0]);
+                });
             });
     }
 
     const start = async () => {
         started = true;
         setStateStart(true);
+
         if (cameras.length === 0){
             await navigator.mediaDevices.enumerateDevices()
             .then((devices) => {
@@ -422,6 +372,7 @@ const ContextProvider = ({ children }) => {
                             vid1.current.addTrack(currentStream.getVideoTracks()[0]);
                         });
                 }else{
+                    setCamReady(true);
                     return vid1.current.getTracks();
                 }
                 if (cameras.length > 2){
@@ -434,12 +385,12 @@ const ContextProvider = ({ children }) => {
 
                         });
                 }else{
+                    setCamReady(true);
                     return vid1.current.getTracks();
                 }
             }else{
                 window.alert('cameras already set');
             }
-            setShareScreen(true);
     }
 
     return (
@@ -448,6 +399,7 @@ const ContextProvider = ({ children }) => {
             started,
             stateStartWatch,
             stateStart,
+            camReady,
             isChannelReady,
             isInitiator,
             isStarted,
@@ -469,7 +421,6 @@ const ContextProvider = ({ children }) => {
             start,
             startW,
             startShareScreen,
-            getCameras,
         }}>
             { children }
         </Context.Provider>

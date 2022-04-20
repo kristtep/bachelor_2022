@@ -4,11 +4,11 @@ import { Context } from "../socket";
 
 const SendStream = () => {
 
-    const { shareScreen, vid1, callAccepted, callEnded, incomingVoice } = useContext(Context);
+    const { shareScreen, vid1, callAccepted, callEnded, incomingVoice, camReady } = useContext(Context);
 
     useEffect(() => {
       makeVideoElems();
-    }, [shareScreen]);
+    }, [shareScreen, camReady, callAccepted]);
 
     const toggleFullscreen = (num) => {
         let elem = document.getElementById(`${num}`);
@@ -52,7 +52,7 @@ const SendStream = () => {
               elem.setAttribute('id', i);
               elem.setAttribute('autoPlay', true);
               elem.onclick = () => toggleFullscreen(i);
-
+              
               document.getElementById('stream').appendChild(elem);
               setSrc(i);
               
@@ -81,12 +81,12 @@ const SendStream = () => {
 
     return (
         <>
-        <div id="stream"></div>
-
-        {callAccepted && !callEnded && (
+        {callAccepted && !callEnded ? (
           <div>
-            <audio ref={incomingVoice} autoPlay />
+            <video ref={incomingVoice} autoPlay />
           </div>
+        ) : (
+          <div id="stream"></div>
         )}
         </>
     )
