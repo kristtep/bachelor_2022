@@ -6,8 +6,6 @@ import ViewStream from "./ViewStream";
 const Hospital = () => {
 
     const { startW, stateStartWatch } = useContext(Context);
-    
-   
 
   return (
     <div id="hospital">

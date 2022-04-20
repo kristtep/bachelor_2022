@@ -55,6 +55,7 @@ const SendStream = () => {
 
               document.getElementById('stream').appendChild(elem);
               setSrc(i);
+              
               }
             }
           }
@@ -68,7 +69,14 @@ const SendStream = () => {
         let src = new MediaStream();
         src.addTrack(tracks[i-1]);
         document.getElementById(`${i}`).srcObject = src;
+        makeButton();
+    }
 
+    const makeButton = () => {
+      let button = document.createElement('button');
+      button.innerHTML = 'TILBAKE';
+      button.setAttribute('id', 'back');
+      document.getElementById('video').appendChild(button);
     }
 
     return (
