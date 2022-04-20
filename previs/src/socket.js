@@ -451,11 +451,7 @@ const ContextProvider = ({ children }) => {
             isChannelReady,
             isInitiator,
             isStarted,
-<<<<<<< HEAD
-=======
-            call,
             lmao,
->>>>>>> 36b5496b66eb3b8d3795b7ef38e738982a5eec7d
             callAccepted,
             callEnded,
             incomingVoice,
