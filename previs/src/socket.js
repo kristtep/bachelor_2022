@@ -30,9 +30,7 @@ const ContextProvider = ({ children }) => {
             }
         ]
     };
-    //const [isChannelReady, setIsChannelReady] = useState(false);
-    //const [isInitiator, setIsInitiator] = useState(false);
-    //const [isStarted, setIsStarted] = useState(false);
+    
     var isChannelReady = false;
     var isInitiator = false;
     var isStarted = false;
@@ -45,8 +43,6 @@ const ContextProvider = ({ children }) => {
     var started = false;
     const [stateStart, setStateStart] = useState(false);
     const [shareScreen, setShareScreen] = useState(false);
-    //const [room, setRoom] = useState('');
-    const [call, setCall] = useState(false);
     const [callAccepted, setCallAccepted] = useState(false);
     const [callEnded, setCallEnded] = useState(false);
 
@@ -287,7 +283,7 @@ const ContextProvider = ({ children }) => {
     const stop = () => {
         isStarted = false;
         console.log(pc.current);
-        pc.current.stop();
+        pc.current.close();
         pc.current = null;
     }
 
@@ -317,7 +313,7 @@ const ContextProvider = ({ children }) => {
         setCallEnded(true);
 
         if(pc.current){
-            pc.current.stop();
+            pc.current.close();
         }
 
         window.location.reload();
@@ -447,7 +443,6 @@ const ContextProvider = ({ children }) => {
             isChannelReady,
             isInitiator,
             isStarted,
-            call,
             callAccepted,
             callEnded,
             incomingVoice,

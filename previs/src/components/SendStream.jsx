@@ -4,7 +4,7 @@ import { Context } from "../socket";
 
 const SendStream = () => {
 
-    const { shareScreen, vid1, callAccepted, callEnded, incomingVoice, getCameras, pc } = useContext(Context);
+    const { shareScreen, vid1, callAccepted, callEnded, incomingVoice } = useContext(Context);
 
     useEffect(() => {
       makeVideoElems();
