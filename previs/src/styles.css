@@ -76,9 +76,7 @@ p {
     background-color: var(--stop-button-background);
 }
 
-#start-button p {
-    margin: 0 5px;
-}
+
 
 #start-button:hover, #stop:hover, .control-button:hover {
     cursor: pointer;

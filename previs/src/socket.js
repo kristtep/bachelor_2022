@@ -39,7 +39,7 @@ const ContextProvider = ({ children }) => {
     var clientName = "ambulance" + Math.floor(Math.random() * 100 + 1);
     var remoteClient;
     var room = "PreViS";
-    
+    const [ lmao, setLmao ] = useState(false);
     var startWatch = false;
     const [stateStartWatch, setStateStartWatch] = useState(false)
     var started = false;
@@ -60,8 +60,16 @@ const ContextProvider = ({ children }) => {
     useEffect(() => {
         console.log(socket);
 
-        socket.on("created", (room) => {
+        socket.on("created", (room, id, check) => {
             console.log("room created: " + room);
+            console.log(id);
+            if(check < 0 ) {
+                setLmao(true);
+                console.log(lmao);
+            } else {
+                setLmao(false);
+            }
+            console.log(check);
             isInitiator = true;
         });
 
@@ -263,7 +271,6 @@ const ContextProvider = ({ children }) => {
     }
 
     const callRoom = () => {
-
         socket.emit("create or join", room, clientName);
         sendMessage("gotuser", room);
         if(isInitiator){
@@ -280,6 +287,8 @@ const ContextProvider = ({ children }) => {
     const hangUp = () => {
         console.log("Hanging up...");
         setCallEnded(true);
+        setStateStart(false);
+        setStateStartWatch(false);
         stop();
         sendMessage("bye", room);
     }
@@ -287,8 +296,7 @@ const ContextProvider = ({ children }) => {
     const stop = () => {
         isStarted = false;
         console.log(pc.current);
-        pc.current.stop();
-        pc.current = null;
+        pc.current.close();
     }
 
     const startShareScreen = () => {
@@ -448,6 +456,7 @@ const ContextProvider = ({ children }) => {
             isInitiator,
             isStarted,
             call,
+            lmao,
             callAccepted,
             callEnded,
             incomingVoice,

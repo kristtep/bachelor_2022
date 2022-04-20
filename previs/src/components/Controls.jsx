@@ -9,7 +9,7 @@ import { BsMicMute, BsMicMuteFill } from 'react-icons/bs';
 
 const Controls = ( { children } ) => {
 
-    const { room, stateStartWatch, stateStart, call, answer, callAccepted, end, callRoom, hangUp, startShareScreen } = useContext(Context);
+    const { room, stateStartWatch, stateStart, call, answer, callAccepted, end, callRoom, hangUp, startShareScreen, clientName } = useContext(Context);
 //    const [idToCall, setIdToCall] = useState('');
     const [toggleMenu, setToggleMenu] = useState(false);
 
@@ -29,14 +29,14 @@ const Controls = ( { children } ) => {
 
             <>
             <div>
-                <button onClick={() => callRoom()}>Ambulance 60</button>
+                <button onClick={() => callRoom()}>{room + "  " + clientName}</button>
             </div>
             {room && (
                 <div id="callerid">
-                <p>{room}</p><RiCustomerService2Fill className="hodetelefoner"/>
+                    <p>{room}</p><RiCustomerService2Fill className="hodetelefoner"/>
                 </div>
             )}
-            <button className="control-button" id="stop" onClick = {hangUp}>Avslutt</button>
+            <button className="control-button" id="stop" onClick = {hangUp}>AVSLUTT</button>
             </>
         )}
 
@@ -50,7 +50,7 @@ const Controls = ( { children } ) => {
                             <div className='dropdown-menu'>
                             {toggleMenu
                             ? <RiCloseLine color="fff" size={35} onClick={() => setToggleMenu(false)} />
-                            : <RiMenuLine color="fff" size={30} onClick={() => setToggleMenu(true)} />}
+                            : <RiMenuLine color="fff" size={35} onClick={() => setToggleMenu(true)} />}
                             {toggleMenu && (
                                 <div className='dropdown-menu_container scale-up-center'>
                                     <div className="dropdown-menu_container-links">
@@ -62,8 +62,8 @@ const Controls = ( { children } ) => {
                         </div>
                     </div>
                     ) : (
-                    <div>
-                        <p>Room: {room}</p>
+                    <div id="callerid">
+                        <p>{room}</p><RiCustomerService2Fill className="hodetelefoner"/>
                     </div>
                 )}
                 <div id="extra-buttons">
