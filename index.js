@@ -31,7 +31,6 @@ io.on("connection", (socket) => {
     socket.on('create or join', (room, client) => {
         var cliInRoom = io.sockets.adapter.rooms.get(room);
         var numCli = cliInRoom ? cliInRoom.size : 0;
-        socket.emit('status', numCli);
         console.log("room " + room + " has " + numCli + " clients.");
 
         if (numCli === 0){
