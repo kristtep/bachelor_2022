@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import "../styles.css";
 import { Context } from "../socket";
 import { RiMenuLine, RiCloseLine, RiCustomerService2Fill } from 'react-icons/ri';
-import { BsMicMute, BsMicMuteFill } from 'react-icons/bs';
+import { BsFillMicFill, BsMicMuteFill } from 'react-icons/bs';
 
 
 
@@ -12,6 +12,9 @@ const Controls = ( { children } ) => {
     const { room, stateStartWatch, stateStart, callAccepted, callRoom, hangUp, startShareScreen, clientName } = useContext(Context);
 //    const [idToCall, setIdToCall] = useState('');
     const [toggleMenu, setToggleMenu] = useState(false);
+    const [muted, setMuted] = useState(true);
+
+    const handleToggleMute = () => setMuted(current => !current);
 
     const Menu = () => (
         <>
@@ -31,12 +34,17 @@ const Controls = ( { children } ) => {
             <div>
                 <button onClick={() => callRoom()}>{room + "  " + clientName}</button>
             </div>
+            <div id="mute-caller">
             {room && (
                 <div id="callerid">
                     <p>{room}</p><RiCustomerService2Fill className="hodetelefoner"/>
                 </div>
             )}
+            
+            <button className="mute-button" onClick={handleToggleMute}>{muted ?  <BsMicMuteFill size={30}/> : <BsFillMicFill size={30}/>}</button>
+            </div>
             <button className="control-button" id="stop" onClick = {hangUp}>AVSLUTT</button>
+            
             </>
         )}
 

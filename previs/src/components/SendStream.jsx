@@ -73,6 +73,8 @@ const SendStream = () => {
                   document.getElementById('videoContainer-1').remove();
                   document.getElementById('2').remove();
                   document.getElementById('videoContainer-2').remove();
+                  document.getElementById('3').remove();
+                  document.getElementById('videoContainer-3').remove();
                 }
                 if(!document.getElementById("hospital-mirroring")){
                   let elem = document.createElement('video');
