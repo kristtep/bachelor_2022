@@ -26,6 +26,7 @@ const SendStream = () => {
             elem.setAttribute('width', '100%');
             elem.setAttribute('height', '100%');
             elem.setAttribute('autoPlay', true);
+            elem.setAttribute('muted', true);
             elem.onclick = () => toggleFullscreen(i);
 
             console.log('inside making vid elems');

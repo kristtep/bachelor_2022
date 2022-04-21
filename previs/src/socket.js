@@ -304,7 +304,6 @@ const ContextProvider = ({ children }) => {
                     incomingVoice.current.addTrack(currentStream.getVideoTracks()[0]);
                 });
             });
-        callRoom();
     }
 
     const start = async () => {

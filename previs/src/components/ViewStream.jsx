@@ -26,6 +26,7 @@ const ViewStream = () => {
           elem.setAttribute('width', '100%');
           elem.setAttribute('height', '100%');
           elem.setAttribute('autoPlay', true);
+          elem.setAttribute('muted', false);
           elem.onclick = () => toggleFullscreen(i);
 
           document.getElementById('vstream').appendChild(container);

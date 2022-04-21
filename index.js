@@ -48,7 +48,8 @@ io.on("connection", (socket) => {
 
     socket.on("creatorname", (room, client) => {
         socket.to(room).emit("mynameis", client);
-    })
+    });
+    
     socket.on('ipaddr', () => {
         var ifaces = os.networkInterfaces();
         for (var dev in ifaces) {
@@ -62,7 +63,7 @@ io.on("connection", (socket) => {
 
     socket.on("bye", () => {
         console.log("Ending...");
-    })
+    });
 });
 
 server.listen(PORT, () => console.log(`server listening on port ${PORT}`));

@@ -12,7 +12,7 @@ const Controls = ( { children } ) => {
     const { room, stateStartWatch, stateStart, callAccepted, callRoom, hangUp, startShareScreen, callEnded, clientName } = useContext(Context);
 //    const [idToCall, setIdToCall] = useState('');
     const [toggleMenu, setToggleMenu] = useState(false);
-    const [muted, setMuted] = useState(true);
+    const [muted, setMuted] = useState(false);
 
     const handleToggleMute = () => setMuted(current => !current);
 
