@@ -14,7 +14,18 @@ const Controls = ( { children } ) => {
     const [toggleMenu, setToggleMenu] = useState(false);
     const [muted, setMuted] = useState(false);
 
-    const handleToggleMute = () => setMuted(current => !current);
+    function mute () {
+        let video = document.getElementById('v1');
+        console.log(document.getElementsByTagName('video'));
+        console.log(video.muted);
+        if(muted) {
+            video.muted = false;
+            setMuted(false);
+        } else {
+            video.muted = true;
+            setMuted(true);
+        }
+    }
 
     const Menu = () => (
         <>
@@ -41,7 +52,7 @@ const Controls = ( { children } ) => {
                 </div>
             )}
             
-            <button className="mute-button" onClick={handleToggleMute}>{muted ?  <BsMicMuteFill size={30}/> : <BsFillMicFill size={30}/>}</button>
+            <button className="mute-button" onClick={mute}>{!muted ?  <BsMicMuteFill size={30}/> : <BsFillMicFill size={30}/>}</button>
             </div>
             <button className="control-button" id="stop" onClick = {hangUp}>AVSLUTT</button>
             
