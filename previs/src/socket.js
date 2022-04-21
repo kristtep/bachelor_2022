@@ -102,7 +102,6 @@ const ContextProvider = ({ children }) => {
                 doAnswer();
             } else if (message.type === "answer" && isStarted) {
                 pc.current.setRemoteDescription(new RTCSessionDescription(message));
-                setCallAccepted(true);
             } else if (message.type === "candidate" && isStarted) {
                 var candidate = new RTCIceCandidate({
                     sdpMLineIndex: message.label,
@@ -147,13 +146,9 @@ const ContextProvider = ({ children }) => {
 
             //sending side
             //sjekke ut noe alternativ til datachannel, egen for stream?
-            /* dataChannel = pc.createDataChannel("filetransfer");
-            dataChannel.onmessage = (event) => {
-                console.log(event);
-            } */
 
             console.log('vid1: ' + vid1.current, 'incomingvoice :' + incomingVoice.current);
-            console.log('started: ' + stateStart, 'startWatch: ' + stateStartWatch);
+            console.log('started: ' + started, 'startWatch: ' + startWatch);
 
             var senderTracks;
             var recieverTracks;
@@ -181,51 +176,21 @@ const ContextProvider = ({ children }) => {
                 console.log(event.streams[0].getTracks());
                 console.log(event.track);
                 if(started){
-                    if(!incomingVoice.current){
-                        console.log('making new stream sender');
-                        incomingVoice.current = event.streams[0];
-                        setShareScreen(false);
-                    } else {
-                        incomingVoice.current.addTrack(event.track);
-                    }
-                    
-                    
-                    
+                    console.log('making new stream sender');
+                    incomingVoice.current = event.streams[0];
+                    console.log(incomingVoice.current);
+                    setCallAccepted(true);   
                 } else if (startWatch) {
-                    if(!vid1.current){
-                        console.log('making new stream reciever');
-                        vid1.current = event.streams[0];
-                        setShareScreen(true);
-                    } else{
-                        vid1.current.addTrack(event.track);
-                    }
+                    console.log('making new stream reciever');
+                    vid1.current = event.streams[0];
+                    setCallAccepted(true);
                 }
-                
             };
         } catch (e) {
             console.log("failed to create peer connection: " + e);
             return;
         }
     }
-
-    /* const handleNegotiationNeeded = () => {
-        console.log('negotiation needed');
-        pc.current.createOffer().then((offer) => {
-            return pc.current.setLocalDescription(offer);
-        })
-        .then(() => {
-            sendMessage(
-                {
-                    type: "offer",
-                    sdp: pc.current.localDescription
-                },
-                room
-            );
-        })
-        .catch((e) => {
-            console.log('negotiation error: ' + e);
-        })
-    } */
 
     const handleIceCandidate = (event) => {
         console.log("icecandidate event: " + event);
@@ -265,7 +230,6 @@ const ContextProvider = ({ children }) => {
         pc.current.setLocalDescription(sessionDescription);
         console.log("setlocalandsendmessage sending message", sessionDescription);
         sendMessage(sessionDescription, room);
-        setCallAccepted(true);
     }
 
     const onCreateSessionDescriptionError = (error) => {

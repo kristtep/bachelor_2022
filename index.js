@@ -64,16 +64,6 @@ io.on("connection", (socket) => {
     socket.on("bye", () => {
         console.log("Ending...");
     })
-
-    /* socket.on("callHospital", ({ room, hospitalId, signalData, from, name }) => {
-        console.log("socket callHospital: " + Date.now()/1000);
-        io.to(hospitalId).emit("callHospital", { signal: signalData, from, name });
-    }); */
-
-    /* socket.on("answer", (data) => {
-        console.log("socket answer: " + Date.now()/1000);
-        io.to(data.to).emit("callAccepted", data.signal);
-    }); */
 });
 
 server.listen(PORT, () => console.log(`server listening on port ${PORT}`));
