@@ -94,7 +94,7 @@ p {
     align-items: center;
     justify-content: center;
     height: 50px;
-    width: 200px;
+    width: 160px;
 }
 
 #callerid {
@@ -107,7 +107,7 @@ p {
     justify-content: center;
     font-size: 28px;
     height: 50px;
-    padding: 0 1%;
+    width: 160px;
     text-transform: uppercase;
 }  
 

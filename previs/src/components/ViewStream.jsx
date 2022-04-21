@@ -11,7 +11,7 @@ const ViewStream = () => {
     },[ callAccepted, shareScreen ]);
 
     const toggleFullscreen = (num) => {
-        let elem = document.getElementById(`v${num}`);
+        let elem = document.getElementById(`videoContainer-${num}`);
         if(elem){
 
           if(!document.fullscreenElement){
@@ -40,13 +40,19 @@ const ViewStream = () => {
 
         for(let i = 1; i < tracks.length + 1; i++){
           if(!document.getElementById(i)){
+          let container = document.createElement('div');
+          container.setAttribute('id', `videoContainer-${i}`);
           let elem = document.createElement('video');
           elem.setAttribute('id', `v${i}`);
+          elem.setAttribute('width', '100%');
+          elem.setAttribute('height', '100%');
           elem.setAttribute('autoPlay', true);
           elem.onclick = () => toggleFullscreen(i);
 
-          document.getElementById('vstream').appendChild(elem);
+          document.getElementById('vstream').appendChild(container);
+          document.getElementById(`videoContainer-${i}`).appendChild(elem);
           setSrc(i);
+          makeButton(i);
           console.log(i);
           }
         }
@@ -66,6 +72,14 @@ const ViewStream = () => {
       }
       src.addTrack(tracks[i]);
       document.getElementById(`v${i}`).srcObject = src;
+  }
+
+  const makeButton = (i) => {
+    let button = document.createElement('button');
+    button.innerHTML = 'TILBAKE';
+    button.setAttribute('id', 'back');
+    button.onclick = () => toggleFullscreen(i);
+    document.getElementById(`videoContainer-${i}`).appendChild(button);
   }
 
     return (

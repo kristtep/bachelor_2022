@@ -142,7 +142,7 @@ input {
   align-items: center;
   justify-content: center;
   height: 50px;
-  width: 200px;
+  width: 160px;
   cursor: pointer;
 }
 
@@ -151,15 +151,16 @@ input {
   border-radius: 20px;
   height: 90%;
   display: flex;
-  width: 420px;
+  width: 340px;
   justify-content: space-between;
   align-items: center;
 }
 
-#videoContainer-1, #videoContainer-2 {
+#videoContainer-1, #videoContainer-2, #videoContainer-3, #videoContainer-4 {
   max-width: 50%;
   max-height: 50%;
   overflow: hidden;
+  margin: 0;
 }
 
 #videoContainer-1:-webkit-full-screen, #videoContainer-2:-webkit-full-screen {
@@ -169,9 +170,10 @@ input {
 
 #back {
   display: none;
+  z-index: 10;
 }
 
-#videoContainer-1:-webkit-full-screen #back, #videoContainer-2:-webkit-full-screen #back  {
+#videoContainer-1:-webkit-full-screen #back, #videoContainer-2:-webkit-full-screen #back, #videoContainer-3:-webkit-full-screen #back  {
   display: block;
   background-color: #F5751B;
   height: 50px;
@@ -191,17 +193,15 @@ input {
 
 #videoContainer-1:-webkit-full-screen video, #videoContainer-2:-webkit-full-screen video {
   object-fit: cover;
-  max-width: 150vw;
-  max-height: 150vh;
   z-index: 0;
 }
 
-#videoContainer>#back:-webkit-fullscreen {
-  display: block;
-  position: absolute;
-  z-index: 99 !important;
-  height: 50px;
-  font-size: 28px;
+video {
+  aspect-ratio: 16 / 9;
+}
+
+video:hover {
+  cursor: pointer;
 }
 
 video::backdrop {
