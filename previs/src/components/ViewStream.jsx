@@ -4,33 +4,12 @@ import { Context } from "../socket";
 
 const ViewStream = () => {
 
-    const { stateStartWatch, vid1, callEnded, callAccepted, shareScreen } = useContext(Context);
+  const { stateStartWatch, vid1, callEnded, callAccepted, shareScreen } = useContext(Context);
 
-    useEffect(() =>{
-      makeVideoElems();
-    },[ callAccepted, shareScreen ]);
+  useEffect(() =>{
+    console.log("makevideoelems in view", vid1.current);
 
-    const toggleFullscreen = (num) => {
-        let elem = document.getElementById(`videoContainer-${num}`);
-        if(elem){
-
-          if(!document.fullscreenElement){
-            elem.requestFullscreen()
-            .then(() => {})
-            .catch(err => {
-              alert(`error on try fullscreen mode: ${err.message} (${err.name})`);
-            });
-          } else {
-            document.exitFullscreen();
-          }
-        }
-    }
-
-    const makeVideoElems = () => {
-
-      console.log("makevideoelems in view", vid1.current);
-
-      if(callAccepted && vid1.current){
+    if(callAccepted && vid1.current){
       let tracks = vid1.current.getVideoTracks();
 
       console.log(tracks);
@@ -47,6 +26,7 @@ const ViewStream = () => {
           elem.setAttribute('width', '100%');
           elem.setAttribute('height', '100%');
           elem.setAttribute('autoPlay', true);
+          elem.setAttribute('muted', false);
           elem.onclick = () => toggleFullscreen(i);
 
           document.getElementById('vstream').appendChild(container);
@@ -58,6 +38,22 @@ const ViewStream = () => {
         }
       }else{
         window.alert('no media tracks detected');
+      }
+    }
+  },[ callAccepted, shareScreen ]);
+
+  const toggleFullscreen = (num) => {
+    let elem = document.getElementById(`v${num}`);
+    if(elem){
+
+      if(!document.fullscreenElement){
+        elem.requestFullscreen()
+        .then(() => {})
+        .catch(err => {
+          alert(`error on try fullscreen mode: ${err.message} (${err.name})`);
+        });
+      } else {
+        document.exitFullscreen();
       }
     }
   }
