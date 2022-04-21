@@ -2,8 +2,7 @@ import React, { useContext, useState } from "react";
 import "../styles.css";
 import { Context } from "../socket";
 import { RiMenuLine, RiCloseLine, RiCustomerService2Fill } from 'react-icons/ri';
-import { BsFillMicFill, BsMicMuteFill } from 'react-icons/bs';
-
+import { BsMicMute, BsMicMuteFill } from 'react-icons/bs';
 
 
 
@@ -35,6 +34,10 @@ const Controls = ( { children } ) => {
         <p><a href="h">ANESTESI LEGEBIL</a></p>
         </>
     );
+
+    const Mute = () => {
+        
+    }
 
     return (
         <div id="controls" >
