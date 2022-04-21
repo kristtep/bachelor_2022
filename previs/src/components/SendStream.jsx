@@ -38,10 +38,10 @@ const SendStream = () => {
 
         console.log(vid1.current);
 
-        if(vid1.current){
+        if(!incomingVoice.current && !callAccepted){
           let tracks = vid1.current.getVideoTracks();
         
-          console.log(tracks);
+          console.log('inside video making outgoing');
 
           if(tracks){
             console.log(tracks.length);
@@ -58,25 +58,38 @@ const SendStream = () => {
               }
             }
           }
+        } else if (incomingVoice.current && callAccepted) {
+          console.log('inside video making incoming and removing outgoing');
+          document.getElementById('1').remove();
+          document.getElementById('2').remove();
+          if(!document.getElementById("hospital-mirroring")){
+            let elem = document.createElement('video');
+            elem.setAttribute('id', 'hosptial-mirroring');
+            elem.setAttribute('autoPlay', true);
+
+            document.getElementById('incoming-stream').appendChild(elem);
+            setSrc('hosptial-mirroring');
+          }
         }
     }
 
     const setSrc = (i) => {
 
-      const tracks = vid1.current.getVideoTracks();
+      if(!callAccepted){
+        const tracks = vid1.current.getVideoTracks();
 
         let src = new MediaStream();
         src.addTrack(tracks[i-1]);
-        document.getElementById(`${i}`).srcObject = src;
-
+        document.getElementById(i).srcObject = src;
+      } else if (callAccepted){
+        document.getElementById(i).srcObject = incomingVoice.current;
+      }
     }
 
     return (
         <>
         {callAccepted && !callEnded ? (
-          <div>
-            <video ref={incomingVoice} autoPlay />
-          </div>
+          <div id="incoming-stream"></div>
         ) : (
           <div id="stream"></div>
         )}

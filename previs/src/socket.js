@@ -142,7 +142,7 @@ const ContextProvider = ({ children }) => {
         try {
             pc.current = new RTCPeerConnection(turnStunConfig);
             pc.current.onicecandidate = handleIceCandidate;
-            pc.current.onnegotiationneeded = handleNegotiationNeeded;
+//            pc.current.onnegotiationneeded = handleNegotiationNeeded;
             console.log("created rtcpeerconnection");
 
             //sending side
@@ -153,20 +153,20 @@ const ContextProvider = ({ children }) => {
             } */
 
             console.log('vid1: ' + vid1.current, 'incomingvoice :' + incomingVoice.current);
-            console.log('started: ' + started, 'startWatch: ' + startWatch);
+            console.log('started: ' + stateStart, 'startWatch: ' + stateStartWatch);
 
             var senderTracks;
             var recieverTracks;
 
             //addTrack funker ikke tror jeg, undefined på konsoll logging av peerconnetion
-            if(stateStart){
+            if(started){
                 senderTracks = vid1.current.getTracks();
                 console.log(senderTracks);
                 for (const track of senderTracks) {
                     pc.current.addTrack(track, vid1.current);
                     console.log(pc.current);
                 }
-            } else if(stateStartWatch){
+            } else if(startWatch){
                 recieverTracks = incomingVoice.current.getTracks();
                 console.log(recieverTracks);
                 for (const track of recieverTracks) {
@@ -180,15 +180,22 @@ const ContextProvider = ({ children }) => {
             pc.current.ontrack = (event) => {
                 console.log(event.streams[0].getTracks());
                 console.log(event.track);
-                if(stateStart){
-                    console.log('making new stream sender');
-                    incomingVoice.current = event.streams[0];
-                    setShareScreen(false);
-                } else if (stateStartWatch) {
+                if(started){
+                    if(!incomingVoice.current){
+                        console.log('making new stream sender');
+                        incomingVoice.current = event.streams[0];
+                        setShareScreen(false);
+                    } else {
+                        incomingVoice.current.addTrack(event.track);
+                    }
+                    
+                    
+                    
+                } else if (startWatch) {
                     if(!vid1.current){
-                    console.log('making new stream reciever');
-                    vid1.current = event.streams[0];
-                    setShareScreen(true);
+                        console.log('making new stream reciever');
+                        vid1.current = event.streams[0];
+                        setShareScreen(true);
                     } else{
                         vid1.current.addTrack(event.track);
                     }
@@ -201,7 +208,7 @@ const ContextProvider = ({ children }) => {
         }
     }
 
-    const handleNegotiationNeeded = () => {
+    /* const handleNegotiationNeeded = () => {
         console.log('negotiation needed');
         pc.current.createOffer().then((offer) => {
             return pc.current.setLocalDescription(offer);
@@ -218,7 +225,7 @@ const ContextProvider = ({ children }) => {
         .catch((e) => {
             console.log('negotiation error: ' + e);
         })
-    }
+    } */
 
     const handleIceCandidate = (event) => {
         console.log("icecandidate event: " + event);

@@ -13,15 +13,15 @@ const Hospital = () => {
     <div id="hospital">
         {!stateStartWatch && (
         <>
-        <h2>Hospital</h2>
-        <button id="watch" onClick = {startW}>WATCH</button>
+          <h2>Hospital</h2>
+          <button id="watch" onClick = {startW}>WATCH</button>
         </>
         )}
 
         {stateStartWatch && (
             <>
-                <Controls />
-                <ViewStream />
+              <Controls />
+              <ViewStream />
             </>
           )}
     </div>
