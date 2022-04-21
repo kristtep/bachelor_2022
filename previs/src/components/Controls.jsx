@@ -15,7 +15,7 @@ const Controls = ( { children } ) => {
     const [muted, setMuted] = useState(false);
 
     function mute () {
-        let video = document.getElementById('v1');
+        let video = document.getElementById('1');
         console.log(document.getElementsByTagName('video'));
         console.log(video.muted);
         if(muted) {
@@ -52,7 +52,7 @@ const Controls = ( { children } ) => {
                 </div>
             )}
             
-            <button className="mute-button" onClick={mute}>{!muted ?  <BsMicMuteFill size={30}/> : <BsFillMicFill size={30}/>}</button>
+            <button className="mute-button" onClick={mute}>{muted ?  <BsMicMuteFill size={30}/> : <BsFillMicFill size={30}/>}</button>
             </div>
             <button className="control-button" id="stop" onClick = {hangUp}>AVSLUTT</button>
             

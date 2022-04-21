@@ -87,7 +87,7 @@ const ContextProvider = ({ children }) => {
         });
 
         socket.on("message", (message, room) => {
-            console.log("client recieved message: " + message + ". To room " + room);
+            //console.log("client recieved message: " + message + ". To room " + room);
             if(message === "gotuser"){
                 maybeStart();
             } else if(message.type === "offer"){
@@ -115,7 +115,7 @@ const ContextProvider = ({ children }) => {
     }, []);
 
     const sendMessage = (message, room) => {
-        console.log("message: " + message + " to room: " + room);
+        //console.log("message: " + message + " to room: " + room);
         socket.emit("message", message, room)
     }
 
@@ -145,7 +145,7 @@ const ContextProvider = ({ children }) => {
             //sending side
             //sjekke ut noe alternativ til datachannel, egen for stream?
 
-            console.log('vid1: ' + vid1.current, 'incomingvoice :' + incomingVoice.current);
+            //console.log('vid1: ' + vid1.current, 'incomingvoice :' + incomingVoice.current);
             console.log('started: ' + started, 'startWatch: ' + startWatch);
 
             var senderTracks;
@@ -154,17 +154,15 @@ const ContextProvider = ({ children }) => {
             //addTrack funker ikke tror jeg, undefined på konsoll logging av peerconnetion
             if(started){
                 senderTracks = vid1.current.getTracks();
-                console.log(senderTracks);
+                //console.log(senderTracks);
                 for (const track of senderTracks) {
                     pc.current.addTrack(track, vid1.current);
-                    console.log(pc.current);
                 }
             } else if(startWatch){
                 recieverTracks = incomingVoice.current.getTracks();
-                console.log(recieverTracks);
+                //console.log(recieverTracks);
                 for (const track of recieverTracks) {
                     pc.current.addTrack(track, incomingVoice.current);
-                    console.log(pc.current);
                 }
             }
 
@@ -172,14 +170,14 @@ const ContextProvider = ({ children }) => {
             //error om resolution overload når den prøver å lage ny mediastream, fant ikke noe brukbart på stackoverflow
             pc.current.ontrack = (event) => {
                 console.log(event.streams[0].getTracks());
-                console.log(event.track);
+                //console.log(event.track);
                 if(started){
-                    console.log('making new stream sender');
+                    //console.log('making new stream sender');
                     incomingVoice.current = event.streams[0];
-                    console.log(incomingVoice.current);
+                    //console.log(incomingVoice.current);
                     setCallAccepted(true);   
                 } else if (startWatch) {
-                    console.log('making new stream reciever');
+                    //console.log('making new stream reciever');
                     vid1.current = event.streams[0];
                     setCallAccepted(true);
                 }
@@ -191,7 +189,7 @@ const ContextProvider = ({ children }) => {
     }
 
     const handleIceCandidate = (event) => {
-        console.log("icecandidate event: " + event);
+        //console.log("icecandidate event: " + event);
         if (event.candidate) {
             sendMessage(
                 {
@@ -212,12 +210,12 @@ const ContextProvider = ({ children }) => {
     }
 
     const doCall = () => {
-        console.log("sending offer to peer");
+        //console.log("sending offer to peer");
         pc.current.createOffer(setLocalAndSendMessage, handleCreateOfferError);
     }
 
     const doAnswer = () => {
-        console.log("sending answer to peer");
+        //console.log("sending answer to peer");
         pc.current.createAnswer().then(
             setLocalAndSendMessage,
             onCreateSessionDescriptionError
@@ -226,7 +224,7 @@ const ContextProvider = ({ children }) => {
 
     const setLocalAndSendMessage = (sessionDescription) => {
         pc.current.setLocalDescription(sessionDescription);
-        console.log("setlocalandsendmessage sending message", sessionDescription);
+        //console.log("setlocalandsendmessage sending message", sessionDescription);
         sendMessage(sessionDescription, room);
     }
 
@@ -281,16 +279,6 @@ const ContextProvider = ({ children }) => {
                     setShareScreen(true);
                 }
         });
-    }
-
-    const end = () => {
-        setCallEnded(true);
-
-        if(pc.current){
-            pc.current.close();
-        }
-
-        window.location.reload();
     }
 
     const startW = () => {
@@ -369,9 +357,6 @@ const ContextProvider = ({ children }) => {
             stateStartWatch,
             stateStart,
             camReady,
-            isChannelReady,
-            isInitiator,
-            isStarted,
             lmao,
             callAccepted,
             callEnded,
@@ -386,7 +371,6 @@ const ContextProvider = ({ children }) => {
             clientName,
             hangUp,
             callRoom,
-            end,
             start,
             startW,
             startShareScreen,
