@@ -234,6 +234,7 @@ const ContextProvider = ({ children }) => {
 
     const callRoom = () => {
         socket.emit("create or join", room, clientName);
+        console.log('call');
         sendMessage("gotuser", room);
         if(isInitiator){
             maybeStart();
