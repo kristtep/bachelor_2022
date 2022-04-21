@@ -19,6 +19,6 @@ code {
   --stop-button-background: #F22727;
   --toggle-background: white;
   --toggle-color: black;
-   filter: brightness(1);
+  filter: brightness(1);
 }
 

@@ -11,7 +11,7 @@ const SendStream = () => {
     }, [shareScreen, camReady, callAccepted]);
 
     const toggleFullscreen = (num) => {
-        let elem = document.getElementById(`${num}`);
+        let elem = document.getElementById(`videoContainer-${num}`);
         if(elem){
 
           if(!document.fullscreenElement){
@@ -48,14 +48,19 @@ const SendStream = () => {
 
             for(let i = 1; i < tracks.length + 1; i++){
               if(!document.getElementById(i)){
+              let container = document.createElement('div');
+              container.setAttribute('id', `videoContainer-${i}`);
               let elem = document.createElement('video');
               elem.setAttribute('id', i);
+              elem.setAttribute('width', '100%');
+              elem.setAttribute('height', '100%');
               elem.setAttribute('autoPlay', true);
               elem.onclick = () => toggleFullscreen(i);
               
-              document.getElementById('stream').appendChild(elem);
+              document.getElementById('stream').appendChild(container);
+              document.getElementById(`videoContainer-${i}`).appendChild(elem);
               setSrc(i);
-              
+              makeButton(i);
               }
             }
           }
@@ -69,14 +74,15 @@ const SendStream = () => {
         let src = new MediaStream();
         src.addTrack(tracks[i-1]);
         document.getElementById(`${i}`).srcObject = src;
-        makeButton();
+        
     }
 
-    const makeButton = () => {
+    const makeButton = (i) => {
       let button = document.createElement('button');
       button.innerHTML = 'TILBAKE';
       button.setAttribute('id', 'back');
-      document.getElementById('video').appendChild(button);
+      button.onclick = () => toggleFullscreen(i);
+      document.getElementById(`videoContainer-${i}`).appendChild(button);
     }
 
     return (

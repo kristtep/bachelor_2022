@@ -16,12 +16,6 @@ video::-webkit-media-controls {
     flex-grow: 1;
 }
 
-#vstream video, #stream video {
-  object-fit: contain;
-  max-width: 50%;
-  max-height: 50%;
-}
-
 .videos {
     display: block;
     width: 50%;
@@ -121,4 +115,4 @@ p {
     color: #fff;
     padding: 2%;
     font-size: 30px;
-  }
+}
