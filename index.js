@@ -24,7 +24,6 @@ var check = 0;
 io.on("connection", (socket) => {
 
     socket.on('message', (message, room) => {
-
         socket.to(room).emit('message', message, room);
     });
 

@@ -9,7 +9,7 @@ import { BsMicMute, BsMicMuteFill } from 'react-icons/bs';
 
 const Controls = ( { children } ) => {
 
-    const { room, stateStartWatch, stateStart, callAccepted, callRoom, hangUp, startShareScreen, clientName } = useContext(Context);
+    const { room, stateStartWatch, stateStart, callAccepted, callRoom, hangUp, startShareScreen, callEnded } = useContext(Context);
 //    const [idToCall, setIdToCall] = useState('');
     const [toggleMenu, setToggleMenu] = useState(false);
 
@@ -28,16 +28,23 @@ const Controls = ( { children } ) => {
         {!stateStart && (
 
             <>
-            <div>
-                <button onClick={() => callRoom()}>{room + "  " + clientName}</button>
-            </div>
-            {room && (
-                <div id="callerid">
-                    <p>{room}</p><RiCustomerService2Fill className="hodetelefoner"/>
-                </div>
+            {callAccepted && !callEnded && (
+                <>
+                    <div id="callerid">
+                        <p>{room}</p><RiCustomerService2Fill className="hodetelefoner"/>
+                    </div>
+                <button className="control-button" id="stop" onClick = {hangUp}>AVSLUTT</button>
+                </>
             )}
-            <button className="control-button" id="stop" onClick = {hangUp}>AVSLUTT</button>
-            </>
+                </>/* ) : (
+                <>
+                {lmao && (
+                    <button onclick={() => callRoom()}>JOIN ROOM</button>
+                )}
+                </>
+                )} */
+            
+            
         )}
 
         {!stateStartWatch && (

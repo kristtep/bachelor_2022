@@ -12,7 +12,8 @@ const Hospital = () => {
         {!stateStartWatch && (
         <>
           <h2>Hospital</h2>
-          <button id="watch" onClick = {startW}>WATCH</button>
+
+          <button id="watch" onClick = {startW}>START SYSTEM</button>
         </>
         )}
 
