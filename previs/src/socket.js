@@ -2,7 +2,9 @@ import React, { createContext, useState, useRef, useEffect } from 'react';
 import { io } from "socket.io-client";
 
 const Context = createContext();
-const socket = io("https://bachelor-2022.herokuapp.com/");
+const socket = io("https://bachelor-2022.herokuapp.com/", {
+    transports: ['websocket'],
+});
 //"https://bachelor-2022.herokuapp.com/"
 //http://localhost:5000/
 
