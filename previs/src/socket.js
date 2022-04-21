@@ -46,6 +46,7 @@ const ContextProvider = ({ children }) => {
 
     const streams = useRef([]);
     const cameras = [];
+
     //endre navn?
     const vid1 = useRef();
     const incomingVoice = useRef();

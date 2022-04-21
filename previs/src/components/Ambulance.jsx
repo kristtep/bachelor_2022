@@ -10,10 +10,10 @@ const Ambulance = () => {
   return (
     <div id="ambulance">
         {!stateStart && (
-        <>
+        <div id="startambulance">
             <h2>Ambulance</h2>
             <button id="startstream"onClick = {start}>START</button>
-        </>
+        </div>
         )}
 
         {stateStart && (
