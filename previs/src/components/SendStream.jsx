@@ -4,7 +4,7 @@ import { Context } from "../socket";
 
 const SendStream = () => {
 
-    const { shareScreen, vid1, callAccepted, callEnded, incomingVoice, camReady } = useContext(Context);
+    const { shareScreen, vid1, callAccepted, incomingVoice, camReady } = useContext(Context);
 
     useEffect(() => {
       makeVideoElems();
@@ -37,59 +37,73 @@ const SendStream = () => {
         } */
 
         console.log(vid1.current);
-
-        if(!incomingVoice.current && !callAccepted){
-          let tracks = vid1.current.getVideoTracks();
+        let tracks;
+        //if(!incomingVoice.current && !callAccepted){
+        if(vid1.current){
+          tracks = vid1.current.getVideoTracks();
+        }  
         
-          console.log('inside video making outgoing');
+          
 
           if(tracks){
+            console.log('inside first layer video elems');
             console.log(tracks.length);
 
             for(let i = 1; i < tracks.length + 1; i++){
-              if(!document.getElementById(i)){
-              let container = document.createElement('div');
-              container.setAttribute('id', `videoContainer-${i}`);
-              let elem = document.createElement('video');
-              elem.setAttribute('id', i);
-              elem.setAttribute('width', '100%');
-              elem.setAttribute('height', '100%');
-              elem.setAttribute('autoPlay', true);
-              elem.onclick = () => toggleFullscreen(i);
-              
-              document.getElementById('stream').appendChild(container);
-              document.getElementById(`videoContainer-${i}`).appendChild(elem);
-              setSrc(i);
-              makeButton(i);
+              if(!document.getElementById(i) && !callAccepted){
+                let container = document.createElement('div');
+                container.setAttribute('id', `videoContainer-${i}`);
+                let elem = document.createElement('video');
+                elem.setAttribute('id', i);
+                elem.setAttribute('width', '100%');
+                elem.setAttribute('height', '100%');
+                elem.setAttribute('autoPlay', true);
+                elem.onclick = () => toggleFullscreen(i);
+
+                console.log('inside making vid elems');
+                
+                document.getElementById('stream').appendChild(container);
+                document.getElementById(`videoContainer-${i}`).appendChild(elem);
+                setSrc(i);
+                makeButton(i);
+              } else if (callAccepted){
+                console.log('inside video making incoming and removing outgoing');
+                if(document.getElementById('1')){
+                  document.getElementById('1').remove();
+                  document.getElementById('videoContainer-1').remove();
+                  document.getElementById('2').remove();
+                  document.getElementById('videoContainer-2').remove();
+                }
+                if(!document.getElementById("hospital-mirroring")){
+                  let elem = document.createElement('video');
+                  elem.setAttribute('id', 'hospital-mirroring');
+                  elem.setAttribute('autoPlay', true);
+
+                  document.getElementById('stream').appendChild(elem);
+                  setSrc('hospital-mirroring');
+                }
               }
             }
           }
-        } else if (incomingVoice.current && callAccepted) {
-          console.log('inside video making incoming and removing outgoing');
-          document.getElementById('1').remove();
-          document.getElementById('2').remove();
-          if(!document.getElementById("hospital-mirroring")){
-            let elem = document.createElement('video');
-            elem.setAttribute('id', 'hosptial-mirroring');
-            elem.setAttribute('autoPlay', true);
-
-            document.getElementById('incoming-stream').appendChild(elem);
-            setSrc('hosptial-mirroring');
-          }
-        }
+        //} else if (incomingVoice.current && callAccepted) {
+          
+        //}
     }
 
     const setSrc = (i) => {
 
-      if(!callAccepted){
+      let src = new MediaStream();
+
+      if(i !== 'hospital-mirroring'){
         const tracks = vid1.current.getVideoTracks();
 
-        let src = new MediaStream();
         src.addTrack(tracks[i-1]);
         document.getElementById(i).srcObject = src;
-      } else if (callAccepted){
+      } else if (incomingVoice.current) {
+        console.log(incomingVoice.current.getTracks());
+        console.log(i);
         document.getElementById(i).srcObject = incomingVoice.current;
-      }    
+      }
     }
 
     const makeButton = (i) => {
@@ -102,11 +116,7 @@ const SendStream = () => {
 
     return (
         <>
-        {callAccepted && !callEnded ? (
-          <div id="incoming-stream"></div>
-        ) : (
           <div id="stream"></div>
-        )}
         </>
     )
 
