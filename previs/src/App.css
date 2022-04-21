@@ -17,15 +17,32 @@ button {
   float: right;
 }
 
+#welcome {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
 #startstream, #watch {
   border-radius: 10px;
   font-size: 50px;
   font-weight: bold;
-  background-color: #A1D58F;
+  background-color: #FFFFFF;
+  color: black;
+  cursor: pointer;
+  height: 200px;
+  width: 300px;
 }
 
 #startstream p, #watch p {
 margin-top: 5px;
+}
+
+#startstream:hover, #watch:hover {
+  transform: scale(1.1);
+  transition-duration: 0.2s;
 }
 
 #home {
@@ -36,12 +53,29 @@ margin-top: 5px;
   align-items: center;
 }
 
-#ambulance, #hospital {
+#start {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+
+#start a {
+  text-decoration: none;
+  color: #FFFFFF;
+}
+
+#start a:hover {
+  transform: scale(1.1);
+}
+
+#hospital, #ambulance {
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .dropdown-menu {
@@ -58,11 +92,13 @@ margin-top: 5px;
   padding: 2rem;
   position: absolute;
   top: 37px;
-  right: -37px;
+  right: -162px;
   border-radius: 5px;
   box-shadow: 0 0 5 rgba(0,0,0,0.2);
   background-color: var(--start-button-background);
   text-decoration: underline;
+  text-decoration-thickness: 1px;
+  width: 300px;
 }
 
 .dropdown-menu_container-links p {
@@ -72,6 +108,11 @@ margin-top: 5px;
 .dropdown-menu_container-links p a {
   text-decoration: none;
   color: white;
+}
+
+#start-button p {
+  margin: 2px 5px;
+  border: 0 0 1px 0 solid white;
 }
 
 .dropdown-menu_container-links p:hover {
@@ -89,23 +130,112 @@ input {
   margin-left: 10px;
 }
 
-
-#callerid {
-  text-align: center;
-  border-radius: 10px;
-  background-color: #F5751B;
-  height: 50px; 
-  width: 320px;
+.extra-buttons {
+  background-color: #FFFFFF;
+  border-radius: 20px;
+  border: 2px solid transparent;
+  font-size: 28px;
+  font-family: 'Roboto', sans-serif;
+  color: black;
   display: flex;
   flex-flow: row nowrap;
- align-items: center;
- justify-content: center;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 160px;
+  cursor: pointer;
 }
 
-.hodetelefoner {
-  font-size: 25px;
-  padding: 1%;
+#extra-buttons {
+  background: rgba(233, 226, 226, 0.42);
+  border-radius: 20px;
+  height: 90%;
+  display: flex;
+  width: 340px;
+  justify-content: space-between;
+  align-items: center;
 }
+
+#videoContainer-1, #videoContainer-2, #videoContainer-3, #videoContainer-4 {
+  max-width: 50%;
+  max-height: 50%;
+  overflow: hidden;
+  margin: 0;
+}
+
+#videoContainer-1:-webkit-full-screen, #videoContainer-2:-webkit-full-screen {
+  width: 100%;
+  height: 100%;
+}
+
+#back {
+  display: none;
+  z-index: 10;
+}
+
+#videoContainer-1:-webkit-full-screen #back, #videoContainer-2:-webkit-full-screen #back, #videoContainer-3:-webkit-full-screen #back  {
+  display: block;
+  background-color: #F5751B;
+  height: 50px;
+  width: 150px;
+  font-size: 28px;
+  color: #FFF;
+  border-radius: 10px;
+  border: 1px solid #F5751B;
+  font-family: 'Roboto', sans-serif;
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  right: 0px;
+  margin: 1%;
+  cursor: pointer;
+}
+
+#videoContainer-1:-webkit-full-screen video, #videoContainer-2:-webkit-full-screen video {
+  object-fit: cover;
+  z-index: 0;
+}
+
+video {
+  aspect-ratio: 16 / 9;
+}
+
+video:hover {
+  cursor: pointer;
+}
+
+video::backdrop {
+  background-color: #212121;
+}
+
+#starthospital, #startambulance {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  margin-top: 20%;
+}
+
+#hospital-mirroring {
+  max-width: 100%;
+  max-height: 90%;
+  border: 2px solid white;
+}
+
+.mute-button {
+  height: 50px;
+  width: 50px;
+  cursor: pointer;
+  border-radius: 10px;
+  background-color: #FFF;
+  color: black;
+  margin-left: 2%;
+}
+
+#mute-caller {
+  display: flex;
+}
+
+
 
 
 

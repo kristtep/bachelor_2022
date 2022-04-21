@@ -15,10 +15,10 @@ code {
 :root {
   --background: #146157;
   --text-primary: white;
-  --start-button-background: #16C29D;
+  --start-button-background: #028500;
   --stop-button-background: #F22727;
   --toggle-background: white;
   --toggle-color: black;
-   filter: brightness(1);
+  filter: brightness(1);
 }
 
