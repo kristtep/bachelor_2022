@@ -2,13 +2,13 @@ import React, { useContext, useState } from "react";
 import "../styles.css";
 import { Context } from "../socket";
 import { RiMenuLine, RiCloseLine, RiCustomerService2Fill } from 'react-icons/ri';
-import { BsMicMute, BsMicMuteFill } from 'react-icons/bs';
+import { BsMicMuteFill, BsFillMicFill } from 'react-icons/bs';
 
 
 
 const Controls = ( { children } ) => {
 
-    const { room, stateStartWatch, stateStart, callAccepted, callRoom, hangUp, startShareScreen, callEnded, clientName } = useContext(Context);
+    const { room, stateStartWatch, stateStart, callAccepted, callRoom, hangUp, startShareScreen, callEnded, clientName, incomingVoice, pc } = useContext(Context);
 //    const [idToCall, setIdToCall] = useState('');
     const [toggleMenu, setToggleMenu] = useState(false);
     const [muted, setMuted] = useState(false);
@@ -16,12 +16,14 @@ const Controls = ( { children } ) => {
     function mute () {
         let video = document.getElementById('1');
         console.log(document.getElementsByTagName('video'));
-        console.log(video.muted);
+        console.log(pc);
+        console.log(pc.current);
+        //incomingVoice.current.getAudioTracks()[0].enabled = !(incomingVoice.current.getAudioTracks()[0].enabled);
         if(muted) {
             video.muted = false;
             setMuted(false);
         } else {
-            video.muted = true;
+            video.muted = false;
             setMuted(true);
         }
     }
@@ -35,9 +37,6 @@ const Controls = ( { children } ) => {
         </>
     );
 
-    const Mute = () => {
-        
-    }
 
     return (
         <div id="controls" >
