@@ -177,7 +177,7 @@ const ContextProvider = ({ children }) => {
                     //console.log('making new stream sender');
                     incomingVoice.current = event.streams[0];
                     //console.log(incomingVoice.current);
-                    setCallAccepted(true);   
+                    setCallAccepted(true);
                 } else if (startWatch) {
                     //console.log('making new stream reciever');
                     vid1.current = event.streams[0];
