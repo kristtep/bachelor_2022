@@ -45,6 +45,7 @@ const ContextProvider = ({ children }) => {
     const [callAccepted, setCallAccepted] = useState(false);
     const [callEnded, setCallEnded] = useState(false);
     const [camReady, setCamReady] = useState(false);
+    const [roomActive, setRoomActive] = useState(false);
 
     const streams = useRef([]);
     const cameras = [];
@@ -59,6 +60,7 @@ const ContextProvider = ({ children }) => {
         
         socket.on("created", (room, id, check) => {
             console.log("room created: " + room);
+            setRoomActive(true);
             console.log(id);
             if(check < 0 ) {
                 setLmao(true);
@@ -372,6 +374,8 @@ const ContextProvider = ({ children }) => {
             shareScreen,
             pc,
             clientName,
+            roomActive,
+            setRoomActive,
             hangUp,
             callRoom,
             start,
