@@ -5,13 +5,12 @@ import SendStream from "./SendStream";
 
 const Ambulance = () => {
 
-  const { setStateStart } = useContext(Context);
+  const { start } = useContext(Context);
 
   useEffect(() => {
-    setStateStart(true);
-  });
+    start();
+  }, []);
   
-
   return (
     <div id="ambulance">
             <>

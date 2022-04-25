@@ -1,11 +1,7 @@
-import React, { useContext } from 'react';
-import { Context } from "../socket";
 import "../styles.css";
 import { Link } from "react-router-dom";
 
 const Home = () => {
-
-    const { start, startW } = useContext(Context);
 
     return (
         <div id="home" >
@@ -19,7 +15,7 @@ const Home = () => {
             <div id="start">
                 <p>Sykehus:</p>
                 <Link to="hospital">
-                    <button id="watch" onClick = {startW}>WATCH</button>
+                    <button id="watch">WATCH</button>
                 </Link>
                 
             </div>
@@ -27,7 +23,7 @@ const Home = () => {
             <div id="start">
                 <p>Ambulanse:</p>
                 <Link to="ambulance">
-                    <button id="startstream"onClick = {start}>START</button>
+                    <button id="startstream">START</button>
                 </Link>
                 
             </div>

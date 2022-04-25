@@ -5,11 +5,11 @@ import React, { useContext, useEffect } from "react";
 
 const Hospital = () => {
 
-  const { setStateStartWatch } = useContext(Context);
+  const { startW } = useContext(Context);
 
   useEffect(() => {
-    setStateStartWatch(true);
-  });
+    startW();
+  },[]);
 
   return (
     <div id="hospital">

@@ -11,8 +11,6 @@ import {
 
 const App = () => {
 
-  
-
   return (
     <Div100vh>
       <div className="App">
