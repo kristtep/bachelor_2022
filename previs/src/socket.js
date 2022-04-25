@@ -139,6 +139,8 @@ const ContextProvider = ({ children }) => {
         sendMessage("bye", room);
     }
 
+    
+
     const createPeerConnection = () => {
         try {
             pc.current = new RTCPeerConnection(turnStunConfig);
@@ -164,6 +166,9 @@ const ContextProvider = ({ children }) => {
                 }
             } else if(startWatch){
                 recieverTracks = incomingVoice.current.getTracks();
+                let idag = new Date(Date.now());
+                    let ms = idag.getMilliseconds();
+                    console.log('Time:' + ms);
                 //console.log(recieverTracks);
                 for (const track of recieverTracks) {
                     pc.current.addTrack(track, incomingVoice.current);
@@ -178,12 +183,17 @@ const ContextProvider = ({ children }) => {
                 if(started){
                     //console.log('making new stream sender');
                     incomingVoice.current = event.streams[0];
+                    
                     //console.log(incomingVoice.current);
                     setCallAccepted(true);
                 } else if (startWatch) {
                     //console.log('making new stream reciever');
                     vid1.current = event.streams[0];
                     setCallAccepted(true);
+                    let idag2 = new Date(Date.now());
+                        let ms = idag2.getMilliseconds();
+                        console.log('Time 2:' + ms);
+                    
                 }
             };
         } catch (e) {
