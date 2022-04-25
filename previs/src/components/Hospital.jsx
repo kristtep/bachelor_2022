@@ -1,9 +1,15 @@
-import React, { useContext } from 'react';
-import { Context } from "../socket";
 import Controls from "./Controls";
 import ViewStream from "./ViewStream";
+import { Context } from "../socket";
+import React, { useContext, useEffect } from "react";
 
 const Hospital = () => {
+
+  const { setStateStartWatch } = useContext(Context);
+
+  useEffect(() => {
+    setStateStartWatch(true);
+  });
 
   return (
     <div id="hospital">

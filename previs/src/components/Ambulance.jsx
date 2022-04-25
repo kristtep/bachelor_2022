@@ -1,9 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Context } from "../socket";
 import Controls from "./Controls";
 import SendStream from "./SendStream";
 
 const Ambulance = () => {
+
+  const { setStateStart } = useContext(Context);
+
+  useEffect(() => {
+    setStateStart(true);
+  });
+  
 
   return (
     <div id="ambulance">

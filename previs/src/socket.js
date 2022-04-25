@@ -398,6 +398,8 @@ const ContextProvider = ({ children }) => {
             callRoom,
             start,
             startW,
+            setStateStart,
+            setStateStartWatch,
             startShareScreen,
         }}>
             { children }
