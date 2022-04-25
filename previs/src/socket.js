@@ -319,7 +319,7 @@ const ContextProvider = ({ children }) => {
         setStateStart(true);
 
         if (cameras.length === 0){
-            await navigator.mediaDevices.getUserMedia({audio: true, video: true});
+            await navigator.mediaDevices.getUserMedia({audio: true, video: { width: 1920, height: 1080 } });
             await navigator.mediaDevices.enumerateDevices()
             .then((devices) => {
                 devices.forEach((device) => {
