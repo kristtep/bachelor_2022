@@ -35,7 +35,8 @@ const ContextProvider = ({ children }) => {
     var isStarted = false;
     var clientName = "ambulance" + Math.floor(Math.random() * 100 + 1);
     var remoteClient;
-    var room = "PreViS";
+    let currentRoom;
+    //const [room, setRoom] = useState('');
     const [ lmao, setLmao ] = useState(false);
     var startWatch = false;
     const [stateStartWatch, setStateStartWatch] = useState(false)
@@ -91,8 +92,9 @@ const ContextProvider = ({ children }) => {
         });
 
         socket.on("message", (message, room) => {
-            //console.log("client recieved message: " + message + ". To room " + room);
+            console.log("client recieved message: " + message + ". To room " + room);
             if(message === "gotuser"){
+                console.log(currentRoom);
                 maybeStart();
             } else if(message.type === "offer"){
                 if (!isInitiator && !isStarted) {
@@ -119,7 +121,7 @@ const ContextProvider = ({ children }) => {
     }, []);
 
     const sendMessage = (message, room) => {
-        //console.log("message: " + message + " to room: " + room);
+        console.log("message: " + message + " to room: " + room);
         socket.emit("message", message, room)
     }
 
@@ -136,10 +138,8 @@ const ContextProvider = ({ children }) => {
     }
 
     window.onbeforeunload = () => {
-        sendMessage("bye", room);
+        sendMessage("bye", currentRoom);
     }
-
-    
 
     const createPeerConnection = () => {
         try {
@@ -181,13 +181,13 @@ const ContextProvider = ({ children }) => {
                 console.log(event.streams[0].getTracks());
                 //console.log(event.track);
                 if(started){
-                    //console.log('making new stream sender');
+                    console.log('making new stream sender');
                     incomingVoice.current = event.streams[0];
                     
                     //console.log(incomingVoice.current);
                     setCallAccepted(true);
                 } else if (startWatch) {
-                    //console.log('making new stream reciever');
+                    console.log('making new stream reciever');
                     vid1.current = event.streams[0];
                     setCallAccepted(true);
                     let idag2 = new Date(Date.now());
@@ -203,7 +203,7 @@ const ContextProvider = ({ children }) => {
     }
 
     const handleIceCandidate = (event) => {
-        //console.log("icecandidate event: " + event);
+        console.log("icecandidate event: " + event);
         if (event.candidate) {
             sendMessage(
                 {
@@ -212,7 +212,7 @@ const ContextProvider = ({ children }) => {
                     id: event.candidate.sdpMid,
                     candidate: event.candidate.candidate,
                 },
-                room
+                currentRoom
             );
         } else {
             console.log("end of candidates");
@@ -224,12 +224,12 @@ const ContextProvider = ({ children }) => {
     }
 
     const doCall = () => {
-        //console.log("sending offer to peer");
+        console.log("sending offer to peer");
         pc.current.createOffer(setLocalAndSendMessage, handleCreateOfferError);
     }
 
     const doAnswer = () => {
-        //console.log("sending answer to peer");
+        console.log("sending answer to peer");
         pc.current.createAnswer().then(
             setLocalAndSendMessage,
             onCreateSessionDescriptionError
@@ -238,15 +238,16 @@ const ContextProvider = ({ children }) => {
 
     const setLocalAndSendMessage = (sessionDescription) => {
         pc.current.setLocalDescription(sessionDescription);
-        //console.log("setlocalandsendmessage sending message", sessionDescription);
-        sendMessage(sessionDescription, room);
+        console.log("setlocalandsendmessage sending message", sessionDescription);
+        sendMessage(sessionDescription, currentRoom);
     }
 
     const onCreateSessionDescriptionError = (error) => {
         console.log("failed to create session description: " + error);
     }
 
-    const callRoom = () => {
+    const callRoom = (room) => {
+        currentRoom = room;
         socket.emit("create or join", room, clientName);
         console.log('call');
         sendMessage("gotuser", room);
@@ -267,7 +268,7 @@ const ContextProvider = ({ children }) => {
         setStateStart(false);
         setStateStartWatch(false);
         stop();
-        sendMessage("bye", room);
+        sendMessage("bye", currentRoom);
     }
 
     const stop = () => {
@@ -382,7 +383,7 @@ const ContextProvider = ({ children }) => {
             callEnded,
             incomingVoice,
             clientName,
-            room,
+            currentRoom,
             cameras,
             streams,
             vid1,
