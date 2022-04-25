@@ -35,8 +35,8 @@ const ContextProvider = ({ children }) => {
     var isStarted = false;
     var clientName = "ambulance" + Math.floor(Math.random() * 100 + 1);
     var remoteClient;
-    let currentRoom;
-    //const [room, setRoom] = useState('');
+    var currentRoom;
+    const [room, setRoom] = useState('');
     const [ lmao, setLmao ] = useState(false);
     var startWatch = false;
     const [stateStartWatch, setStateStartWatch] = useState(false)
@@ -92,7 +92,8 @@ const ContextProvider = ({ children }) => {
         });
 
         socket.on("message", (message, room) => {
-            console.log("client recieved message: " + message + ". To room " + room);
+            //console.log("client recieved message: " + message + ". To room " + room);
+            currentRoom = room;
             if(message === "gotuser"){
                 console.log(currentRoom);
                 maybeStart();
@@ -247,7 +248,7 @@ const ContextProvider = ({ children }) => {
     }
 
     const callRoom = (room) => {
-        currentRoom = room;
+        setRoom(room);
         socket.emit("create or join", room, clientName);
         console.log('call');
         sendMessage("gotuser", room);
@@ -318,18 +319,19 @@ const ContextProvider = ({ children }) => {
         setStateStart(true);
 
         if (cameras.length === 0){
+            await navigator.mediaDevices.getUserMedia({audio: true, video: true});
             await navigator.mediaDevices.enumerateDevices()
             .then((devices) => {
                 devices.forEach((device) => {
                     console.log(device);
                     if(device.kind === "videoinput"){
-                        cameras.push(device.groupId);
+                        cameras.push(device.deviceId);
                         console.log(cameras);
                     };
                 });
             });
 
-            await navigator.mediaDevices.getUserMedia({ video: { groupId: { exact: cameras[0] }, width: 1920, height: 1080 }, audio: true })
+            await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[0] }, width: 1920, height: 1080 }, audio: true })
                 .then((currentStream) => {
 
                     //streams.current.push(currentStream);
@@ -340,7 +342,7 @@ const ContextProvider = ({ children }) => {
                 });
 
                 if (cameras.length > 1){
-                    await navigator.mediaDevices.getUserMedia({ video: { groupId: { exact: cameras[1] }, width: 1920, height: 1080 }, audio: false })
+                    await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[1] }, width: 1920, height: 1080 }, audio: false })
                         .then((currentStream) => {
 
                             //streams.current.push(currentStream);
@@ -354,13 +356,13 @@ const ContextProvider = ({ children }) => {
                     return vid1.current.getTracks();
                 }
                 if (cameras.length > 2){
-                    await navigator.mediaDevices.getUserMedia({ video: { groupId: { exact: cameras[2] }, width: 1920, height: 1080 }, audio: false })
+                    await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[2] }, width: 1920, height: 1080 }, audio: false })
                         .then((currentStream) => {
 
                             //streams.current.push(currentStream);
 
                             vid1.current.addTrack(currentStream.getVideoTracks()[0]);
-
+                            setCamReady(true);
                         });
                 }else{
                     setCamReady(true);
@@ -383,7 +385,7 @@ const ContextProvider = ({ children }) => {
             callEnded,
             incomingVoice,
             clientName,
-            currentRoom,
+            room,
             cameras,
             streams,
             vid1,

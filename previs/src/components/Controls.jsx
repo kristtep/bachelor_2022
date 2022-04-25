@@ -6,7 +6,7 @@ import { BsMicMuteFill, BsFillMicFill } from 'react-icons/bs';
 
 const Controls = ( { children } ) => {
 
-    const { currentRoom, stateStartWatch, stateStart, callAccepted, callRoom, hangUp, startShareScreen, callEnded, clientName, incomingVoice, pc, vid1, roomActive } = useContext(Context);
+    const { room, stateStartWatch, stateStart, callAccepted, callRoom, hangUp, startShareScreen, callEnded, clientName, incomingVoice, pc, vid1, roomActive } = useContext(Context);
 //    const [idToCall, setIdToCall] = useState('');
     const [toggleMenu, setToggleMenu] = useState(false);
     const [muted, setMuted] = useState(false);
@@ -63,7 +63,7 @@ const Controls = ( { children } ) => {
                 </>
             ) : (
                 <div id="callerid">
-                    <p>{currentRoom}</p><RiCustomerService2Fill className="hodetelefoner"/>
+                    <p>{room}</p><RiCustomerService2Fill className="hodetelefoner"/>
                 </div>
                 )}
                  
@@ -106,7 +106,7 @@ const Controls = ( { children } ) => {
                     </>
                     ) : (
                     <div id="callerid">
-                        <p>{currentRoom}</p><RiCustomerService2Fill className="hodetelefoner"/>
+                        <p>{room}</p><RiCustomerService2Fill className="hodetelefoner"/>
                     </div>
                 )}
                 <div id="extra-buttons">
