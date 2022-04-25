@@ -278,10 +278,13 @@ const ContextProvider = ({ children }) => {
                     pc.current.addTrack(currentStream.getVideoTracks()[0], vid1.current);
                     setShareScreen(true);
                 }else{
-                    console.log('else');
-                    console.log(currentStream.getVideoTracks()[0]);
-                    vid1.current.addTrack(currentStream.getVideoTracks()[0]);
-                    setShareScreen(true);
+                    if(vid1.current){
+                        vid1.current.addTrack(currentStream.getVideoTracks()[0]);
+                        setShareScreen(true);
+                    } else {
+                        vid1.current = currentStream;
+                        setShareScreen(true);
+                    }  
                 }
         });
     }
@@ -309,6 +312,7 @@ const ContextProvider = ({ children }) => {
                 devices.forEach((device) => {
                     if(device.kind === "videoinput"){
                         cameras.push(device.deviceId);
+                        console.log(cameras);
                     };
                 });
             });
