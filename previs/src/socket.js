@@ -275,7 +275,7 @@ const ContextProvider = ({ children }) => {
     const stop = () => {
         isStarted = false;
         console.log(pc.current);
-        pc.current.close();
+        window.location.href = '../';
     }
 
     const startShareScreen = () => {
