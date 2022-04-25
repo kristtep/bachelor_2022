@@ -301,10 +301,10 @@ const ContextProvider = ({ children }) => {
         });
     }
 
-    const startW = () => {
+    const startW = async () => {
         startWatch = true;
         setStateStartWatch(true);
-        navigator.mediaDevices.getUserMedia({ video: false, audio: true })
+        await navigator.mediaDevices.getUserMedia({ video: false, audio: true })
             .then((currentStream) => {
                 incomingVoice.current = currentStream;
                 navigator.mediaDevices.getDisplayMedia({ video: true, audio: false })
