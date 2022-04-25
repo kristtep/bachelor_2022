@@ -6,7 +6,7 @@ import { BsMicMuteFill, BsFillMicFill } from 'react-icons/bs';
 
 const Controls = ( { children } ) => {
 
-    const { room, stateStartWatch, stateStart, callAccepted, callRoom, hangUp, startShareScreen, callEnded, clientName, incomingVoice, pc, vid1 } = useContext(Context);
+    const { room, stateStartWatch, stateStart, callAccepted, callRoom, hangUp, startShareScreen, callEnded, clientName, incomingVoice, pc, vid1, roomActive } = useContext(Context);
 //    const [idToCall, setIdToCall] = useState('');
     const [toggleMenu, setToggleMenu] = useState(false);
     const [muted, setMuted] = useState(false);
@@ -30,10 +30,10 @@ const Controls = ( { children } ) => {
 
     const Menu = () => (
         <>
-        <p onClick={() => callRoom()}>AKUTTMOTTAK LILLEHAMMER</p>
-        <p><a href="h">SLAGVAKT SI</a></p>
-        <p><a href="h">LUFTAMBULANSE</a></p>
-        <p><a href="h">ANESTESI LEGEBIL</a></p>
+        <p onClick={() => callRoom('akuttmottak-lillehammer')}>AKUTTMOTTAK LILLEHAMMER</p>
+        <p onClick={() => callRoom('slagvakt-si')}>SLAGVAKT SI</p>
+        <p onClick={() => callRoom('luftambulanse')}>LUFTAMBULANSE</p>
+        <p onClick={() => callRoom('anestesi-legebil')}>ANESTESI LEGEBIL</p>
         </>
     );
 
@@ -44,17 +44,33 @@ const Controls = ( { children } ) => {
         {!stateStart && (
 
             <>
-            <div>
-                <button onClick={() => callRoom()}>{room + "  " + clientName}</button>
-            </div>
-            <div id="mute-caller">
-            {room && (
+            {!callAccepted ? (
+                <>
+                        <div id='start-button'>
+                            <button className='control-button' onClick={() => setToggleMenu(true)}><p>JOIN</p></button>
+                            <div className='dropdown-menu'>
+                            {toggleMenu
+                            ? <RiCloseLine color="fff" size={35} onClick={() => setToggleMenu(false)} />
+                            : <RiMenuLine color="fff" size={35} onClick={() => setToggleMenu(true)} />}
+                            {toggleMenu && (
+                                <div className='dropdown-menu_container scale-up-center'>
+                                    <div className="dropdown-menu_container-links">
+                                        <Menu />
+                                    </div>
+                                </div>
+                            )}
+                            </div>
+                        </div>
+               
+                </>
+            ) : (
                 <div id="callerid">
                     <p>{room}</p><RiCustomerService2Fill className="hodetelefoner"/>
                 </div>
-            )}
-            
-            <button className="mute-button" onClick={mute}>{muted ?  <BsMicMuteFill size={30}/> : <BsFillMicFill size={30}/>}</button>
+                )}
+                 
+            <div id="mute-caller">
+                <button className="mute-button" onClick={mute}>{muted ?  <BsMicMuteFill size={30}/> : <BsFillMicFill size={30}/>}</button>
             </div>
             <button className="control-button" id="stop" onClick = {hangUp}>AVSLUTT</button>
             
@@ -65,6 +81,8 @@ const Controls = ( { children } ) => {
             <>
             <div id="topbar-ambulance">
                 {!callAccepted ? (
+                    <>
+                    {!roomActive ? (
                     <div id="call-input">
                         <div id='start-button'>
                             <button className='control-button' onClick={() => setToggleMenu(true)}><p>RING</p></button>
@@ -82,6 +100,12 @@ const Controls = ( { children } ) => {
                             </div>
                         </div>
                     </div>
+                    ) : (
+                        <div id="callerid">
+                            <p>pending</p>
+                        </div>
+                    )}
+                    </>
                     ) : (
                     <div id="callerid">
                         <p>{room}</p><RiCustomerService2Fill className="hodetelefoner"/>
