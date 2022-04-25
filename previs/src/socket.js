@@ -310,6 +310,7 @@ const ContextProvider = ({ children }) => {
             await navigator.mediaDevices.enumerateDevices()
             .then((devices) => {
                 devices.forEach((device) => {
+                    console.log(device);
                     if(device.kind === "videoinput"){
                         cameras.push(device.deviceId);
                         console.log(cameras);
