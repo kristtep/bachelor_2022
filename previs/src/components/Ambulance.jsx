@@ -5,23 +5,12 @@ import SendStream from "./SendStream";
 
 const Ambulance = () => {
 
-    const { start, stateStart } = useContext(Context);
-
   return (
     <div id="ambulance">
-        {!stateStart && (
-        <div id="startambulance">
-            <h2>Ambulance</h2>
-            <button id="startstream"onClick = {start}>START</button>
-        </div>
-        )}
-
-        {stateStart && (
             <>
                 <Controls />
                 <SendStream />
             </>
-          )}
     </div>
   )
 }

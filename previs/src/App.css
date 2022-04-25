@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap');
 
 .App {
   font-family: 'Roboto', sans-serif;
@@ -18,11 +19,27 @@ button {
 }
 
 #welcome {
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: bold;
   width: 50%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+
+#welcome p {
+  margin: 2% 0;
+  font-size: 24px;
+}
+
+#home-container {
+  display: flex;
+  flex-direction: row;
+  width: 60%;
+  justify-content: space-evenly;
+  align-items: flex-start;
 }
 
 #startstream, #watch {
@@ -49,7 +66,7 @@ margin-top: 5px;
   height: 100%;
   display: flex;
   flex-flow: column nowrap;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
 }
 
@@ -59,15 +76,44 @@ margin-top: 5px;
   justify-content: center;
   align-items: center;
   text-align: center;
+  color: black;
+  border-radius: 10px;
+}
+
+#start p {
+  font-size: 24px;
 }
 
 #start a {
   text-decoration: none;
-  color: #FFFFFF;
+  color: black;
 }
 
-#start a:hover {
+#start:hover {
   transform: scale(1.1);
+  transition-duration: 0.3s;
+}
+
+header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 1%;
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: bold;
+  font-size: 30px;
+  color: #F5751B;
+  font-style: italic;
+}
+
+#line {
+  height: 2px;
+  width: 60%;
+  background-color: #FFF;
+}
+
+#orange {
+  color: #F5751B;
 }
 
 #hospital, #ambulance {
@@ -208,13 +254,6 @@ video::backdrop {
   background-color: #212121;
 }
 
-#starthospital, #startambulance {
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-  margin-top: 20%;
-}
-
 #hospital-mirroring {
   max-width: 100%;
   max-height: 90%;
@@ -234,10 +273,6 @@ video::backdrop {
 #mute-caller {
   display: flex;
 }
-
-
-
-
 
 #buttons {
   background-color: #212121;

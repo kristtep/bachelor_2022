@@ -26,6 +26,8 @@ const Controls = ( { children } ) => {
         }
     }
 
+    
+
     const Menu = () => (
         <>
         <p onClick={() => callRoom()}>AKUTTMOTTAK LILLEHAMMER</p>
