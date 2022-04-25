@@ -122,14 +122,14 @@ const ContextProvider = ({ children }) => {
     }, []);
 
     const sendMessage = (message, room) => {
-        console.log("message: " + message + " to room: " + room);
+        //console.log("message: " + message + " to room: " + room);
         socket.emit("message", message, room)
     }
 
     const maybeStart = () => {
-        console.log(">>>maybestart ", isStarted, isChannelReady);
+        //console.log(">>>maybestart ", isStarted, isChannelReady);
         if(!isStarted && isChannelReady) {
-            console.log(">>> creating peer connection");
+            //console.log(">>> creating peer connection");
             createPeerConnection();
             isStarted = true;
             if(isInitiator) {
@@ -179,7 +179,7 @@ const ContextProvider = ({ children }) => {
             //recieving side
             //error om resolution overload når den prøver å lage ny mediastream, fant ikke noe brukbart på stackoverflow
             pc.current.ontrack = (event) => {
-                console.log(event.streams[0].getTracks());
+                //console.log(event.streams[0].getTracks());
                 //console.log(event.track);
                 if(started){
                     console.log('making new stream sender');
@@ -204,7 +204,7 @@ const ContextProvider = ({ children }) => {
     }
 
     const handleIceCandidate = (event) => {
-        console.log("icecandidate event: " + event);
+        //console.log("icecandidate event: " + event);
         if (event.candidate) {
             sendMessage(
                 {
@@ -225,12 +225,12 @@ const ContextProvider = ({ children }) => {
     }
 
     const doCall = () => {
-        console.log("sending offer to peer");
+        //console.log("sending offer to peer");
         pc.current.createOffer(setLocalAndSendMessage, handleCreateOfferError);
     }
 
     const doAnswer = () => {
-        console.log("sending answer to peer");
+        //console.log("sending answer to peer");
         pc.current.createAnswer().then(
             setLocalAndSendMessage,
             onCreateSessionDescriptionError
@@ -239,7 +239,7 @@ const ContextProvider = ({ children }) => {
 
     const setLocalAndSendMessage = (sessionDescription) => {
         pc.current.setLocalDescription(sessionDescription);
-        console.log("setlocalandsendmessage sending message", sessionDescription);
+        //console.log("setlocalandsendmessage sending message", sessionDescription);
         sendMessage(sessionDescription, currentRoom);
     }
 
@@ -250,7 +250,7 @@ const ContextProvider = ({ children }) => {
     const callRoom = (room) => {
         setRoom(room);
         socket.emit("create or join", room, clientName);
-        console.log('call');
+        //console.log('call');
         sendMessage("gotuser", room);
         if(isInitiator){
             maybeStart();
@@ -279,7 +279,7 @@ const ContextProvider = ({ children }) => {
     }
 
     const startShareScreen = () => {
-        console.log('shareScreen');
+        //console.log('shareScreen');
 
         navigator.mediaDevices.getDisplayMedia({ video: true, audio: false })
             .then((currentStream) => {
@@ -323,10 +323,10 @@ const ContextProvider = ({ children }) => {
             await navigator.mediaDevices.enumerateDevices()
             .then((devices) => {
                 devices.forEach((device) => {
-                    console.log(device);
+                    //console.log(device);
                     if(device.kind === "videoinput"){
                         cameras.push(device.deviceId);
-                        console.log(cameras);
+                        //console.log(cameras);
                     };
                 });
             });
@@ -336,7 +336,7 @@ const ContextProvider = ({ children }) => {
 
                     //streams.current.push(currentStream);
 
-                    console.log(currentStream.getTracks());
+                    //console.log(currentStream.getTracks());
 
                     vid1.current = currentStream;
                 });
@@ -347,7 +347,7 @@ const ContextProvider = ({ children }) => {
 
                             //streams.current.push(currentStream);
 
-                            console.log(currentStream.getTracks());
+                            //console.log(currentStream.getTracks());
 
                             vid1.current.addTrack(currentStream.getVideoTracks()[0]);
                         });
