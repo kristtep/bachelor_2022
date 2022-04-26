@@ -244,7 +244,6 @@ const ContextProvider = ({ children }) => {
         }
     }
 
-    //funker ikke
     const handleRemoteHangup = async () => {
         console.log("session terminated");
         await alert("Other side hung up");
