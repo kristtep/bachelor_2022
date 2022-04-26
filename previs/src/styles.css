@@ -112,6 +112,10 @@ p {
     text-transform: uppercase;
 }  
 
+#callerid p {
+    font-size: 14px;
+}
+
 .hodetelefoner {
     color: #fff;
     padding: 2%;
