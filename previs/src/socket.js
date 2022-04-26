@@ -257,6 +257,7 @@ const ContextProvider = ({ children }) => {
         }
     }
 
+    //funker ikke
     const handleRemoteHangup = () => {
         console.log("session terminated");
         stop();
@@ -265,10 +266,11 @@ const ContextProvider = ({ children }) => {
 
     const hangUp = () => {
         console.log("Hanging up...");
+        stop();
         setCallEnded(true);
         setStateStart(false);
         setStateStartWatch(false);
-        stop();
+        
         sendMessage("bye", currentRoom);
     }
 
