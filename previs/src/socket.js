@@ -2,9 +2,9 @@ import React, { createContext, useState, useRef, useEffect } from 'react';
 import { io } from "socket.io-client";
 
 const Context = createContext();
-const socket = io("https://bachelor-2022.herokuapp.com/", {
-    transports: ['websocket'],
-});
+const socket = io("http://localhost:5000/"/* , {
+    transports: ['websocket'], 
+}*/);
 //"https://bachelor-2022.herokuapp.com/"
 //http://localhost:5000/
 
@@ -105,9 +105,6 @@ const ContextProvider = ({ children }) => {
                 console.log("remote hang up");
             }
         });
-
-
-        
 
     }, []);
 

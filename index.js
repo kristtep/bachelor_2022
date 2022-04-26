@@ -1,4 +1,3 @@
-var os = require('os');
 var express = require('express');
 const app = express();
 const server = require("http").createServer(app);
@@ -37,24 +36,11 @@ io.on("connection", (socket) => {
             io.sockets.in(room).emit("join", room, client);
             socket.join(room);
             socket.emit("joined", room);
-            //usikker på hvor den mottakeren til denne er, sender "ready" til socket rommet men har ikke noe mottaker for det i socket.js fila
-            //io.sockets.in(room).emit("ready");
         }
     });
 
     socket.on("creatorname", (room, client) => {
         socket.to(room).emit("mynameis", client);
-    });
-    
-    socket.on('ipaddr', () => {
-        var ifaces = os.networkInterfaces();
-        for (var dev in ifaces) {
-            ifaces[dev].forEach((details) => {
-                if(details.family === "IPv4" && details.address !== "127.0.0.1") {
-                    socket.emit("ipaddr", details.address);
-                }
-            });
-        }
     });
 
     socket.on("bye", () => {
