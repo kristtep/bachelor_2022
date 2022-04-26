@@ -29,7 +29,10 @@ const ContextProvider = ({ children }) => {
             }
         ]
     };
+    const cameras = [];
     
+    var startWatch = false;
+    var started = false;
     var isChannelReady = false;
     var isInitiator = false;
     var isStarted = false;
@@ -37,39 +40,23 @@ const ContextProvider = ({ children }) => {
     var remoteClient;
     var currentRoom;
     const [room, setRoom] = useState('');
-    const [ lmao, setLmao ] = useState(false);
-    var startWatch = false;
     const [stateStartWatch, setStateStartWatch] = useState(false)
-    var started = false;
     const [stateStart, setStateStart] = useState(false);
     const [shareScreen, setShareScreen] = useState(false);
     const [callAccepted, setCallAccepted] = useState(false);
-    const [callEnded, setCallEnded] = useState(false);
     const [camReady, setCamReady] = useState(false);
     const [roomActive, setRoomActive] = useState(false);
 
-    const streams = useRef([]);
-    const cameras = [];
-
-    //endre navn?
     const vid1 = useRef();
     const incomingVoice = useRef();
     const pc = useRef();
 
     useEffect(() => {
-        console.log(socket);
+        //console.log(socket);
         
-        socket.on("created", (room, id, check) => {
+        socket.on("created", (room) => {
             console.log("room created: " + room);
             setRoomActive(true);
-            console.log(id);
-            if(check < 0 ) {
-                setLmao(true);
-                console.log(lmao);
-            } else {
-                setLmao(false);
-            }
-            console.log(check);
             isInitiator = true;
         });
 
@@ -119,6 +106,9 @@ const ContextProvider = ({ children }) => {
             }
         });
 
+
+        
+
     }, []);
 
     const sendMessage = (message, room) => {
@@ -139,7 +129,7 @@ const ContextProvider = ({ children }) => {
     }
 
     window.onbeforeunload = () => {
-        sendMessage("bye", currentRoom);
+        sendMessage("bye", room);
     }
 
     const createPeerConnection = () => {
@@ -147,13 +137,13 @@ const ContextProvider = ({ children }) => {
             pc.current = new RTCPeerConnection(turnStunConfig);
             pc.current.onicecandidate = handleIceCandidate;
 //            pc.current.onnegotiationneeded = handleNegotiationNeeded;
-            console.log("created rtcpeerconnection");
+            //console.log("created rtcpeerconnection");
 
             //sending side
             //sjekke ut noe alternativ til datachannel, egen for stream?
 
             //console.log('vid1: ' + vid1.current, 'incomingvoice :' + incomingVoice.current);
-            console.log('started: ' + started, 'startWatch: ' + startWatch);
+            //console.log('started: ' + started, 'startWatch: ' + startWatch);
 
             var senderTracks;
             var recieverTracks;
@@ -192,8 +182,8 @@ const ContextProvider = ({ children }) => {
                     vid1.current = event.streams[0];
                     setCallAccepted(true);
                     let idag2 = new Date(Date.now());
-                        let ms = idag2.getMilliseconds();
-                        console.log('Time 2:' + ms);
+                    let ms = idag2.getMilliseconds();
+                    console.log('Time 2:' + ms);
                     
                 }
             };
@@ -258,25 +248,23 @@ const ContextProvider = ({ children }) => {
     }
 
     //funker ikke
-    const handleRemoteHangup = () => {
+    const handleRemoteHangup = async () => {
         console.log("session terminated");
+        await alert("Other side hung up");
         stop();
-        isInitiator = false;
+        //isInitiator = false;
     }
 
     const hangUp = () => {
         console.log("Hanging up...");
+        sendMessage("bye", room);
         stop();
-        setCallEnded(true);
-        setStateStart(false);
-        setStateStartWatch(false);
-        
-        sendMessage("bye", currentRoom);
     }
 
     const stop = () => {
-        isStarted = false;
-        console.log(pc.current);
+        //isStarted = false;
+        //console.log(pc.current);
+        //console.log('stop function');
         window.location.href = '../';
     }
 
@@ -382,18 +370,14 @@ const ContextProvider = ({ children }) => {
             stateStartWatch,
             stateStart,
             camReady,
-            lmao,
             callAccepted,
-            callEnded,
             incomingVoice,
             clientName,
             room,
             cameras,
-            streams,
             vid1,
             shareScreen,
             pc,
-            clientName,
             roomActive,
             setRoomActive,
             hangUp,

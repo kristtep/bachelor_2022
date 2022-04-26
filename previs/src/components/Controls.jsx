@@ -6,27 +6,28 @@ import { BsMicMuteFill, BsFillMicFill } from 'react-icons/bs';
 
 const Controls = ( { children } ) => {
 
-    const { room, stateStartWatch, stateStart, callAccepted, callRoom, hangUp, startShareScreen, callEnded, clientName, incomingVoice, pc, vid1, roomActive } = useContext(Context);
+    const { room, stateStartWatch, stateStart, callAccepted, callRoom, hangUp, startShareScreen, roomActive } = useContext(Context);
 //    const [idToCall, setIdToCall] = useState('');
     const [toggleMenu, setToggleMenu] = useState(false);
     const [muted, setMuted] = useState(false);
 
     function mute () {
-        let video = document.getElementById('1');
-        console.log(document.getElementsByTagName('video'));
-        console.log(pc);
-        console.log(pc.current);
-        vid1.current.getAudioTracks()[0].enabled = !(vid1.current.getAudioTracks()[0].enabled);
+        let video;
+        if(stateStartWatch){
+            video = document.getElementById('1');
+        } else {
+            video = document.getElementById('hospital-mirroring');
+        }
+        
+        //vid1.current.getAudioTracks()[0].enabled = !(vid1.current.getAudioTracks()[0].enabled);
         if(muted) {
             video.muted = false;
             setMuted(false);
         } else {
-            video.muted = false;
+            video.muted = true;
             setMuted(true);
         }
     }
-
-    
 
     const Menu = () => (
         <>
@@ -40,40 +41,38 @@ const Controls = ( { children } ) => {
 
     return (
         <div id="controls" >
-
+        
         {!stateStart && (
-
             <>
             {!callAccepted ? (
                 <>
-                        <div id='start-button'>
-                            <button className='control-button' onClick={() => setToggleMenu(true)}><p>JOIN</p></button>
-                            <div className='dropdown-menu'>
-                            {toggleMenu
-                            ? <RiCloseLine color="fff" size={35} onClick={() => setToggleMenu(false)} />
-                            : <RiMenuLine color="fff" size={35} onClick={() => setToggleMenu(true)} />}
-                            {toggleMenu && (
-                                <div className='dropdown-menu_container scale-up-center'>
-                                    <div className="dropdown-menu_container-links">
-                                        <Menu />
-                                    </div>
+                    <div id='start-button'>
+                        <button className='control-button' onClick={() => setToggleMenu(true)}><p>JOIN</p></button>
+                        <div className='dropdown-menu'>
+                        {toggleMenu
+                        ? <RiCloseLine color="fff" size={35} onClick={() => setToggleMenu(false)} />
+                        : <RiMenuLine color="fff" size={35} onClick={() => setToggleMenu(true)} />}
+                        {toggleMenu && (
+                            <div className='dropdown-menu_container scale-up-center'>
+                                <div className="dropdown-menu_container-links">
+                                    <Menu />
                                 </div>
-                            )}
                             </div>
+                        )}
                         </div>
-               
+                    </div>
                 </>
             ) : (
                 <div id="callerid">
                     <p>{room}</p><RiCustomerService2Fill className="hodetelefoner"/>
                 </div>
-                )}
+            )}
                  
             <div id="mute-caller">
                 <button className="mute-button" onClick={mute}>{muted ?  <BsMicMuteFill size={30}/> : <BsFillMicFill size={30}/>}</button>
             </div>
+
             <button className="control-button" id="stop" onClick = {hangUp}>AVSLUTT</button>
-            
             </>
         )}
 
@@ -83,41 +82,44 @@ const Controls = ( { children } ) => {
                 {!callAccepted ? (
                     <>
                     {!roomActive ? (
-                    <div id="call-input">
-                        <div id='start-button'>
-                            <button className='control-button' onClick={() => setToggleMenu(true)}><p>RING</p></button>
-                            <div className='dropdown-menu'>
-                            {toggleMenu
-                            ? <RiCloseLine color="fff" size={35} onClick={() => setToggleMenu(false)} />
-                            : <RiMenuLine color="fff" size={35} onClick={() => setToggleMenu(true)} />}
-                            {toggleMenu && (
-                                <div className='dropdown-menu_container scale-up-center'>
-                                    <div className="dropdown-menu_container-links">
-                                        <Menu />
+                        <div id="call-input">
+                            <div id='start-button'>
+                                <button className='control-button' onClick={() => setToggleMenu(true)}><p>RING</p></button>
+                                <div className='dropdown-menu'>
+                                    {toggleMenu
+                                    ? <RiCloseLine color="fff" size={35} onClick={() => setToggleMenu(false)} />
+                                    : <RiMenuLine color="fff" size={35} onClick={() => setToggleMenu(true)} />}
+                                    {toggleMenu && (
+                                    <div className='dropdown-menu_container scale-up-center'>
+                                        <div className="dropdown-menu_container-links">
+                                            <Menu />
+                                        </div>
                                     </div>
+                                    )}
                                 </div>
-                            )}
                             </div>
                         </div>
-                    </div>
                     ) : (
                         <div id="callerid">
-                            <p>pending</p>
+                            <p>PENDING</p>
                         </div>
                     )}
                     </>
                     ) : (
-                    <div id="callerid">
-                        <p>{room}</p><RiCustomerService2Fill className="hodetelefoner"/>
+                        <div id="callerid">
+                            <p>{room}</p><RiCustomerService2Fill className="hodetelefoner"/>
+                        </div>
+                    )}
+                    <div id="extra-buttons">
+                        <button className="extra-buttons" onClick={() => startShareScreen()}>ULTRALYD</button>
+                        <button className="extra-buttons" onClick={() => startShareScreen()}>TERMISK</button>
                     </div>
-                )}
-                <div id="extra-buttons">
-                    <button className="extra-buttons" onClick={() => startShareScreen()}>ULTRALYD</button>
-                    <button className="extra-buttons" onClick={() => startShareScreen()}>TERMISK</button>
+                    <div id="mute-caller">
+                        <button className="mute-button" onClick={mute}>{muted ?  <BsMicMuteFill size={30}/> : <BsFillMicFill size={30}/>}</button>
+                    </div>
+                    <button className="control-button" id="stop" onClick = {hangUp}><p>AVSLUTT</p></button>
                 </div>
-                <button className="control-button" id="stop" onClick = {hangUp}><p>AVSLUTT</p></button>
-            </div>
-        </>
+            </>
         )}
         {children}
     </div>

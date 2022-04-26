@@ -7,15 +7,15 @@ const ViewStream = () => {
   const { stateStartWatch, vid1, callEnded, callAccepted, shareScreen } = useContext(Context);
 
   useEffect(() =>{
-    console.log("makevideoelems in view", vid1.current);
+    //console.log("makevideoelems in view", vid1.current);
 
     if(callAccepted && vid1.current){
       let tracks = vid1.current.getVideoTracks();
 
-      console.log(tracks);
+      //console.log(tracks);
 
       if(tracks){
-        console.log(tracks.length);
+        //console.log(tracks.length);
 
         for(let i = 1; i < tracks.length + 1; i++){
           if(!document.getElementById(i)){
@@ -33,7 +33,7 @@ const ViewStream = () => {
           document.getElementById(`videoContainer-${i}`).appendChild(elem);
           setSrc(i);
           makeButton(i);
-          console.log(i);
+          //console.log(i);
           }
         }
       }else{

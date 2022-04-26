@@ -7,14 +7,14 @@ const SendStream = () => {
     const { shareScreen, vid1, callAccepted, incomingVoice, camReady } = useContext(Context);
 
     useEffect(() => {
-      console.log(vid1.current);
+      //console.log(vid1.current);
       let tracks;
       if(vid1.current){
         tracks = vid1.current.getVideoTracks();
       }
 
       if(tracks){
-        console.log('inside first layer video elems');
+        //console.log('inside first layer video elems');
         console.log(tracks.length);
 
         for(let i = 1; i < tracks.length + 1; i++){
@@ -29,14 +29,14 @@ const SendStream = () => {
             elem.setAttribute('muted', true);
             elem.onclick = () => toggleFullscreen(i);
 
-            console.log('inside making vid elems');
+            //console.log('inside making vid elems');
             
             document.getElementById('stream').appendChild(container);
             document.getElementById(`videoContainer-${i}`).appendChild(elem);
             setSrc(i);
             makeButton(i);
           } else if (callAccepted){
-            console.log('inside video making incoming and removing outgoing');
+            //console.log('inside video making incoming and removing outgoing');
             if(document.getElementById('1')){
               document.getElementById('1').remove();
               document.getElementById('videoContainer-1').remove();
@@ -48,12 +48,11 @@ const SendStream = () => {
                   document.getElementById('videoContainer-3').remove();
                 }
               }
-              
-              
             }
             if(!document.getElementById("hospital-mirroring")){
               let elem = document.createElement('video');
               elem.setAttribute('id', 'hospital-mirroring');
+              elem.setAttribute('muted', false);
               elem.setAttribute('autoPlay', true);
 
               document.getElementById('stream').appendChild(elem);
@@ -89,8 +88,8 @@ const SendStream = () => {
         src.addTrack(tracks[i-1]);
         document.getElementById(i).srcObject = src;
       } else if (incomingVoice.current) {
-        console.log(incomingVoice.current.getTracks());
-        console.log(i);
+        //console.log(incomingVoice.current.getTracks());
+        //console.log(i);
         document.getElementById(i).srcObject = incomingVoice.current;
       }
     }
