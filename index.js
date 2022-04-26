@@ -19,8 +19,6 @@ app.get("/", (req, res) => {
     res.send("Server is running");
 });
 
-var check = 0;
-
 io.on("connection", (socket) => {
 
     socket.on('message', (message, room) => {
@@ -34,15 +32,13 @@ io.on("connection", (socket) => {
 
         if (numCli === 0){
             socket.join(room);
-            check++;
-            console.log(check);
-            socket.emit("created", room, socket.id, check);
+            socket.emit("created", room);
         } else {
             io.sockets.in(room).emit("join", room, client);
             socket.join(room);
-            socket.emit("joined", room, socket.id);
+            socket.emit("joined", room);
             //usikker på hvor den mottakeren til denne er, sender "ready" til socket rommet men har ikke noe mottaker for det i socket.js fila
-            io.sockets.in(room).emit("ready");
+            //io.sockets.in(room).emit("ready");
         }
     });
 
