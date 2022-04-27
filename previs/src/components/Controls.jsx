@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import "../styles.css";
 import { Context } from "../socket";
 import { RiMenuLine, RiCloseLine, RiCustomerService2Fill } from 'react-icons/ri';
-import { BsMicMuteFill, BsFillMicFill } from 'react-icons/bs';
+import { GiSpeakerOff, GiSpeaker } from 'react-icons/gi';
 
 const Controls = ( { children } ) => {
 
@@ -69,7 +69,7 @@ const Controls = ( { children } ) => {
             )}
                  
             <div id="mute-caller">
-                <button className="mute-button" onClick={mute}>{muted ?  <BsMicMuteFill size={30}/> : <BsFillMicFill size={30}/>}</button>
+                <button className="mute-button" onClick={mute}>{muted ?  <GiSpeakerOff size={30}/> : <GiSpeaker size={30}/>}</button>
             </div>
 
             <button className="control-button" id="stop" onClick = {hangUp}>AVSLUTT</button>
@@ -115,7 +115,7 @@ const Controls = ( { children } ) => {
                         <button className="extra-buttons" onClick={() => startShareScreen()}>TERMISK</button>
                     </div>
                     <div id="mute-caller">
-                        <button className="mute-button" onClick={mute}>{muted ?  <BsMicMuteFill size={30}/> : <BsFillMicFill size={30}/>}</button>
+                        <button className="mute-button" onClick={mute}>{muted ?  <GiSpeakerOff size={30}/> : <GiSpeaker size={30}/>}</button>
                     </div>
                     <button className="control-button" id="stop" onClick = {hangUp}><p>AVSLUTT</p></button>
                 </div>
