@@ -44,13 +44,13 @@ button {
 
 #startstream, #watch {
   border-radius: 10px;
-  font-size: 50px;
+  font-size: 40px;
   font-weight: bold;
   background-color: #FFFFFF;
   color: black;
   cursor: pointer;
-  height: 200px;
-  width: 300px;
+  height: 150px;
+  width: 200px;
 }
 
 #startstream p, #watch p {
@@ -58,8 +58,9 @@ margin-top: 5px;
 }
 
 #startstream:hover, #watch:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
   transition-duration: 0.2s;
+  filter: brightness(1.4);
 }
 
 #home {
@@ -82,6 +83,7 @@ margin-top: 5px;
 
 #start p {
   font-size: 24px;
+  margin-bottom: 4%;
 }
 
 #start a {
@@ -89,10 +91,7 @@ margin-top: 5px;
   color: black;
 }
 
-#start:hover {
-  transform: scale(1.1);
-  transition-duration: 0.3s;
-}
+
 
 header {
   position: absolute;
