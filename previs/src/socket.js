@@ -39,7 +39,7 @@ const ContextProvider = ({ children }) => {
     var clientName = "ambulance" + Math.floor(Math.random() * 100 + 1);
     var remoteClient;
     var currentRoom;
-    const [errorOnCreate, setErrorOnCreate] = useState({ error: false, room: ''});
+    const [status, setStatus] = useState({ ready: false, room: '', ambulance: '' });
     const [room, setRoom] = useState('');
     const [stateStartWatch, setStateStartWatch] = useState(false)
     const [stateStart, setStateStart] = useState(false);
@@ -107,8 +107,8 @@ const ContextProvider = ({ children }) => {
             }
         });
 
-        socket.on("error on create", (room) => {
-            setErrorOnCreate({ error: true, room: room})
+        socket.on('ready', (room, client) => {
+            setStatus({ ready: true, room: room, ambulance: client });
         });
 
     }, []);
@@ -182,7 +182,6 @@ const ContextProvider = ({ children }) => {
                 } else if (startWatch) {
                     console.log('making new stream reciever');
                     vid1.current = event.streams[0];
-                    setErrorOnCreate({error: false, room: ''});
                     setCallAccepted(true);
                     let idag2 = new Date(Date.now());
                     let ms = idag2.getMilliseconds();
@@ -242,13 +241,7 @@ const ContextProvider = ({ children }) => {
 
     const callRoom = (room) => {
         setRoom(room);
-        var checkStatus;
-        if(stateStart){
-            checkStatus = true;
-        } else if (stateStartWatch){
-            checkStatus = false;
-        }
-        socket.emit("create or join", room, clientName, checkStatus);
+        socket.emit("create or join", room, clientName);
         //console.log('call');
         sendMessage("gotuser", room);
         if(isInitiator){
@@ -302,6 +295,7 @@ const ContextProvider = ({ children }) => {
     const startW = async () => {
         startWatch = true;
         setStateStartWatch(true);
+        socket.emit('initial connect', 'PreVis');
         await navigator.mediaDevices.getUserMedia({ video: false, audio: true })
             .then((currentStream) => {
                 incomingVoice.current = currentStream;
@@ -315,6 +309,7 @@ const ContextProvider = ({ children }) => {
     const start = async () => {
         started = true;
         setStateStart(true);
+        socket.emit('initial connect', 'PreVis');
 
         if (cameras.length === 0){
             await navigator.mediaDevices.getUserMedia({audio: true, video: { width: 1920, height: 1080 } });
@@ -387,7 +382,7 @@ const ContextProvider = ({ children }) => {
             shareScreen,
             pc,
             roomActive,
-            errorOnCreate,
+            status,
             setRoomActive,
             hangUp,
             callRoom,

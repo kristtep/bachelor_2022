@@ -4,7 +4,7 @@ import { Context } from "../socket";
 
 const ViewStream = () => {
 
-  const { stateStartWatch, vid1, callEnded, callAccepted, shareScreen } = useContext(Context);
+  const { stateStartWatch, vid1, callEnded, callAccepted, shareScreen, status, callRoom } = useContext(Context);
 
   useEffect(() =>{
     //console.log("makevideoelems in view", vid1.current);
@@ -80,6 +80,20 @@ const ViewStream = () => {
 
     return (
         <>
+        {!status.ready ? (
+          <div id="status">
+            <p>Waiting for ambulance to start streaming.</p>
+            <div id="spinner"></div>
+          </div>
+        ) : (
+          <>
+          {!callAccepted && (
+            <div id="incoming-call">
+              <button onClick={() => callRoom(status.room)}>Incoming call from {status.ambulance}</button>
+            </div>
+          )}
+          </>
+        )}
             { stateStartWatch && callAccepted && !callEnded && (
               <>
 
