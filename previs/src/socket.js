@@ -36,7 +36,7 @@ const ContextProvider = ({ children }) => {
     var isChannelReady = false;
     var isInitiator = false;
     var isStarted = false;
-    var clientName = "ambulance" + Math.floor(Math.random() * 100 + 1);
+    var clientName = "Ambulance" + Math.floor(Math.random() * 100 + 1);
     var remoteClient;
     var currentRoom;
     const [status, setStatus] = useState({ ready: false, room: '', ambulance: '' });
@@ -251,8 +251,9 @@ const ContextProvider = ({ children }) => {
 
     const handleRemoteHangup = async () => {
         console.log("session terminated");
-        await alert("Other side hung up");
-        stop();
+        await alert("Other side hung up").then(() => {
+            stop();
+        });
         //isInitiator = false;
     }
 
