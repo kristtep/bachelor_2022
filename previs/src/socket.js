@@ -2,7 +2,7 @@ import React, { createContext, useState, useRef, useEffect } from 'react';
 import { io } from "socket.io-client";
 
 const Context = createContext();
-const socket = io("https://bachelor-2022.herokuapp.com/" , {
+const socket = io("https://bachelor-2022.herokuapp.com/", {
     transports: ['websocket'], 
 });
 //"https://bachelor-2022.herokuapp.com/"
@@ -39,6 +39,7 @@ const ContextProvider = ({ children }) => {
     var clientName = "ambulance" + Math.floor(Math.random() * 100 + 1);
     var remoteClient;
     var currentRoom;
+    const [errorOnCreate, setErrorOnCreate] = useState({ error: false, room: ''});
     const [room, setRoom] = useState('');
     const [stateStartWatch, setStateStartWatch] = useState(false)
     const [stateStart, setStateStart] = useState(false);
@@ -104,6 +105,10 @@ const ContextProvider = ({ children }) => {
                 handleRemoteHangup();
                 console.log("remote hang up");
             }
+        });
+
+        socket.on("error on create", (room) => {
+            setErrorOnCreate({ error: true, room: room})
         });
 
     }, []);
@@ -177,6 +182,7 @@ const ContextProvider = ({ children }) => {
                 } else if (startWatch) {
                     console.log('making new stream reciever');
                     vid1.current = event.streams[0];
+                    setErrorOnCreate({error: false, room: ''});
                     setCallAccepted(true);
                     let idag2 = new Date(Date.now());
                     let ms = idag2.getMilliseconds();
@@ -236,7 +242,13 @@ const ContextProvider = ({ children }) => {
 
     const callRoom = (room) => {
         setRoom(room);
-        socket.emit("create or join", room, clientName);
+        var checkStatus;
+        if(stateStart){
+            checkStatus = true;
+        } else if (stateStartWatch){
+            checkStatus = false;
+        }
+        socket.emit("create or join", room, clientName, checkStatus);
         //console.log('call');
         sendMessage("gotuser", room);
         if(isInitiator){
@@ -375,6 +387,7 @@ const ContextProvider = ({ children }) => {
             shareScreen,
             pc,
             roomActive,
+            errorOnCreate,
             setRoomActive,
             hangUp,
             callRoom,

@@ -6,7 +6,7 @@ import { GiSpeakerOff, GiSpeaker } from 'react-icons/gi';
 
 const Controls = ( { children } ) => {
 
-    const { room, stateStartWatch, stateStart, callAccepted, callRoom, hangUp, startShareScreen, roomActive } = useContext(Context);
+    const { room, stateStartWatch, stateStart, callAccepted, callRoom, hangUp, startShareScreen, roomActive, errorOnCreate } = useContext(Context);
 //    const [idToCall, setIdToCall] = useState('');
     const [toggleMenu, setToggleMenu] = useState(false);
     const [muted, setMuted] = useState(false);
@@ -67,6 +67,14 @@ const Controls = ( { children } ) => {
                     <p>{room}</p><RiCustomerService2Fill className="hodetelefoner"/>
                 </div>
             )}
+
+            
+            {errorOnCreate.error && (
+                <>
+                <p>Make sure ambulance is streaming before joining room: {errorOnCreate.room}</p>
+                </>
+            )}
+            
                  
             <div id="mute-caller">
                 <button className="mute-button" onClick={mute}>{muted ?  <GiSpeakerOff size={30}/> : <GiSpeaker size={30}/>}</button>

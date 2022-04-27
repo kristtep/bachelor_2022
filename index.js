@@ -24,14 +24,16 @@ io.on("connection", (socket) => {
         socket.to(room).emit('message', message, room);
     });
 
-    socket.on('create or join', (room, client) => {
+    socket.on('create or join', (room, client, status) => {
         var cliInRoom = io.sockets.adapter.rooms.get(room);
         var numCli = cliInRoom ? cliInRoom.size : 0;
         console.log("room " + room + " has " + numCli + " clients.");
 
-        if (numCli === 0){
+        if (numCli === 0 && status){
             socket.join(room);
             socket.emit("created", room);
+        } else if(numCli === 0 && !status) {
+            socket.emit("error on create", room);
         } else {
             io.sockets.in(room).emit("join", room, client);
             socket.join(room);
