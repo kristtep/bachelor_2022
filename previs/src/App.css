@@ -57,10 +57,40 @@ button {
 margin-top: 5px;
 }
 
+#incoming-call {
+  margin-top: 20%;
+}
+
+#incoming-call button {
+  background-color: #FFF;
+  color: black;
+  font-family: 'Roboto', sans-serif;
+  font-size: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 10%;
+}
+
+#incoming-call button:hover {
+  background-color: var(--start-button-background);
+  color: #FFF;
+  transform: scale(1.05);
+  transition-duration: 0.4s;
+}
+
 #startstream:hover, #watch:hover {
   transform: scale(1.05);
   transition-duration: 0.2s;
   filter: brightness(1.4);
+}
+
+#status {
+  margin-top: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #home {
@@ -90,8 +120,6 @@ margin-top: 5px;
   text-decoration: none;
   color: black;
 }
-
-
 
 header {
   position: absolute;
@@ -437,6 +465,9 @@ video::backdrop {
   }
 }
 
+.animate__animated  {
+  animation: animate__pulse 1.5s linear infinite; /* don't forget to set a duration! */
+}
 
 
 

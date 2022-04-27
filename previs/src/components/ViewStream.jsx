@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import "../styles.css";
+import 'animate.css';
 import { Context } from "../socket";
 
 const ViewStream = () => {
@@ -82,14 +83,14 @@ const ViewStream = () => {
         <>
         {!status.ready ? (
           <div id="status">
-            <p>Waiting for ambulance to start streaming.</p>
+            <p>Waiting for ambulance to start streaming</p>
             <div id="spinner"></div>
           </div>
         ) : (
           <>
           {!callAccepted && (
             <div id="incoming-call">
-              <button onClick={() => callRoom(status.room)}>Incoming call from {status.ambulance}</button>
+              <button class="animate__animated animate__pulse" onClick={() => callRoom(status.room)}>Incoming call from {status.ambulance}</button>
             </div>
           )}
           </>
