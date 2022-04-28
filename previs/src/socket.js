@@ -19,12 +19,12 @@ const ContextProvider = ({ children }) => {
                 username: "cAx8DD4EsxnLF5yWJfUflILov81q2YabG4XV87Xj6oUABT8_McfDe1HUcls0VVi3AAAAAGJK1k1rcmlzdHRlcA==",
                 credential: "509c1eac-b40a-11ec-8d46-0242ac120004",
                 urls: [
-                    "turn:fr-turn1.xirsys.com:80?transport=udp"/* ,
-                    "turn:fr-turn1.xirsys.com:3478?transport=udp",
-                    "turn:fr-turn1.xirsys.com:80?transport=tcp",
-                    "turn:fr-turn1.xirsys.com:3478?transport=tcp",
-                    "turns:fr-turn1.xirsys.com:443?transport=tcp",
-                    "turns:fr-turn1.xirsys.com:5349?transport=tcp" */
+                    "turn:fr-turn1.xirsys.com:80?transport=udp" ,
+                    //"turn:fr-turn1.xirsys.com:3478?transport=udp",
+                    "turn:fr-turn1.xirsys.com:80?transport=tcp"
+                    //"turn:fr-turn1.xirsys.com:3478?transport=tcp",
+                    //"turns:fr-turn1.xirsys.com:443?transport=tcp",
+                    //"turns:fr-turn1.xirsys.com:5349?transport=tcp"
                 ]
             }
         ]
@@ -133,28 +133,40 @@ const ContextProvider = ({ children }) => {
             if(started){
                 senderTracks = vid1.current.getTracks();
                 for (const track of senderTracks) {
+                    let idag = new Date(Date.now());
+                    let s = idag.getSeconds();    
+                    let ms = idag.getMilliseconds();
+                    console.log('Time on add track:' + s + 'sec, ' + ms + 'ms.'); 
                     pc.current.addTrack(track, vid1.current);
                 }
             } else if(startWatch){
                 recieverTracks = incomingVoice.current.getTracks();
-                let idag = new Date(Date.now());
-                    let ms = idag.getMilliseconds();
-                    console.log('Time:' + ms);
+                
+                    
                 for (const track of recieverTracks) {
+                    let idag = new Date(Date.now());
+                    let s = idag.getSeconds();    
+                    let ms = idag.getMilliseconds();
+                    console.log('Time on add track:' + s + 'sec, ' + ms + 'ms.');
                     pc.current.addTrack(track, incomingVoice.current);
                 }
             }
 
             pc.current.ontrack = (event) => {
                 if(started){
+                    let idag = new Date(Date.now());
+                    let s = idag.getSeconds();    
+                    let ms = idag.getMilliseconds();
+                    console.log('Time on track:' + s + 'sec, ' + ms + 'ms.');
                     incomingVoice.current = event.streams[0];
                     setCallAccepted(true);
                 } else if (startWatch) {
+                    let idag = new Date(Date.now());
+                    let s = idag.getSeconds();    
+                    let ms = idag.getMilliseconds();
+                    console.log('Time on track:' + s + 'sec, ' + ms + 'ms.');
                     vid1.current = event.streams[0];
                     setCallAccepted(true);
-                    let idag2 = new Date(Date.now());
-                    let ms = idag2.getMilliseconds();
-                    console.log('Time 2:' + ms);
                 }
             };
         } catch (e) {
