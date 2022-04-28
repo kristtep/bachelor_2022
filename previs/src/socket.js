@@ -19,12 +19,12 @@ const ContextProvider = ({ children }) => {
                 username: "cAx8DD4EsxnLF5yWJfUflILov81q2YabG4XV87Xj6oUABT8_McfDe1HUcls0VVi3AAAAAGJK1k1rcmlzdHRlcA==",
                 credential: "509c1eac-b40a-11ec-8d46-0242ac120004",
                 urls: [
-                    "turn:fr-turn1.xirsys.com:80?transport=udp",
+                    "turn:fr-turn1.xirsys.com:80?transport=udp"/* ,
                     "turn:fr-turn1.xirsys.com:3478?transport=udp",
                     "turn:fr-turn1.xirsys.com:80?transport=tcp",
                     "turn:fr-turn1.xirsys.com:3478?transport=tcp",
                     "turns:fr-turn1.xirsys.com:443?transport=tcp",
-                    "turns:fr-turn1.xirsys.com:5349?transport=tcp"
+                    "turns:fr-turn1.xirsys.com:5349?transport=tcp" */
                 ]
             }
         ]

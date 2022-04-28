@@ -34,7 +34,7 @@ const SendStream = () => {
             if(document.getElementById('1')){
               document.getElementById('1').remove();
               document.getElementById('videoContainer-1').remove();
-              if(document.getElementById('2'));{
+              if(document.getElementById('2')){
                 document.getElementById('2').remove();
                 document.getElementById('videoContainer-2').remove();
                 if(document.getElementById('3')){
