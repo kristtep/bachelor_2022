@@ -53,7 +53,6 @@ const ContextProvider = ({ children }) => {
     const pc = useRef();
 
     useEffect(() => {
-        //console.log(socket);
         
         socket.on("created", (room) => {
             console.log("room created: " + room);
