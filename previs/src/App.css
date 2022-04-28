@@ -269,16 +269,16 @@ input {
   z-index: 0;
 }
 
+#videoContainer-1::backdrop, #videoContainer-2::backdrop, #videoContainer-3::backdrop {
+  background-color: #212121;
+}
+
 video {
   aspect-ratio: 16 / 9;
 }
 
 video:hover {
   cursor: pointer;
-}
-
-video::backdrop {
-  background-color: #212121;
 }
 
 #hospital-mirroring {
