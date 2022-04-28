@@ -6,8 +6,7 @@ import { GiSpeakerOff, GiSpeaker } from 'react-icons/gi';
 
 const Controls = ( { children } ) => {
 
-    const { room, stateStartWatch, stateStart, callAccepted, callRoom, hangUp, startShareScreen, roomActive } = useContext(Context);
-//    const [idToCall, setIdToCall] = useState('');
+    const { room, stateStartWatch, stateStart, callAccepted, callRoom, hangUp, startShareScreen, roomActive, status } = useContext(Context);
     const [toggleMenu, setToggleMenu] = useState(false);
     const [muted, setMuted] = useState(false);
 
@@ -18,8 +17,6 @@ const Controls = ( { children } ) => {
         } else {
             video = document.getElementById('hospital-mirroring');
         }
-        
-        //vid1.current.getAudioTracks()[0].enabled = !(vid1.current.getAudioTracks()[0].enabled);
         if(muted) {
             video.muted = false;
             setMuted(false);
@@ -48,7 +45,7 @@ const Controls = ( { children } ) => {
             {callAccepted && (
                 <>
                     <div id="callerid">
-                        <p>{room}</p><RiCustomerService2Fill className="hodetelefoner"/>
+                        <p>{status.ambulance}</p><RiCustomerService2Fill className="hodetelefoner"/>
                     </div>
                 </>
             )}

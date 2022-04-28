@@ -61,16 +61,13 @@ const ContextProvider = ({ children }) => {
         });
 
         socket.on('join', (room, client) => {
-            console.log("Another peer (" + client + ") wants to join room " + room + ".");
             isChannelReady = true;
-            console.log('channel ready: ' + isChannelReady);
             remoteClient = client;
             socket.emit("creatorname", room, clientName);
         });
 
         socket.on("mynameis", (client) => {
             remoteClient = client;
-            console.log(remoteClient);
         });
 
         socket.on("joined", (room) => {
@@ -79,19 +76,15 @@ const ContextProvider = ({ children }) => {
         });
 
         socket.on("message", (message, room) => {
-            //console.log("client recieved message: " + message + ". To room " + room);
             currentRoom = room;
             if(message === "gotuser"){
-                console.log(currentRoom);
-                maybeStart();
+                startConnection();
             } else if(message.type === "offer"){
                 if (!isInitiator && !isStarted) {
-                    console.log("offer and running maybeStart()");
-                    maybeStart();
+                    startConnection();
                 }
-                console.log("offer and setting remotedesc, and running doAnswer()");
                 pc.current.setRemoteDescription(new RTCSessionDescription(message));
-                doAnswer();
+                answer();
             } else if (message.type === "answer" && isStarted) {
                 pc.current.setRemoteDescription(new RTCSessionDescription(message));
             } else if (message.type === "candidate" && isStarted) {
@@ -101,8 +94,7 @@ const ContextProvider = ({ children }) => {
                 });
                 pc.current.addIceCandidate(candidate);
             } else if (message === "bye" && isStarted) {
-                handleRemoteHangup();
-                console.log("remote hang up");
+                remoteHangUp();
             }
         });
 
@@ -113,18 +105,15 @@ const ContextProvider = ({ children }) => {
     }, []);
 
     const sendMessage = (message, room) => {
-        //console.log("message: " + message + " to room: " + room);
         socket.emit("message", message, room)
     }
 
-    const maybeStart = () => {
-        //console.log(">>>maybestart ", isStarted, isChannelReady);
+    const startConnection = () => {
         if(!isStarted && isChannelReady) {
-            //console.log(">>> creating peer connection");
             createPeerConnection();
             isStarted = true;
             if(isInitiator) {
-                doCall();
+                call();
             }
         }
     }
@@ -137,22 +126,12 @@ const ContextProvider = ({ children }) => {
         try {
             pc.current = new RTCPeerConnection(turnStunConfig);
             pc.current.onicecandidate = handleIceCandidate;
-//            pc.current.onnegotiationneeded = handleNegotiationNeeded;
-            //console.log("created rtcpeerconnection");
-
-            //sending side
-            //sjekke ut noe alternativ til datachannel, egen for stream?
-
-            //console.log('vid1: ' + vid1.current, 'incomingvoice :' + incomingVoice.current);
-            //console.log('started: ' + started, 'startWatch: ' + startWatch);
 
             var senderTracks;
             var recieverTracks;
 
-            //addTrack funker ikke tror jeg, undefined på konsoll logging av peerconnetion
             if(started){
                 senderTracks = vid1.current.getTracks();
-                //console.log(senderTracks);
                 for (const track of senderTracks) {
                     pc.current.addTrack(track, vid1.current);
                 }
@@ -161,31 +140,21 @@ const ContextProvider = ({ children }) => {
                 let idag = new Date(Date.now());
                     let ms = idag.getMilliseconds();
                     console.log('Time:' + ms);
-                //console.log(recieverTracks);
                 for (const track of recieverTracks) {
                     pc.current.addTrack(track, incomingVoice.current);
                 }
             }
 
-            //recieving side
-            //error om resolution overload når den prøver å lage ny mediastream, fant ikke noe brukbart på stackoverflow
             pc.current.ontrack = (event) => {
-                //console.log(event.streams[0].getTracks());
-                //console.log(event.track);
                 if(started){
-                    console.log('making new stream sender');
                     incomingVoice.current = event.streams[0];
-                    
-                    //console.log(incomingVoice.current);
                     setCallAccepted(true);
                 } else if (startWatch) {
-                    console.log('making new stream reciever');
                     vid1.current = event.streams[0];
                     setCallAccepted(true);
                     let idag2 = new Date(Date.now());
                     let ms = idag2.getMilliseconds();
                     console.log('Time 2:' + ms);
-                    
                 }
             };
         } catch (e) {
@@ -195,7 +164,6 @@ const ContextProvider = ({ children }) => {
     }
 
     const handleIceCandidate = (event) => {
-        //console.log("icecandidate event: " + event);
         if (event.candidate) {
             sendMessage(
                 {
@@ -215,13 +183,11 @@ const ContextProvider = ({ children }) => {
         console.log("createoffer() error: ", event);
     }
 
-    const doCall = () => {
-        //console.log("sending offer to peer");
+    const call = () => {
         pc.current.createOffer(setLocalAndSendMessage, handleCreateOfferError);
     }
 
-    const doAnswer = () => {
-        //console.log("sending answer to peer");
+    const answer = () => {
         pc.current.createAnswer().then(
             setLocalAndSendMessage,
             onCreateSessionDescriptionError
@@ -230,7 +196,6 @@ const ContextProvider = ({ children }) => {
 
     const setLocalAndSendMessage = (sessionDescription) => {
         pc.current.setLocalDescription(sessionDescription);
-        //console.log("setlocalandsendmessage sending message", sessionDescription);
         sendMessage(sessionDescription, currentRoom);
     }
 
@@ -241,42 +206,32 @@ const ContextProvider = ({ children }) => {
     const callRoom = (room) => {
         setRoom(room);
         socket.emit("create or join", room, clientName);
-        //console.log('call');
         sendMessage("gotuser", room);
         if(isInitiator){
-            maybeStart();
+            startConnection();
         }
     }
 
-    const handleRemoteHangup = async () => {
-        console.log("session terminated");
-        await alert("Other side hung up").then(() => {
-            stop();
-        });
-        //isInitiator = false;
+    const remoteHangUp = async () => {
+        await alert("Other side hung up");
+        stop();
     }
 
     const hangUp = () => {
-        console.log("Hanging up...");
         sendMessage("bye", room);
         stop();
     }
 
     const stop = () => {
-        //isStarted = false;
-        //console.log(pc.current);
-        //console.log('stop function');
         window.location.href = '../';
     }
 
     const startShareScreen = () => {
-        //console.log('shareScreen');
 
         navigator.mediaDevices.getDisplayMedia({ video: true, audio: false })
             .then((currentStream) => {
                 console.log(pc.current);
                 if(pc.current){
-                    console.log('peer connected');
                     vid1.current.addTrack(currentStream.getVideoTracks()[0]);
                     pc.current.addTrack(currentStream.getVideoTracks()[0], vid1.current);
                     setShareScreen(true);
@@ -316,32 +271,20 @@ const ContextProvider = ({ children }) => {
             await navigator.mediaDevices.enumerateDevices()
             .then((devices) => {
                 devices.forEach((device) => {
-                    //console.log(device);
                     if(device.kind === "videoinput"){
                         cameras.push(device.deviceId);
-                        //console.log(cameras);
                     };
                 });
             });
 
             await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[0] }, width: 1920, height: 1080 }, audio: true })
                 .then((currentStream) => {
-
-                    //streams.current.push(currentStream);
-
-                    //console.log(currentStream.getTracks());
-
                     vid1.current = currentStream;
                 });
 
                 if (cameras.length > 1){
                     await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[1] }, width: 1920, height: 1080 }, audio: false })
                         .then((currentStream) => {
-
-                            //streams.current.push(currentStream);
-
-                            //console.log(currentStream.getTracks());
-
                             vid1.current.addTrack(currentStream.getVideoTracks()[0]);
                         });
                 }else{
@@ -351,9 +294,6 @@ const ContextProvider = ({ children }) => {
                 if (cameras.length > 2){
                     await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[2] }, width: 1920, height: 1080 }, audio: false })
                         .then((currentStream) => {
-
-                            //streams.current.push(currentStream);
-
                             vid1.current.addTrack(currentStream.getVideoTracks()[0]);
                             setCamReady(true);
                         });
