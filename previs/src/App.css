@@ -251,9 +251,9 @@ input {
 #videoContainer-1:-moz-full-screen  #back, #videoContainer-2:-moz-full-screen  #back, #videoContainer-3:-moz-full-screen  #back  {
   display: block;
   background-color: #F5751B;
-  height: 50px;
-  width: 150px;
-  font-size: 28px;
+  height: 110px;
+  width: 240px;
+  font-size: 44px;
   color: #FFF;
   border-radius: 10px;
   border: 1px solid #F5751B;
@@ -302,6 +302,14 @@ video::backdrop {
 
 #mute-caller {
   display: flex;
+  margin-left: 5%;
+}
+
+#container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 #buttons {

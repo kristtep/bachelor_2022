@@ -108,12 +108,13 @@ p {
     justify-content: center;
     font-size: 28px;
     height: 50px;
-    width: 160px;
+    max-width: 230px;
     text-transform: uppercase;
+    padding: 0 1%;
 }  
 
 #callerid p {
-    font-size: 14px;
+    font-size: 18px;
 }
 
 .hodetelefoner {

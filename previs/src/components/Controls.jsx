@@ -92,12 +92,14 @@ const Controls = ( { children } ) => {
                             <p>{room}</p><RiCustomerService2Fill className="hodetelefoner"/>
                         </div>
                     )}
+                    <div id="container">
                     <div id="extra-buttons">
                         <button className="extra-buttons" onClick={() => startShareScreen()}>ULTRALYD</button>
                         <button className="extra-buttons" onClick={() => startShareScreen()}>TERMISK</button>
                     </div>
                     <div id="mute-caller">
                         <button className="mute-button" onClick={mute}>{muted ?  <GiSpeakerOff size={30}/> : <GiSpeaker size={30}/>}</button>
+                    </div>
                     </div>
                     <button className="control-button" id="stop" onClick = {hangUp}><p>AVSLUTT</p></button>
                 </div>
