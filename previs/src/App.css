@@ -247,8 +247,25 @@ input {
   z-index: 10;
 }
 
-#videoContainer-1:-webkit-full-screen #back, #videoContainer-2:-webkit-full-screen #back, #videoContainer-3:-webkit-full-screen #back,
-#videoContainer-1:-moz-full-screen  #back, #videoContainer-2:-moz-full-screen  #back, #videoContainer-3:-moz-full-screen  #back  {
+#videoContainer-1:-webkit-full-screen #back, #videoContainer-2:-webkit-full-screen #back, #videoContainer-3:-webkit-full-screen #back {
+  display: block;
+  background-color: #F5751B;
+  height: 110px;
+  width: 240px;
+  font-size: 44px;
+  color: #FFF;
+  border-radius: 10px;
+  border: 1px solid #F5751B;
+  font-family: 'Roboto', sans-serif;
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  right: 0px;
+  margin: 1%;
+  cursor: pointer;
+}
+
+#videoContainer-1:-moz-full-screen #back, #videoContainer-2:-moz-full-screen #back, #videoContainer-3:-moz-full-screen #back {
   display: block;
   background-color: #F5751B;
   height: 110px;
@@ -272,16 +289,16 @@ input {
   z-index: 0;
 }
 
+#videoContainer-1::backdrop, #videoContainer-2::backdrop, #videoContainer-3::backdrop {
+  background-color: #212121;
+}
+
 video {
   aspect-ratio: 16 / 9;
 }
 
 video:hover {
   cursor: pointer;
-}
-
-video::backdrop {
-  background-color: #212121;
 }
 
 #hospital-mirroring {
