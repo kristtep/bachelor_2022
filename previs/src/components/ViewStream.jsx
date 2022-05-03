@@ -5,7 +5,7 @@ import { Context } from "../socket";
 
 const ViewStream = () => {
 
-  const { stateStartWatch, vid1, callEnded, callAccepted, shareScreen, status, callRoom } = useContext(Context);
+  const { stateStartWatch, vid1, callEnded, callAccepted, status, callRoom } = useContext(Context);
 
   useEffect(() =>{
 
@@ -36,7 +36,7 @@ const ViewStream = () => {
         window.alert('no media tracks detected');
       }
     }
-  },[ callAccepted, shareScreen ]);
+  },[ callAccepted ]);
 
   const toggleFullscreen = (num) => {
     let elem = document.getElementById(`videoContainer-${num}`);
@@ -92,9 +92,8 @@ const ViewStream = () => {
         )}
             { stateStartWatch && callAccepted && !callEnded && (
               <>
-
                 <div id="vstream"></div>
-                </>
+              </>
             )}
         </>
     )
