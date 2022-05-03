@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import "../styles.css";
 import 'animate.css';
 import { Context } from "../socket";
+import ringtone from '../ringtone.mp3';
 
 const ViewStream = () => {
 
@@ -74,6 +75,8 @@ const ViewStream = () => {
     document.getElementById(`videoContainer-${i}`).appendChild(button);
   }
 
+
+
     return (
         <>
         {!status.ready ? (
@@ -85,6 +88,7 @@ const ViewStream = () => {
           <>
           {!callAccepted && (
             <div id="incoming-call">
+              <audio autoPlay loop src={ringtone}></audio>
               <button className="animate__animated animate__pulse" onClick={() => callRoom(status.room)}>Incoming call from {status.ambulance}</button>
             </div>
           )}
