@@ -20,11 +20,7 @@ const ContextProvider = ({ children }) => {
                 credential: "509c1eac-b40a-11ec-8d46-0242ac120004",
                 urls: [
                     "turn:fr-turn1.xirsys.com:80?transport=udp" ,
-                    //"turn:fr-turn1.xirsys.com:3478?transport=udp",
-                    //"turn:fr-turn1.xirsys.com:80?transport=tcp",
-                    //"turn:fr-turn1.xirsys.com:3478?transport=tcp",
                     "turns:fr-turn1.xirsys.com:443?transport=tcp"
-                    //"turns:fr-turn1.xirsys.com:5349?transport=tcp"
                 ]
             }
         ]
@@ -320,8 +316,6 @@ const ContextProvider = ({ children }) => {
 
     return (
         <Context.Provider value={{
-            startWatch,
-            started,
             stateStartWatch,
             stateStart,
             camReady,
@@ -329,19 +323,14 @@ const ContextProvider = ({ children }) => {
             incomingVoice,
             clientName,
             room,
-            cameras,
             vid1,
             shareScreen,
-            pc,
             roomActive,
             status,
-            setRoomActive,
             hangUp,
             callRoom,
             start,
             startW,
-            setStateStart,
-            setStateStartWatch,
             startShareScreen,
         }}>
             { children }
