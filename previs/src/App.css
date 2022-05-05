@@ -4,13 +4,11 @@
 .App {
   font-family: 'Roboto', sans-serif;
   height: 100%;
-}
-
-.App {
   color: var(--text-primary);
   background-color: var(--background);
   transition: all .5s;
 }
+
 button {
   color: var(--text-primary);
   background-color: var(--background);
@@ -231,7 +229,11 @@ input {
   margin: 0;
 }
 
-#videoContainer-1:-webkit-full-screen, #videoContainer-2:-webkit-full-screen,
+#videoContainer-1:-webkit-full-screen, #videoContainer-2:-webkit-full-screen {
+  width: 100%;
+  height: 100%;
+}
+
 #videoContainer-1:-moz-full-screen, #videoContainer-2:-moz-full-screen {
   width: 100%;
   height: 100%;
@@ -278,7 +280,11 @@ input {
   cursor: pointer;
 }
 
-#videoContainer-1:-webkit-full-screen video, #videoContainer-2:-webkit-full-screen video,
+#videoContainer-1:-webkit-full-screen video, #videoContainer-2:-webkit-full-screen video {
+  object-fit: cover;
+  z-index: 0;
+}
+
 #videoContainer-1:-moz-full-screen video, #videoContainer-2:-moz-full-screen video {
   object-fit: cover;
   z-index: 0;
