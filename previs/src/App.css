@@ -162,20 +162,20 @@ header {
   align-items: flex-start;
   flex-direction: column;
   background-color: white;
-  padding: 2rem;
   position: absolute;
   top: 37px;
-  right: -162px;
+  right: -158px;
   border-radius: 5px;
   box-shadow: 0 0 5 rgba(0,0,0,0.2);
   background-color: var(--start-button-background);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  width: 300px;
+  width: 360px;
 }
 
 .dropdown-menu_container-links p {
-  margin: 5%;
+  margin: 7% 0;
+  border-bottom: 1px solid white;
+  width: 98%;
+  padding-left: 2%;
 }
 
 .dropdown-menu_container-links p a {
@@ -183,13 +183,8 @@ header {
   color: white;
 }
 
-#start-button p {
-  margin: 2px 5px;
-  border: 0 0 1px 0 solid white;
-}
-
 .dropdown-menu_container-links p:hover {
-  transform: scale(1.1);
+  color: black;
 }
 
 #v1:fullscreen, #v2:fullscreen, #v3:fullscreen, #v4:fullscreen {
