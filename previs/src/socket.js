@@ -3,30 +3,28 @@ import { io } from "socket.io-client";
 
 const Context = createContext();
 const socket = io("https://bachelor-2022.herokuapp.com/", {
-    transports: ['websocket'], 
+    transports: ['websocket'],
 });
-//"https://bachelor-2022.herokuapp.com/"
-//http://localhost:5000/
 
 const ContextProvider = ({ children }) => {
 
     const turnStunConfig = {
         iceServers: [
             {
-                urls: [ "stun:fr-turn1.xirsys.com" ]
+                urls: ["stun:fr-turn1.xirsys.com"]
             },
             {
                 username: "cAx8DD4EsxnLF5yWJfUflILov81q2YabG4XV87Xj6oUABT8_McfDe1HUcls0VVi3AAAAAGJK1k1rcmlzdHRlcA==",
                 credential: "509c1eac-b40a-11ec-8d46-0242ac120004",
                 urls: [
-                    "turn:fr-turn1.xirsys.com:80?transport=udp" ,
+                    "turn:fr-turn1.xirsys.com:80?transport=udp",
                     "turns:fr-turn1.xirsys.com:443?transport=tcp"
                 ]
             }
         ]
     };
     const cameras = [];
-    
+
     var startWatch = false;
     var started = false;
     var isChannelReady = false;
@@ -49,7 +47,7 @@ const ContextProvider = ({ children }) => {
     const pc = useRef();
 
     useEffect(() => {
-        
+
         socket.on("created", (room) => {
             console.log("room created: " + room);
             setRoomActive(true);
@@ -73,9 +71,9 @@ const ContextProvider = ({ children }) => {
 
         socket.on("message", (message, room) => {
             currentRoom = room;
-            if(message === "gotuser"){
+            if (message === "gotuser") {
                 startConnection();
-            } else if(message.type === "offer"){
+            } else if (message.type === "offer") {
                 if (!isInitiator && !isStarted) {
                     startConnection();
                 }
@@ -105,10 +103,10 @@ const ContextProvider = ({ children }) => {
     }
 
     const startConnection = () => {
-        if(!isStarted && isChannelReady) {
+        if (!isStarted && isChannelReady) {
             createPeerConnection();
             isStarted = true;
-            if(isInitiator) {
+            if (isInitiator) {
                 call();
             }
         }
@@ -126,22 +124,22 @@ const ContextProvider = ({ children }) => {
             var senderTracks;
             var recieverTracks;
 
-            if(started){
+            if (started) {
                 senderTracks = vid1.current.getTracks();
                 for (const track of senderTracks) {
                     let idag = new Date(Date.now());
-                    let s = idag.getSeconds();    
+                    let s = idag.getSeconds();
                     let ms = idag.getMilliseconds();
-                    console.log('Time on add track:' + s + 'sec, ' + ms + 'ms.'); 
+                    console.log('Time on add track:' + s + 'sec, ' + ms + 'ms.');
                     pc.current.addTrack(track, vid1.current);
                 }
-            } else if(startWatch){
+            } else if (startWatch) {
                 recieverTracks = incomingVoice.current.getTracks();
-                
-                    
+
+
                 for (const track of recieverTracks) {
                     let idag = new Date(Date.now());
-                    let s = idag.getSeconds();    
+                    let s = idag.getSeconds();
                     let ms = idag.getMilliseconds();
                     console.log('Time on add track:' + s + 'sec, ' + ms + 'ms.');
                     pc.current.addTrack(track, incomingVoice.current);
@@ -149,16 +147,16 @@ const ContextProvider = ({ children }) => {
             }
 
             pc.current.ontrack = (event) => {
-                if(started){
+                if (started) {
                     let idag = new Date(Date.now());
-                    let s = idag.getSeconds();    
+                    let s = idag.getSeconds();
                     let ms = idag.getMilliseconds();
                     console.log('Time on track:' + s + 'sec, ' + ms + 'ms.');
                     incomingVoice.current = event.streams[0];
                     setCallAccepted(true);
                 } else if (startWatch) {
                     let idag = new Date(Date.now());
-                    let s = idag.getSeconds();    
+                    let s = idag.getSeconds();
                     let ms = idag.getMilliseconds();
                     console.log('Time on track:' + s + 'sec, ' + ms + 'ms.');
                     vid1.current = event.streams[0];
@@ -187,7 +185,7 @@ const ContextProvider = ({ children }) => {
         }
     }
 
-    const handleCreateOfferError = (event) =>{
+    const handleCreateOfferError = (event) => {
         console.log("createoffer() error: ", event);
     }
 
@@ -215,7 +213,7 @@ const ContextProvider = ({ children }) => {
         setRoom(room);
         socket.emit("create or join", room, clientName);
         sendMessage("gotuser", room);
-        if(isInitiator){
+        if (isInitiator) {
             startConnection();
         }
     }
@@ -240,20 +238,20 @@ const ContextProvider = ({ children }) => {
         navigator.mediaDevices.getDisplayMedia({ video: true, audio: false })
             .then((currentStream) => {
                 console.log(pc.current);
-                if(pc.current){
+                if (pc.current) {
                     vid1.current.addTrack(currentStream.getVideoTracks()[0]);
                     pc.current.addTrack(currentStream.getVideoTracks()[0], vid1.current);
                     setShareScreen(true);
-                }else{
-                    if(vid1.current){
+                } else {
+                    if (vid1.current) {
                         vid1.current.addTrack(currentStream.getVideoTracks()[0]);
                         setShareScreen(true);
                     } else {
                         vid1.current = currentStream;
                         setShareScreen(true);
-                    }  
+                    }
                 }
-        });
+            });
     }
 
     const startW = async () => {
@@ -264,9 +262,9 @@ const ContextProvider = ({ children }) => {
             .then((currentStream) => {
                 incomingVoice.current = currentStream;
                 navigator.mediaDevices.getDisplayMedia({ video: true, audio: false })
-                .then((currentStream) => {
-                    incomingVoice.current.addTrack(currentStream.getVideoTracks()[0]);
-                });
+                    .then((currentStream) => {
+                        incomingVoice.current.addTrack(currentStream.getVideoTracks()[0]);
+                    });
             });
     }
 
@@ -275,44 +273,44 @@ const ContextProvider = ({ children }) => {
         setStateStart(true);
         socket.emit('initial connect', 'PreVis');
 
-        if (cameras.length === 0){
-            await navigator.mediaDevices.getUserMedia({audio: true, video: { width: 1920, height: 1080 } });
+        if (cameras.length === 0) {
+            await navigator.mediaDevices.getUserMedia({ audio: true, video: { width: 1920, height: 1080 } });
             await navigator.mediaDevices.enumerateDevices()
-            .then((devices) => {
-                devices.forEach((device) => {
-                    if(device.kind === "videoinput"){
-                        cameras.push(device.deviceId);
-                    };
+                .then((devices) => {
+                    devices.forEach((device) => {
+                        if (device.kind === "videoinput") {
+                            cameras.push(device.deviceId);
+                        };
+                    });
                 });
-            });
 
             await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[0] }, width: 1920, height: 1080 }, audio: true })
                 .then((currentStream) => {
                     vid1.current = currentStream;
                 });
 
-                if (cameras.length > 1){
-                    await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[1] }, width: 1920, height: 1080 }, audio: false })
-                        .then((currentStream) => {
-                            vid1.current.addTrack(currentStream.getVideoTracks()[0]);
-                        });
-                }else{
-                    setCamReady(true);
-                    return vid1.current.getTracks();
-                }
-                if (cameras.length > 2){
-                    await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[2] }, width: 1920, height: 1080 }, audio: false })
-                        .then((currentStream) => {
-                            vid1.current.addTrack(currentStream.getVideoTracks()[0]);
-                            setCamReady(true);
-                        });
-                }else{
-                    setCamReady(true);
-                    return vid1.current.getTracks();
-                }
-            }else{
-                window.alert('cameras already set');
+            if (cameras.length > 1) {
+                await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[1] }, width: 1920, height: 1080 }, audio: false })
+                    .then((currentStream) => {
+                        vid1.current.addTrack(currentStream.getVideoTracks()[0]);
+                    });
+            } else {
+                setCamReady(true);
+                return vid1.current.getTracks();
             }
+            if (cameras.length > 2) {
+                await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: cameras[2] }, width: 1920, height: 1080 }, audio: false })
+                    .then((currentStream) => {
+                        vid1.current.addTrack(currentStream.getVideoTracks()[0]);
+                        setCamReady(true);
+                    });
+            } else {
+                setCamReady(true);
+                return vid1.current.getTracks();
+            }
+        } else {
+            window.alert('cameras already set');
+        }
     }
 
     return (
@@ -334,7 +332,7 @@ const ContextProvider = ({ children }) => {
             startW,
             startShareScreen,
         }}>
-            { children }
+            {children}
         </Context.Provider>
     );
 };
