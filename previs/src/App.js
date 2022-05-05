@@ -15,14 +15,14 @@ const App = () => {
     <Div100vh>
       <div className="App">
         <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />}>
-        </Route>
-        <Route path="/hospital" element={<Hospital />}>
-        </Route>
-        <Route path="/ambulance" element={<Ambulance />}>
-        </Route>
-        </Routes>
+          <Routes>
+            <Route path="/" element={<Home />}>
+            </Route>
+            <Route path="/hospital" element={<Hospital />}>
+            </Route>
+            <Route path="/ambulance" element={<Ambulance />}>
+            </Route>
+          </Routes>
         </BrowserRouter>
       </div>
     </Div100vh>

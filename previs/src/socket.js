@@ -230,6 +230,7 @@ const ContextProvider = ({ children }) => {
         stop();
     }
 
+    //move
     const stop = () => {
         window.location.href = '../';
     }

@@ -9,14 +9,14 @@ const Hospital = () => {
 
   useEffect(() => {
     startW();
-  },[]);
+  }, []);
 
   return (
     <div id="hospital">
-            <>
-              <Controls />
-              <ViewStream />
-            </>
+      <>
+        <Controls />
+        <ViewStream />
+      </>
     </div>
   )
 }

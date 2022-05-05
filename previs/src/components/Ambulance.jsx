@@ -10,13 +10,13 @@ const Ambulance = () => {
   useEffect(() => {
     start();
   }, []);
-  
+
   return (
     <div id="ambulance">
-            <>
-                <Controls />
-                <SendStream />
-            </>
+      <>
+        <Controls />
+        <SendStream />
+      </>
     </div>
   )
 }

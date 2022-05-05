@@ -33,7 +33,7 @@ io.on("connection", (socket) => {
         var numCli = cliInRoom ? cliInRoom.size : 0;
         console.log("room " + room + " has " + numCli + " clients.");
 
-        if (numCli === 0){
+        if (numCli === 0) {
             io.sockets.in('PreVis').emit('ready', room, client);
             socket.join(room);
             socket.emit("created", room);
