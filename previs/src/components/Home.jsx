@@ -11,21 +11,21 @@ const Home = () => {
                 <p id="orange">Videoassistert beslutningsstøtte i akuttkjeden</p>
             </div>
             <div id="home-container">
-            <div id="start">
-                <p>Sykehus:</p>
-                <Link to="hospital">
-                    <button id="watch">WATCH</button>
-                </Link>
-                
-            </div>
+                <div id="start">
+                    <p>Sykehus:</p>
+                    <Link to="hospital">
+                        <button id="watch">WATCH</button>
+                    </Link>
 
-            <div id="start">
-                <p>Ambulanse:</p>
-                <Link to="ambulance">
-                    <button id="startstream">START</button>
-                </Link>
-                
-            </div>
+                </div>
+
+                <div id="start">
+                    <p>Ambulanse:</p>
+                    <Link to="ambulance">
+                        <button id="startstream">START</button>
+                    </Link>
+
+                </div>
             </div>
         </div>
     )

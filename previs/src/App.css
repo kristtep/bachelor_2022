@@ -48,7 +48,8 @@ body {
   align-items: flex-start;
 }
 
-#startstream, #watch {
+#startstream,
+#watch {
   border-radius: 10px;
   font-size: 40px;
   font-weight: bold;
@@ -59,8 +60,9 @@ body {
   width: 200px;
 }
 
-#startstream p, #watch p {
-margin-top: 5px;
+#startstream p,
+#watch p {
+  margin-top: 5px;
 }
 
 #incoming-call {
@@ -85,7 +87,8 @@ margin-top: 5px;
   transition-duration: 0.4s;
 }
 
-#startstream:hover, #watch:hover {
+#startstream:hover,
+#watch:hover {
   transform: scale(1.05);
   transition-duration: 0.2s;
   filter: brightness(1.4);
@@ -148,7 +151,8 @@ header {
   color: #F5751B;
 }
 
-#hospital, #ambulance {
+#hospital,
+#ambulance {
   height: 100%;
   display: flex;
   flex-flow: column nowrap;
@@ -157,8 +161,8 @@ header {
 }
 
 .dropdown-menu {
-    position: relative;
-    padding-right: 30px;
+  position: relative;
+  padding-right: 30px;
 }
 
 .dropdown-menu_container-links {
@@ -198,19 +202,24 @@ input {
   margin-left: 10px;
 }
 
-#videoContainer-1, #videoContainer-2, #videoContainer-3, #videoContainer-4 {
+#videoContainer-1,
+#videoContainer-2,
+#videoContainer-3,
+#videoContainer-4 {
   max-width: 50%;
   max-height: 50%;
   overflow: hidden;
   margin: 0;
 }
 
-#videoContainer-1:-webkit-full-screen, #videoContainer-2:-webkit-full-screen {
+#videoContainer-1:-webkit-full-screen,
+#videoContainer-2:-webkit-full-screen {
   width: 100%;
   height: 100%;
 }
 
-#videoContainer-1:-moz-full-screen, #videoContainer-2:-moz-full-screen {
+#videoContainer-1:-moz-full-screen,
+#videoContainer-2:-moz-full-screen {
   width: 100%;
   height: 100%;
 }
@@ -220,7 +229,9 @@ input {
   z-index: 10;
 }
 
-#videoContainer-1:-webkit-full-screen #back, #videoContainer-2:-webkit-full-screen #back, #videoContainer-3:-webkit-full-screen #back {
+#videoContainer-1:-webkit-full-screen #back,
+#videoContainer-2:-webkit-full-screen #back,
+#videoContainer-3:-webkit-full-screen #back {
   display: block;
   background-color: #F5751B;
   height: 110px;
@@ -238,7 +249,9 @@ input {
   cursor: pointer;
 }
 
-#videoContainer-1:-moz-full-screen #back, #videoContainer-2:-moz-full-screen #back, #videoContainer-3:-moz-full-screen #back {
+#videoContainer-1:-moz-full-screen #back,
+#videoContainer-2:-moz-full-screen #back,
+#videoContainer-3:-moz-full-screen #back {
   display: block;
   background-color: #F5751B;
   height: 110px;
@@ -256,17 +269,21 @@ input {
   cursor: pointer;
 }
 
-#videoContainer-1:-webkit-full-screen video, #videoContainer-2:-webkit-full-screen video {
+#videoContainer-1:-webkit-full-screen video,
+#videoContainer-2:-webkit-full-screen video {
   object-fit: cover;
   z-index: 0;
 }
 
-#videoContainer-1:-moz-full-screen video, #videoContainer-2:-moz-full-screen video {
+#videoContainer-1:-moz-full-screen video,
+#videoContainer-2:-moz-full-screen video {
   object-fit: cover;
   z-index: 0;
 }
 
-#videoContainer-1::backdrop, #videoContainer-2::backdrop, #videoContainer-3::backdrop {
+#videoContainer-1::backdrop,
+#videoContainer-2::backdrop,
+#videoContainer-3::backdrop {
   background-color: #212121;
 }
 
@@ -305,8 +322,7 @@ video:hover {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  color:#A1D58F
-  
+  color: #A1D58F
 }
 
 .hodetelefoner {
@@ -331,51 +347,56 @@ video:hover {
   width: 200px;
 }
 
- @-webkit-keyframes pulsate-bck {
+@-webkit-keyframes pulsate-bck {
   0% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
+
   50% {
     -webkit-transform: scale(0.9);
-            transform: scale(0.9);
+    transform: scale(0.9);
   }
+
   100% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
 }
+
 @keyframes pulsate-bck {
   0% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
+
   50% {
     -webkit-transform: scale(0.9);
-            transform: scale(0.9);
+    transform: scale(0.9);
   }
+
   100% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
 }
 
 .answer-button {
   background-color: var(--start-button-background);
-    border-radius: 10px;
-    border: 2px solid transparent;
-    font-size: 28px;
-    font-family: 'Roboto', sans-serif;
-    color: white;
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    justify-content: center;
-    height: 50px;
-    width: 200px;
-    -webkit-animation: pulsate-bck 0.5s ease-in-out infinite both;
-	  animation: pulsate-bck 0.5s ease-in-out infinite both;
-	  animation: pulsate-bck 0.5s ease-in-out infinite both;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  font-size: 28px;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 200px;
+  -webkit-animation: pulsate-bck 0.5s ease-in-out infinite both;
+  animation: pulsate-bck 0.5s ease-in-out infinite both;
+  animation: pulsate-bck 0.5s ease-in-out infinite both;
 }
 
 #extra-buttons {
@@ -442,20 +463,23 @@ video:hover {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
 }
 
-.animate__animated  {
-  animation: animate__pulse 1.5s linear infinite; /* don't forget to set a duration! */
+.animate__animated {
+  animation: animate__pulse 1.5s linear infinite;
+  /* don't forget to set a duration! */
 }
 
 video::-webkit-media-controls {
   width: 100%;
 }
 
-#stream, #vstream {
+#stream,
+#vstream {
   display: flex;
   width: 100%;
   max-height: 92%;
@@ -470,7 +494,7 @@ video::-webkit-media-controls {
   display: block;
   width: 50%;
   align-content: center;
-  
+
 }
 
 #topbar-ambulance {
@@ -491,10 +515,10 @@ video::-webkit-media-controls {
 }
 
 #watchid {
-background-color: #212121;
-padding: 1%;
-border-radius: 10px;
-font-size: 20px;
+  background-color: #212121;
+  padding: 1%;
+  border-radius: 10px;
+  font-size: 20px;
 }
 
 #start-button {
@@ -518,7 +542,9 @@ font-size: 20px;
 
 
 
-#start-button:hover, #stop:hover, .control-button:hover {
+#start-button:hover,
+#stop:hover,
+.control-button:hover {
   cursor: pointer;
 }
 
@@ -550,7 +576,7 @@ font-size: 20px;
   max-width: 230px;
   text-transform: uppercase;
   padding: 0 1%;
-}  
+}
 
 #callerid p {
   font-size: 18px;
@@ -573,9 +599,3 @@ font-size: 20px;
   align-items: center;
   justify-content: center;
 }
-
-
-
-
-
-
