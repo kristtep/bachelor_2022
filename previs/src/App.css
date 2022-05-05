@@ -172,6 +172,7 @@ header {
   border-radius: 5px;
   background-color: var(--start-button-background);
   width: 360px;
+  z-index: 2;
 }
 
 .dropdown-menu_container-links p {
