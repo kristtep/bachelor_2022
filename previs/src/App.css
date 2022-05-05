@@ -202,7 +202,10 @@ input {
   margin-left: 10px;
 }
 
-#videoContainer-1, #videoContainer-2, #videoContainer-3, #videoContainer-4 {
+#videoContainer-1,
+#videoContainer-2,
+#videoContainer-3,
+#videoContainer-4 {
   max-width: 50%;
   max-height: 50%;
   overflow: hidden;
@@ -344,7 +347,7 @@ video:hover {
   width: 200px;
 }
 
- @-webkit-keyframes pulsate-bck {
+@-webkit-keyframes pulsate-bck {
   0% {
     -webkit-transform: scale(1);
     transform: scale(1);
@@ -466,15 +469,17 @@ video:hover {
   }
 }
 
-.animate__animated  {
-  animation: animate__pulse 1.5s linear infinite; /* don't forget to set a duration! */
+.animate__animated {
+  animation: animate__pulse 1.5s linear infinite;
+  /* don't forget to set a duration! */
 }
 
 video::-webkit-media-controls {
   width: 100%;
 }
 
-#stream, #vstream {
+#stream,
+#vstream {
   display: flex;
   width: 100%;
   max-height: 100%;
@@ -489,7 +494,7 @@ video::-webkit-media-controls {
   display: block;
   width: 50%;
   align-content: center;
-  
+
 }
 
 #topbar-ambulance {
@@ -510,10 +515,10 @@ video::-webkit-media-controls {
 }
 
 #watchid {
-background-color: #212121;
-padding: 1%;
-border-radius: 10px;
-font-size: 20px;
+  background-color: #212121;
+  padding: 1%;
+  border-radius: 10px;
+  font-size: 20px;
 }
 
 #start-button {
@@ -537,7 +542,9 @@ font-size: 20px;
 
 
 
-#start-button:hover, #stop:hover, .control-button:hover {
+#start-button:hover,
+#stop:hover,
+.control-button:hover {
   cursor: pointer;
 }
 
@@ -569,7 +576,7 @@ font-size: 20px;
   max-width: 230px;
   text-transform: uppercase;
   padding: 0 1%;
-}  
+}
 
 #callerid p {
   font-size: 18px;
@@ -592,9 +599,3 @@ font-size: 20px;
   align-items: center;
   justify-content: center;
 }
-
-
-
-
-
-
