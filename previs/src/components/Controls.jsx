@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import "../styles.css";
 import { Context } from "../socket";
 import { RiMenuLine, RiCloseLine, RiCustomerService2Fill } from 'react-icons/ri';
 import { GiSpeakerOff, GiSpeaker } from 'react-icons/gi';
@@ -35,13 +34,11 @@ const Controls = ( { children } ) => {
         </>
     );
 
-
     return (
         <div id="controls" >
         
         {!stateStart && (
             <>
-            
             {callAccepted && (
                 <>
                     <div id="callerid">
@@ -49,11 +46,7 @@ const Controls = ( { children } ) => {
                     </div>
                 </>
             )}
-                
-            <div id="mute-caller">
-                <button className="mute-button" onClick={mute}>{muted ?  <GiSpeakerOff size={30}/> : <GiSpeaker size={30}/>}</button>
-            </div>
-
+            <button className="mute-button" onClick={mute}>{muted ?  <GiSpeakerOff size={30}/> : <GiSpeaker size={30}/>}</button>
             <button className="control-button" id="stop" onClick = {hangUp}>AVSLUTT</button>
             </>
         )}
@@ -64,7 +57,6 @@ const Controls = ( { children } ) => {
                 {!callAccepted ? (
                     <>
                     {!roomActive ? (
-                        <div id="call-input">
                             <div id='start-button'>
                                 <button className='control-button' onClick={() => setToggleMenu(true)}><p>RING</p></button>
                                 <div className='dropdown-menu'>
@@ -80,7 +72,6 @@ const Controls = ( { children } ) => {
                                     )}
                                 </div>
                             </div>
-                        </div>
                     ) : (
                         <div id="callerid">
                             <p>PENDING {room}</p>
@@ -97,9 +88,7 @@ const Controls = ( { children } ) => {
                         <button className="extra-buttons" onClick={() => startShareScreen()}>ULTRALYD</button>
                         <button className="extra-buttons" onClick={() => startShareScreen()}>TERMISK</button>
                     </div>
-                    <div id="mute-caller">
                         <button className="mute-button" onClick={mute}>{muted ?  <GiSpeakerOff size={30}/> : <GiSpeaker size={30}/>}</button>
-                    </div>
                     </div>
                     <button className="control-button" id="stop" onClick = {hangUp}><p>AVSLUTT</p></button>
                 </div>

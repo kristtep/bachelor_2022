@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from "react";
-import "../styles.css";
 import { Context } from "../socket";
 
 const SendStream = () => {

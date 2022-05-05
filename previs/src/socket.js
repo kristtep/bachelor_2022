@@ -5,8 +5,6 @@ const Context = createContext();
 const socket = io("https://bachelor-2022.herokuapp.com/", {
     transports: ['websocket'], 
 });
-//"https://bachelor-2022.herokuapp.com/"
-//http://localhost:5000/
 
 const ContextProvider = ({ children }) => {
 

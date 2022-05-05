@@ -1,19 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,700;1,400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap');
 
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+  --background: #232323;
+  --text-primary: white;
+  --start-button-background: #028500;
+  --stop-button-background: #B30000;
+  --toggle-background: white;
+  --toggle-color: black;
+}
+
 .App {
   font-family: 'Roboto', sans-serif;
   height: 100%;
   color: var(--text-primary);
   background-color: var(--background);
   transition: all .5s;
-}
-
-button {
-  color: var(--text-primary);
-  background-color: var(--background);
-  border: 2px var(--text-primary) solid;
-  float: right;
 }
 
 #welcome {
@@ -105,7 +113,6 @@ margin-top: 5px;
   justify-content: center;
   align-items: center;
   text-align: center;
-  color: black;
   border-radius: 10px;
 }
 
@@ -159,12 +166,10 @@ header {
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: column;
-  background-color: white;
   position: absolute;
   top: 37px;
   right: -158px;
   border-radius: 5px;
-  box-shadow: 0 0 5 rgba(0,0,0,0.2);
   background-color: var(--start-button-background);
   width: 360px;
 }
@@ -185,41 +190,11 @@ header {
   color: black;
 }
 
-#v1:fullscreen, #v2:fullscreen, #v3:fullscreen, #v4:fullscreen {
-  filter: brightness(1.3);
-}
-
 input {
   padding: 5px;
   border: none;
   border-radius: 5px;
   margin-left: 10px;
-}
-
-.extra-buttons {
-  background-color: #FFFFFF;
-  border-radius: 20px;
-  border: 2px solid transparent;
-  font-size: 28px;
-  font-family: 'Roboto', sans-serif;
-  color: black;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-  width: 160px;
-  cursor: pointer;
-}
-
-#extra-buttons {
-  background: rgba(233, 226, 226, 0.42);
-  border-radius: 20px;
-  height: 90%;
-  display: flex;
-  width: 340px;
-  justify-content: space-between;
-  align-items: center;
 }
 
 #videoContainer-1, #videoContainer-2, #videoContainer-3, #videoContainer-4 {
@@ -250,7 +225,7 @@ input {
   height: 110px;
   width: 240px;
   font-size: 44px;
-  color: #FFF;
+  color: #000000;
   border-radius: 10px;
   border: 1px solid #F5751B;
   font-family: 'Roboto', sans-serif;
@@ -294,33 +269,14 @@ input {
   background-color: #212121;
 }
 
-video {
-  aspect-ratio: 16 / 9;
-}
-
 video:hover {
   cursor: pointer;
 }
 
 #hospital-mirroring {
-  max-width: 100%;
+  max-width: 95%;
   max-height: 90%;
   border: 2px solid white;
-}
-
-.mute-button {
-  height: 50px;
-  width: 50px;
-  cursor: pointer;
-  border-radius: 10px;
-  background-color: #FFF;
-  color: black;
-  margin-left: 2%;
-}
-
-#mute-caller {
-  display: flex;
-  margin-left: 5%;
 }
 
 #container {
@@ -357,6 +313,7 @@ video:hover {
   padding: 2%;
   font-size: 30px;
 }
+
 #buttons button {
   min-height: 50%;
   background-color: var(--start-button-background);
@@ -373,11 +330,6 @@ video:hover {
   width: 200px;
 }
 
-/**
- * ----------------------------------------
- * animation pulsate-bck
- * ----------------------------------------
- */
  @-webkit-keyframes pulsate-bck {
   0% {
     -webkit-transform: scale(1);
@@ -425,10 +377,6 @@ video:hover {
 	  animation: pulsate-bck 0.5s ease-in-out infinite both;
 }
 
-:not(:root):fullscreen {
-  filter: brightness(1.0);
-}
-
 #extra-buttons {
   background: rgba(233, 226, 226, 0.42);
   border-radius: 20px;
@@ -461,6 +409,8 @@ video:hover {
   border-radius: 20px;
   background-color: white;
   cursor: pointer;
+  color: black;
+  margin-left: 5%;
 }
 
 .mute-button svg {
@@ -474,6 +424,7 @@ video:hover {
   width: 80px;
   height: 80px;
 }
+
 #spinner:after {
   content: " ";
   display: block;
@@ -485,6 +436,7 @@ video:hover {
   border-color: #fff transparent #fff transparent;
   animation: lds-dual-ring 1.2s linear infinite;
 }
+
 @keyframes lds-dual-ring {
   0% {
     transform: rotate(0deg);
@@ -496,6 +448,129 @@ video:hover {
 
 .animate__animated  {
   animation: animate__pulse 1.5s linear infinite; /* don't forget to set a duration! */
+}
+
+video::-webkit-media-controls {
+  width: 100%;
+}
+
+#stream, #vstream {
+  display: flex;
+  width: 100%;
+  max-height: 100%;
+  flex-flow: row wrap;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  flex-grow: 1;
+}
+
+.videos {
+  display: block;
+  width: 50%;
+  align-content: center;
+  
+}
+
+#topbar-ambulance {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+#controls {
+  display: flex;
+  height: 8%;
+  width: 98%;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1%;
+}
+
+#watchid {
+background-color: #212121;
+padding: 1%;
+border-radius: 10px;
+font-size: 20px;
+}
+
+#start-button {
+  background-color: var(--start-button-background);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  font-size: 24px;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 200px;
+}
+
+#stop {
+  background-color: var(--stop-button-background);
+}
+
+
+
+#start-button:hover, #stop:hover, .control-button:hover {
+  cursor: pointer;
+}
+
+.control-button {
+  background-color: var(--start-button-background);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  font-size: 28px;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 160px;
+}
+
+#callerid {
+  text-align: center;
+  border-radius: 10px;
+  background-color: #F5751B;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  height: 50px;
+  max-width: 230px;
+  text-transform: uppercase;
+  padding: 0 1%;
+}  
+
+#callerid p {
+  font-size: 18px;
+  color: black;
+}
+
+.hodetelefoner {
+  color: black;
+  padding: 2%;
+  font-size: 30px;
+}
+
+#watchid {
+  background-color: #F5751B;
+  border-radius: 10px;
+  height: 20px;
+  width: 350px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
 }
 
 

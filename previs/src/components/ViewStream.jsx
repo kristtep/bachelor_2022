@@ -1,8 +1,7 @@
 import React, { useContext, useEffect } from "react";
-import "../styles.css";
 import 'animate.css';
 import { Context } from "../socket";
-import ringtone from '../ringtone.mp3';
+import ringtone from '../assets/ringtone.mp3';
 
 const ViewStream = () => {
 
