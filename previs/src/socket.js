@@ -218,8 +218,8 @@ const ContextProvider = ({ children }) => {
         }
     }
 
-    const remoteHangUp = async () => {
-        await alert("Other side hung up");
+    const remoteHangUp = () => {
+        alert("Other side hung up");
         window.location.href = '../';
     }
 
