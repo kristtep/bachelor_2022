@@ -220,16 +220,11 @@ const ContextProvider = ({ children }) => {
 
     const remoteHangUp = async () => {
         await alert("Other side hung up");
-        stop();
+        window.location.href = '../';
     }
 
     const hangUp = () => {
         sendMessage("bye", room);
-        stop();
-    }
-
-    //move
-    const stop = () => {
         window.location.href = '../';
     }
 

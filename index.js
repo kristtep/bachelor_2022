@@ -31,7 +31,6 @@ io.on("connection", (socket) => {
     socket.on('create or join', (room, client) => {
         var cliInRoom = io.sockets.adapter.rooms.get(room);
         var numCli = cliInRoom ? cliInRoom.size : 0;
-        console.log("room " + room + " has " + numCli + " clients.");
 
         if (numCli === 0) {
             io.sockets.in('PreVis').emit('ready', room, client);
@@ -46,10 +45,6 @@ io.on("connection", (socket) => {
 
     socket.on("creatorname", (room, client) => {
         socket.to(room).emit("mynameis", client);
-    });
-
-    socket.on("bye", () => {
-        console.log("Ending...");
     });
 });
 
