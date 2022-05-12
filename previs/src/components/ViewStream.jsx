@@ -78,7 +78,7 @@ const ViewStream = () => {
     <>
       {!status.ready ? (
         <div id="status">
-          <p>Waiting for ambulance to start streaming</p>
+          <p>Venter på anrop fra ambulanse</p>
           <div id="spinner"></div>
         </div>
       ) : (
