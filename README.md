@@ -3,7 +3,7 @@ This project is a video streaming tool for ambulances to send videos of a patien
 To test this application you can either enter the link below or test it locally.
 
 Deployment link:
-https://fascinating-daffodil-d878f4.netlify.app/
+https://capable-klepon-bea761.netlify.app/
 
 To test it locally, enter the previs folder and run npm i.
 After all the dependencies are installed, you can start the application by running npm start.
