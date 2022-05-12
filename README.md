@@ -10,9 +10,9 @@ After all the dependencies are installed, you can start the application by runni
 The server is deployed on Heroku and there is no need to run this locally.
 
 This will open the browser and you can see the landing page.
-Depending on your role, select either WATCH to simulate the hospital or START to simulate the ambulance.
+Depending on your role, select either SE PÅ to simulate the hospital or START to simulate the ambulance.
 
-For WATCH:
+For SE PÅ:
 When entering the hospital's side of the interface you will be asked premission to allow access to the microphone and to share the screen.
 It is important to share the tab you have the application open in, in order for the ambulance side to see what you are doing, to avoid any confusion about which video is being discussed. After this the interface will display a loading screen, when waiting for the ambulance to make a call.
 When the ambulance is making a call, a pulsating button will appear and a ringtone will play. Pressing this button will accept the call and connect the two sides, and show the videos from the ambulance side. Your shared screen will then be sent to the ambulance in order for them to see what you are doing. To end the call you simply press the AVSLUTT button in the top right corner.
