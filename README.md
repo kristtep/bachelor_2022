@@ -1,70 +1,21 @@
-# Getting Started with Create React App
+This project is a video streaming tool for ambulances to send videos of a patient to the hospital in order for specialists at the hospital to help paramedics assess critical medical situations.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+To test this application you can either enter the link below or test it locally.
 
-## Available Scripts
+Deployment link:
+https://fascinating-daffodil-d878f4.netlify.app/
 
-In the project directory, you can run:
+To test it locally, enter the previs folder and run npm i.
+After all the dependencies are installed, you can start the application by running npm start.
+The server is deployed on Heroku and there is no need to run this locally.
 
-### `npm start`
+This will open the browser and you can see the landing page.
+Depending on your role, select either WATCH to simulate the hospital or START to simulate the ambulance.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+For WATCH:
+When entering the hospital's side of the interface you will be asked premission to allow access to the microphone and to share the screen.
+It is important to share the tab you have the application open in, in order for the ambulance side to see what you are doing, to avoid any confusion about which video is being discussed. After this the interface will display a loading screen, when waiting for the ambulance to make a call.
+When the ambulance is making a call, a pulsating button will appear and a ringtone will play. Pressing this button will accept the call and connect the two sides, and show the videos from the ambulance side. Your shared screen will then be sent to the ambulance in order for them to see what you are doing. To end the call you simply press the AVSLUTT button in the top right corner.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+For START:
+When entering the ambulance's side of the interface you will also be asked premission to allow access to the microphone and cameras connected to your computer. The application is meant for up to three cameras, and works best if the user has at least two web cameras connected to simulate the cameras in the ambulance. In addition, the two buttons on top ULTRALYD and TERMISK are simulated options to add either ultrasound or thermal camera. When pressed, these buttons will ask premission to share your screen in order to simulate either ultrasound or thermal camera. Currently, you can only add one shared screen, and this needs to be selected before making a call, or else the shared screen video will not be sent to the hospital side. After you have added all the desired cameras and the shared screen, you can make a call by seleciton any of the options inside the dropdown menu in the RING button. When pressing one of the options, a statusbox will replace the RING button with a PENDING status until the hospital side accepts the call. Then, the sides will connect and the shared screen from the hospital will be displayed, where you can see the interactions they make. To end the call you press the AVSLUTT button in the top right corner.
