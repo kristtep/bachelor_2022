@@ -30,7 +30,7 @@ const ContextProvider = ({ children }) => {
     var isChannelReady = false;
     var isInitiator = false;
     var isStarted = false;
-    var clientName = "Ambulance " + Math.floor(Math.random() * 100 + 1);
+    var clientName = "Ambulanse " + Math.floor(Math.random() * 100 + 1);
     var remoteClient;
     var currentRoom;
     const [status, setStatus] = useState({ ready: false, room: '', ambulance: '' });
