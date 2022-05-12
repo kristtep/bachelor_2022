@@ -74,7 +74,7 @@ const Controls = ({ children }) => {
                                     </div>
                                 ) : (
                                     <div id="callerid">
-                                        <p>PENDING {room}</p>
+                                        <p>VENTER PÅ {room}</p>
                                     </div>
                                 )}
                             </>
