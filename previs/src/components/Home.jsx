@@ -14,7 +14,7 @@ const Home = () => {
                 <div id="start">
                     <p>Sykehus:</p>
                     <Link to="hospital">
-                        <button id="watch">WATCH</button>
+                        <button id="watch">SE PÅ</button>
                     </Link>
 
                 </div>
