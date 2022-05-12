@@ -219,7 +219,7 @@ const ContextProvider = ({ children }) => {
     }
 
     const remoteHangUp = async () => {
-        await alert("Other side hung up");
+        await alert("Andre siden avsluttet samtalen");
         window.location.href = '../';
     }
 
