@@ -232,7 +232,6 @@ const ContextProvider = ({ children }) => {
 
         navigator.mediaDevices.getDisplayMedia({ video: true, audio: false })
             .then((currentStream) => {
-                console.log(pc.current);
                 if (pc.current) {
                     vid1.current.addTrack(currentStream.getVideoTracks()[0]);
                     pc.current.addTrack(currentStream.getVideoTracks()[0], vid1.current);
