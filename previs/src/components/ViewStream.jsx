@@ -86,7 +86,7 @@ const ViewStream = () => {
           {!callAccepted && (
             <div id="incoming-call">
               <audio autoPlay loop src={ringtone}></audio>
-              <button className="animate__animated animate__pulse" onClick={() => callRoom(status.room)}>Incoming call from {status.ambulance}</button>
+              <button className="animate__animated animate__pulse" onClick={() => callRoom(status.room)}>Innkomende anrop fra {status.ambulance}</button>
             </div>
           )}
         </>
